@@ -34,7 +34,11 @@ namespace app
                 else
                 {
                     MessageBox.Show("Exito!");
-                    ListarUsuarios lu = new ListarUsuarios();
+                    ListarUsuarios lu = new(usuario.RolId);
+                    //{
+                    //    Content = new MenuDinamico(usuario.RolId)
+                    //};
+
                     lu.Show();
                     Login l = new Login();
                     l.Close();

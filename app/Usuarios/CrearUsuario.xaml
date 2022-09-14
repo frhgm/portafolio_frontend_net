@@ -5,8 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:app.Usuarios"
         mc:Ignorable="d"
-        Title="CrearUsuario" Height="450" Width="800">
+        Title="CrearUsuario" Height="800" Width="1280">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="65*"/>
+            <ColumnDefinition Width="26*"/>
+            <ColumnDefinition Width="709*"/>
+        </Grid.ColumnDefinitions>
+        <Menu Grid.Column="2" Name="menu"/>
+
     </Grid>
 </Window>

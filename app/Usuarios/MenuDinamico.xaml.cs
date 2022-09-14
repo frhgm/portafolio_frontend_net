@@ -1,5 +1,4 @@
 ﻿using app.Data;
-using app.Data.Implementations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,25 +11,21 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace app.Usuarios
 {
     /// <summary>
-    /// Interaction logic for ListarUsuario.xaml
+    /// Interaction logic for EntradaMenu.xaml
     /// </summary>
-    public partial class ListarUsuarios : Window
+    public partial class MenuDinamico : UserControl
     {
-        List<EntradaMenu> menus = new();
-        private readonly UsuariosDataService UsuariosDataService = new();
-        string rutUsuario = "";
         private int rolId;
 
-        public ListarUsuarios()
-        {
-            InitializeComponent();
-            CargarUsuarios();
-        }
+        //TODO Crear lista de ventanas a acceder por Rol
+        List<EntradaMenu> menus = new();
+
         public List<EntradaMenu> PoblarListaEntradaMenus(int id)
         {
             menus = new List<EntradaMenu>();
@@ -84,20 +79,15 @@ namespace app.Usuarios
             }
             return menus;
         }
-
-        public ListarUsuarios(int rolId)
+        public MenuDinamico(int rolId)
         {
+            InitializeComponent();
             this.rolId = rolId;
-            //MenuDinamico md = new MenuDinamico(rolId);
             menus = PoblarListaEntradaMenus(rolId);
 
             if (menus.Count != 0)
             {
-                MenuItem mantenedores = new()
-                {
-                    Header = "Mantenedores",
-                    VerticalAlignment = VerticalAlignment.Top
-                };
+                Menu mantenedores = new();
                 foreach (EntradaMenu menu in menus)
                 {
                     //if (menu.Id > 13)
@@ -110,33 +100,16 @@ namespace app.Usuarios
                     };
                     mantenedores.Items.Add(iterador);
                 }
-                this.AddChild(mantenedores);
-
-                //this.Content = mantenedores;
+                mantenedores.VerticalAlignment = VerticalAlignment.Top;
+                //this.AddChild(mantenedores);
+                this.Content = mantenedores;
+            }
+            else
+            {
+                MessageBox.Show("Usted no tiene un rol asignado para acceder al sistema");
             }
         }
 
-        private async void CargarUsuarios()
-        {
-            //var usuarios = await UsuariosDataService.GetAllUsuariosAsync();
-            //dgUsuarios.ItemsSource = usuarios.usuarios;
-            //DataGridViewButtonCell buttonCell = new();
-            //dgUsuarios.Columns["Modificar"].DefaultCellStyle = buttonCell;
-            //dgUsuarios.Columns.Add(DataGridColumn);
-            //dgUsuarios.Columns.Add("Eliminar", "Eliminar");
 
-        }
-
-        private void BtnAgregarUsuario_Click(object sender, EventArgs e)
-        {
-            CrearUsuario cU = new();
-            cU.Show();
-        }
-
-        private void dgUsuarios_Enter(object sender, EventArgs e)
-        {
-            //rutUsuario = dgUsuarios.SelectedRows[0].Cells[0].ToString();
-            //Console.Write(rutUsuario);
-        }
     }
 }

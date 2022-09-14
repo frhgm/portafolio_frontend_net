@@ -6,9 +6,9 @@
         xmlns:local="clr-namespace:app.Usuarios"
         mc:Ignorable="d"
         Title="ListarUsuario" Height="450" Width="800">
-    <Grid>
-        <DataGrid Name="dgUsuarios">
+    <Grid x:Name="principal">
 
-        </DataGrid>
+        <!--<local:MenuDinamico/>-->
+
     </Grid>
 </Window>
