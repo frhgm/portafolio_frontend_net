@@ -1,4 +1,5 @@
 ﻿using app.Data.Interfaces;
+using classLibrary;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -48,7 +49,7 @@ namespace app.Data.Implementations
                     if (message != null)
                     {
                         var usuarios = JsonSerializer.Deserialize<ListaUsuario>(message);
-                        if (usuarios is null || usuarios.usuario.Count() == 0)
+                        if (usuarios is null || usuarios.usuario.Count == 0)
                         {
                             return null;
                         }

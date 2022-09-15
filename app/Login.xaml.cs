@@ -33,7 +33,7 @@ namespace app
                 }
                 else
                 {
-                    MessageBox.Show("Exito!");
+                    //MessageBox.Show("Exito!");
                     ListarUsuarios lu = new(usuario.RolId);
                     //{
                     //    Content = new MenuDinamico(usuario.RolId)

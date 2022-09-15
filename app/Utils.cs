@@ -1,34 +1,20 @@
-﻿using app.Data;
+﻿using classLibrary;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace app.Usuarios
+namespace app
 {
-    /// <summary>
-    /// Interaction logic for EntradaMenu.xaml
-    /// </summary>
-    public partial class MenuDinamico : UserControl
+    public static class Utils
     {
-        private int rolId;
-
-        //TODO Crear lista de ventanas a acceder por Rol
-        List<EntradaMenu> menus = new();
-
-        public List<EntradaMenu> PoblarListaEntradaMenus(int id)
+        public static List<EntradaMenu> PoblarListaEntradaMenus(int id)
         {
-            menus = new List<EntradaMenu>();
+            List<EntradaMenu> menus = new List<EntradaMenu>();
 
             switch (id)
             {
@@ -79,34 +65,23 @@ namespace app.Usuarios
             }
             return menus;
         }
-        public MenuDinamico(int rolId)
+        public static void ObtenerInstanciaVentana(string nombre)
         {
-            InitializeComponent();
-            this.rolId = rolId;
-            menus = PoblarListaEntradaMenus(rolId);
-
-            if (menus.Count != 0)
+            Assembly assemby = Assembly.GetExecutingAssembly();
+            System.Type[] types = assemby.GetTypes();
+            var varWindows = types.ToList()
+                .Where(current => current.BaseType == typeof(Window));
+            varWindows.FirstOrDefault(x => x.Name == nombre);
+            Type ventana = Type.GetType(nombre, true);
+            try
             {
-                Menu mantenedores = new();
-                foreach (EntradaMenu menu in menus)
-                {
-                    //if (menu.Id > 13)
-                    //{
+                Window v = ((Window)Activator.CreateInstance(ventana));
+                v.Show();
 
-                    //}
-                    MenuItem iterador = new()
-                    {
-                        Header = menu.Nombre
-                    };
-                    mantenedores.Items.Add(iterador);
-                }
-                mantenedores.VerticalAlignment = VerticalAlignment.Top;
-                //this.AddChild(mantenedores);
-                this.Content = mantenedores;
             }
-            else
+            catch (Exception e)
             {
-                MessageBox.Show("Usted no tiene un rol asignado para acceder al sistema");
+
             }
         }
 

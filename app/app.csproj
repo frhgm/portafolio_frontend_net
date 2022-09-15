@@ -7,4 +7,13 @@
         <UseWPF>true</UseWPF>
     </PropertyGroup>
 
+    <ItemGroup>
+      <None Include="..\.editorconfig" Link=".editorconfig" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\classLibrary\classLibrary.csproj" />
+      <ProjectReference Include="..\components\components.csproj" />
+    </ItemGroup>
+
 </Project>
