@@ -5,8 +5,11 @@ Nuestro proyecto de WPF para consumir API REST en Java Spring Boot
 ### app
 Esto contendra las vistas de WPF
 
-### libreria (no se me ocurrio un mejor nombre
-Aqui seria bueno que dejemos metodos muy largos, o utilizados transversalmente, asi como conexiones a la API, o metodos utilitarios
+### classLibrary (no se me ocurrio un mejor nombre
+Por ahora estamos almacenando los DTO's aca, quizas sea bueno mover cosas transversales, como conexion a Oracle
 
-### pruebas-unitarias (bastante explicativo)
-Por ahora es un proyecto MSTest, aunque lo podemos cambiar en el futuro, comentenme
+### components
+Libreria de componentes, que pueden ser reutilizados (aun por trabajarl en ellos)
+
+~~### pruebas-unitarias (bastante explicativo)~~
+~~Por ahora es un proyecto MSTest, aunque lo podemos cambiar en el futuro, comentenme~~
