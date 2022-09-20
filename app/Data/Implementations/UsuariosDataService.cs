@@ -21,6 +21,9 @@ namespace app.Data.Implementations
         private readonly string _baseAddress;
         private readonly JsonSerializerOptions _jsonSerializerOptions;
 
+        /// <summary>
+        /// Instancia el data service con la direccion base (para no repetirla en cada llamada)
+        /// </summary>
         public UsuariosDataService()
         {
             _httpClient = new HttpClient();
@@ -34,6 +37,12 @@ namespace app.Data.Implementations
         //    HttpResponseMessage response = await _httpClient.PostAsJsonAsync(url, generico);
 
         //}
+        /// <summary>
+        /// Envia las credenciales de usuario a la API, si recibe algo, entonces el usuario existe
+        /// </summary>
+        /// <param name="rut">Es el rut ingresado al formulario por el usuario</param>
+        /// <param name="pass">Es la contrasena ingresada al formulario por el usuario</param>
+        /// <returns>Un usuario, o null</returns>
 
         public async Task<Usuario> Login(string rut, string pass)
         {
@@ -55,10 +64,7 @@ namespace app.Data.Implementations
                         }
                         else
                         {
-
                             return usuarios.usuario[0];
-
-
                             //this.Content = null;
                             //Dashboard db = new();
                             //db.Show();
@@ -75,6 +81,10 @@ namespace app.Data.Implementations
                 return null;
             }
         }
+        /// <summary>
+        /// Ejecuta sp_get_all_users para recuperar los usuarios
+        /// </summary>
+        /// <returns>Devuelve una lista de usuarios registrados en el sistema</returns>
 
         public async Task<ListaUsuarios> TraerUsuarios()
         {
@@ -102,16 +112,33 @@ namespace app.Data.Implementations
             }
             return null;
         }
+        /// <summary>
+        /// Apartando el RUT, permitira actualizar un usuario
+        /// </summary>
+        /// <param name="usuario">Un usuario completo, para identificar y capturar campos a modificar</param>
+        /// <returns>El nuevo usuario</returns>
+        /// <exception cref="NotImplementedException"></exception>
         public Task ActualizarUsuario(Usuario usuario)
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// Borra un usuario por el RUT
+        /// </summary>
+        /// <param name="rut">RUT recibido desde formulario</param>
+        /// <returns>Nada</returns>
+        /// <exception cref="NotImplementedException"></exception>
         public Task BorrarUsuario(string rut)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Crea un usuario con los datos recibidos de formulario
+        /// </summary>
+        /// <param name="usuario">Un usuario completo, donde se procesaran todos sus datos</param>
+        /// <returns>El nuevo usuario creado, o null si fallo</returns>
+        /// <exception cref="NotImplementedException"></exception>
         public Task CrearUsuario(Usuario usuario)
         {
             throw new NotImplementedException();
