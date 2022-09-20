@@ -1,0 +1,197 @@
+create PROCEDURE SP_GET_ALL_USERS(
+    USUARIOS OUT SYS_REFCURSOR
+) AS
+BEGIN
+    OPEN USUARIOS FOR SELECT RUT,
+                             NOMBRE,
+                             APELLIDO_MATERNO,
+                             APELLIDO_PATERNO,
+                             EMAIL,
+                             TELEFONO,
+                             ROL_ID,
+                             NOMBRE_ROL,
+                             FECHA_CREACION
+                      FROM USUARIO U
+                               JOIN ROL R ON U.ROL_ID = R.ID
+                      ORDER BY U.FECHA_CREACION ASC;
+
+END;
+/
+
+create FUNCTION get_rol(rt IN VARCHAR2, pass IN VARCHAR2)
+    RETURN NUMBER
+    IS rol NUMBER;
+BEGIN
+    SELECT ROL_ID
+    INTO rol
+    FROM USUARIO
+    WHERE RUT = rt
+    AND CLAVE = pass;
+    RETURN(rol);
+END;
+/
+
+create PROCEDURE SP_DELETE_USUARIO (
+    IN_RUT              IN USUARIO.RUT%TYPE,
+    OUT_GLOSA           OUT VARCHAR2,
+    OUT_ESTADO          OUT NUMBER,
+    OUT_MENSAJE_SALIDA  OUT VARCHAR2
+) AS    
+BEGIN 
+    DELETE FROM USUARIO WHERE RUT = IN_RUT
+    RETURNING 'USUARIO ' || IN_RUT || ' ELIMINADO' INTO OUT_MENSAJE_SALIDA;
+    EXCEPTION
+        WHEN OTHERS THEN
+            OUT_ESTADO := -1;
+            OUT_GLOSA := DEV.FN_GET_GLOSA_ERROR;
+
+END;
+/
+
+create PROCEDURE SP_GET_PRODUCTOS_PRODUCTOR(
+    IN_ID_PRODUCTOR IN USUARIO.RUT%TYPE,
+    PRODUCTOS OUT SYS_REFCURSOR
+) AS
+BEGIN
+    OPEN PRODUCTOS FOR 
+    SELECT  NOMBRE_PRODUCTO, 
+            PRECIO, 
+            CALIDAD, 
+            CANTIDAD 
+            FROM PRODUCTO_PRODUCTOR PP JOIN USUARIO U ON PP.PRODUCTOR_RUT = U.RUT JOIN PRODUCTO P ON PP.PRODUCTO_ID = P.ID 
+            WHERE PP.PRODUCTOR_RUT = IN_ID_PRODUCTOR;
+END;
+/
+
+create PROCEDURE     SP_GET_USER (
+    IN_RUT IN USUARIO.RUT%TYPE,
+    USUARIO OUT SYS_REFCURSOR
+) AS
+BEGIN
+    OPEN USUARIO FOR SELECT
+                                            RUT,
+                                            NOMBRE,
+                                            APELLIDO_MATERNO,
+                                            APELLIDO_PATERNO,
+                                            EMAIL,
+                                            TELEFONO,
+                                            ROL_ID,
+                                            NOMBRE_ROL,
+                                            FECHA_CREACION
+                                        FROM
+                                                 USUARIO U
+                                            JOIN ROL R ON U.ROL_ID = R.ID
+                                            WHERE U.RUT = IN_RUT;
+
+END;
+/
+
+create PROCEDURE SP_INSERT_PRODUCTO_PRODUCTOR (
+IN_ID                   IN PRODUCTO_PRODUCTOR.ID%TYPE,
+IN_ID_PRODUCTO          IN PRODUCTO_PRODUCTOR.PRODUCTO_ID%TYPE,
+IN_PRECIO               IN PRODUCTO_PRODUCTOR.PRECIO%TYPE,
+IN_CALIDAD              IN PRODUCTO_PRODUCTOR.CALIDAD%TYPE,
+IN_CANTIDAD             IN PRODUCTO_PRODUCTOR.CANTIDAD%TYPE,
+PRODUCTOR_RUT           IN PRODUCTO_PRODUCTOR.PRODUCTOR_RUT%TYPE,
+OUT_GLOSA           OUT VARCHAR2,
+OUT_ESTADO          OUT NUMBER,
+OUT_MENSAJE_SALIDA  OUT VARCHAR2
+) AS 
+BEGIN
+    INSERT INTO PRODUCTO_PRODUCTOR (ID,  producto_id, precio, calidad, cantidad, PRODUCTOR_RUT) 
+    VALUES (IN_ID, IN_ID_PRODUCTO, IN_PRECIO, IN_CALIDAD, IN_CANTIDAD, PRODUCTOR_RUT )
+    RETURNING 'PRODUCTO CREADO CORRECTAMENTE' INTO OUT_MENSAJE_SALIDA;
+
+    EXCEPTION
+    WHEN OTHERS THEN
+        OUT_ESTADO := -1;
+        OUT_GLOSA := DEV.FN_GET_GLOSA_ERROR;
+END;
+/
+
+create PROCEDURE SP_INSERT_USUARIO (
+IN_RUT              IN USUARIO.RUT%TYPE,
+IN_NOMBRE           IN USUARIO.NOMBRE%TYPE,
+IN_APELLIDO_PATERNO IN USUARIO.APELLIDO_PATERNO%TYPE,
+IN_APELLIDO_MATERNO IN USUARIO.APELLIDO_MATERNO%TYPE,
+IN_TELEFONO         IN USUARIO.TELEFONO%TYPE,
+IN_EMAIL            IN USUARIO.EMAIL%TYPE,
+IN_CLAVE            IN USUARIO.CLAVE%TYPE,
+IN_ROL              IN USUARIO.ROL_ID%TYPE,
+OUT_GLOSA           OUT VARCHAR2,
+OUT_ESTADO          OUT NUMBER,
+OUT_MENSAJE_SALIDA  OUT VARCHAR2
+) AS 
+BEGIN
+
+    INSERT INTO DEV.USUARIO (RUT, NOMBRE, APELLIDO_PATERNO, APELLIDO_MATERNO, TELEFONO, EMAIL, CLAVE, ROL_ID, FECHA_CREACION)
+    VALUES (IN_RUT, IN_NOMBRE, IN_APELLIDO_PATERNO, IN_APELLIDO_MATERNO, IN_TELEFONO, IN_EMAIL, IN_CLAVE, IN_ROL, SYSDATE)
+    RETURNING 'CREADO CORRECTAMENTE' INTO OUT_MENSAJE_SALIDA;
+
+    EXCEPTION
+        WHEN OTHERS THEN
+            OUT_ESTADO := -1;
+            OUT_GLOSA  := DEV.FN_GET_GLOSA_ERROR;
+
+END;
+/
+
+create PROCEDURE SP_LOGIN
+(P_RUT IN varchar2,
+ P_PASS IN varchar2,
+ Usuario OUT SYS_REFCURSOR)
+    IS
+BEGIN
+    OPEN Usuario FOR 
+    SELECT rut, nombre, apellido_materno, apellido_paterno, email, telefono, rol_id, nombre_rol 
+    FROM USUARIO u JOIN ROL R on u.ROL_ID = R.ID 
+    WHERE rut = P_RUT AND CLAVE = P_PASS;
+END;
+/
+
+create PROCEDURE SP_UPDATE_PASSWORD (
+IN_RUT              IN USUARIO.RUT%TYPE,
+IN_NUEVA_CLAVE      IN USUARIO.CLAVE%TYPE,
+OUT_GLOSA           OUT VARCHAR2,
+OUT_ESTADO          OUT NUMBER,
+OUT_MENSAJE_SALIDA  OUT VARCHAR2
+) AS 
+BEGIN
+
+    UPDATE DEV.USUARIO SET
+        CLAVE    = IN_NUEVA_CLAVE
+    WHERE USUARIO.RUT = IN_RUT
+    RETURNING 'CLAVE MODIFICADA CORRECTAMENTE' INTO OUT_MENSAJE_SALIDA;
+
+    EXCEPTION
+        WHEN OTHERS THEN
+            OUT_ESTADO := -1;
+            OUT_GLOSA  := DEV.FN_GET_GLOSA_ERROR;
+
+END;
+/
+
+create PROCEDURE SP_UPDATE_USUARIO (
+IN_RUT              IN USUARIO.RUT%TYPE,
+IN_TELEFONO         IN USUARIO.TELEFONO%TYPE,
+IN_EMAIL            IN USUARIO.EMAIL%TYPE,
+OUT_GLOSA           OUT VARCHAR2,
+OUT_ESTADO          OUT NUMBER,
+OUT_MENSAJE_SALIDA  OUT VARCHAR2
+) AS 
+BEGIN
+
+    UPDATE DEV.USUARIO SET
+        TELEFONO    = IN_TELEFONO,
+        EMAIL       = IN_EMAIL
+    WHERE USUARIO.RUT = IN_RUT
+    RETURNING 'MODIFICADO CORRECTAMENTE' INTO OUT_MENSAJE_SALIDA;
+
+    EXCEPTION
+        WHEN OTHERS THEN
+            OUT_ESTADO := -1;
+            OUT_GLOSA  := DEV.FN_GET_GLOSA_ERROR;
+
+END;
+/
+
