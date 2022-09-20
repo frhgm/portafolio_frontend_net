@@ -7,61 +7,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-
+using classLibrary.DTO;
 namespace app
 {
     public static class Utils
     {
-        public static List<EntradaMenu> PoblarListaEntradaMenus(int id)
+        public static List<EntradaMenu> PoblarListaEntradaMenus()
         {
-            List<EntradaMenu> menus = new List<EntradaMenu>();
-
-            switch (id)
+            string[] ventanas = { "Transporte", "Pedido", "Detalle Pedidos", "Solicitud Pedido", "Detalle Solicitud Pedido", "Producto", "Producto Cliente", "Producto Productor", "Contrato", "Usuario", "Rol", "Subasta", "Oferta Subasta", "Solicitud Pedido", "Reportes", "Pagar Pedidos", "Activar Seguros" };
+            List<EntradaMenu> menus = new();
+            for (int i = 1; i < ventanas.Length; i++)
             {
-                //Administrador
-                case 1:
-                    menus.Add(new EntradaMenu(1, "Transporte"));
-                    menus.Add(new EntradaMenu(2, "Pedido"));
-                    menus.Add(new EntradaMenu(3, "DetallePedidos"));
-                    menus.Add(new EntradaMenu(4, "SolicitudPedido"));
-                    menus.Add(new EntradaMenu(5, "DetalleSolicitudPedido"));
-                    menus.Add(new EntradaMenu(6, "Producto"));
-                    menus.Add(new EntradaMenu(7, "ProductoCliente"));
-                    menus.Add(new EntradaMenu(8, "ProductoProductor"));
-                    menus.Add(new EntradaMenu(9, "Contrato"));
-                    menus.Add(new EntradaMenu(10, "Usuario"));
-                    menus.Add(new EntradaMenu(11, "Rol"));
-                    menus.Add(new EntradaMenu(12, "Subasta"));
-                    menus.Add(new EntradaMenu(13, "OfertaSubasta"));
-                    menus.Add(new EntradaMenu(14, "SolicitudPedido"));
-                    menus.Add(new EntradaMenu(15, "Reportes"));
-                    menus.Add(new EntradaMenu(16, "Pagar pedidos"));
-                    menus.Add(new EntradaMenu(17, "ActivarSeguro"));
-                    break;
-                //Consultor
-                case 2:
-                    menus.Add(new EntradaMenu(15, "Reportes"));
-                    break;
-                //Transportista
-                case 3:
-                    menus.Add(new EntradaMenu(1, "Transporte"));
-                    menus.Add(new EntradaMenu(3, "DetallePedidos"));
-                    menus.Add(new EntradaMenu(9, "Contrato"));
-                    menus.Add(new EntradaMenu(13, "OfertaSubasta"));
-                    break;
-                case 4:
-                    menus.Add(new EntradaMenu(1, "Transporte"));
-                    menus.Add(new EntradaMenu(8, "ProductoProductor"));
-
-                    break;
-                case 5:
-
-                    break;
-                case 6:
-                    menus.Add(new EntradaMenu(14, "SolicitudPedido"));
-                    break;
-                default:
-                    break;
+                menus.Add(new EntradaMenu(i, ventanas[i]));
             }
             return menus;
         }
@@ -72,10 +29,10 @@ namespace app
             var varWindows = types.ToList()
                 .Where(current => current.BaseType == typeof(Window));
             varWindows.FirstOrDefault(x => x.Name == nombre);
-            Type ventana = Type.GetType(nombre, true);
+            Type? ventana = Type.GetType(nombre, true);
             try
             {
-                Window v = ((Window)Activator.CreateInstance(ventana));
+                Window? v = Activator.CreateInstance(ventana) as Window;
                 v.Show();
 
             }

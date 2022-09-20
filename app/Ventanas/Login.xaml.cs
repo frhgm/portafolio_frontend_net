@@ -1,9 +1,9 @@
 ﻿using app.Data.Implementations;
-using app.Usuarios;
+using classLibrary.DTO;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace app
+namespace app.Ventanas
 {
     public partial class Login : Window
     {
@@ -34,12 +34,12 @@ namespace app
                 else
                 {
                     //MessageBox.Show("Exito!");
-                    ListarUsuarios lu = new(usuario.RolId);
+                    Usuarios u = new();
                     //{
                     //    Content = new MenuDinamico(usuario.RolId)
                     //};
 
-                    lu.Show();
+                    u.Show();
                     Login l = new Login();
                     l.Close();
                 }

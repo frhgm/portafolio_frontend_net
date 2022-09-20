@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace app.Usuarios
+namespace app.Ventanas
 {
     /// <summary>
     /// Interaction logic for CrearUsuario.xaml

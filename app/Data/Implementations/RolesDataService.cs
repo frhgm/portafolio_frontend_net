@@ -15,16 +15,16 @@ using System.Windows;
 
 namespace app.Data.Implementations
 {
-    internal class UsuariosDataService
+    internal class RolesDataService
     {
         private readonly HttpClient _httpClient;
         private readonly string _baseAddress;
         private readonly JsonSerializerOptions _jsonSerializerOptions;
 
-        public UsuariosDataService()
+        public RolesDataService()
         {
             _httpClient = new HttpClient();
-            _baseAddress = "https://g15f555dd431949-maipograndebdd.adb.sa-santiago-1.oraclecloudapps.com/ords/Portafolio/";
+            _baseAddress = "https://g15f555dd431949-maipograndebdd.adb.sa-santiago-1.oraclecloudapps.com/ords/dev/";
             _jsonSerializerOptions = new JsonSerializerOptions();
         }
 
@@ -35,48 +35,7 @@ namespace app.Data.Implementations
 
         //}
 
-        public async Task<Usuario> Login(string rut, string pass)
-        {
-            string message = "";
-            object userParams = new { p_rut = rut, p_pass = pass };
-            try
-            {
-                HttpResponseMessage response = await _httpClient.PostAsJsonAsync(String.Concat(_baseAddress, "sp_login/"), userParams);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    message = await response.Content.ReadAsStringAsync();
-                    if (message != null)
-                    {
-                        var usuarios = JsonSerializer.Deserialize<ListaUsuario>(message);
-                        if (usuarios is null || usuarios.usuario.Count == 0)
-                        {
-                            return null;
-                        }
-                        else
-                        {
-
-                            return usuarios.usuario[0];
-
-
-                            //this.Content = null;
-                            //Dashboard db = new();
-                            //db.Show();
-                            //db.Show();
-                        }
-                    }
-                    return null;
-                }
-                return null;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("No se pudo por tal y tal", ex.Message);
-                return null;
-            }
-        }
-
-        public async Task<ListaUsuarios> TraerUsuarios()
+        public async Task<ListaUsuarios> TraerRoles()
         {
             try
             {

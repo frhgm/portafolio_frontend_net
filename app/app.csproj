@@ -12,6 +12,10 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="MaterialDesignThemes" Version="4.6.0" />
+    </ItemGroup>
+
+    <ItemGroup>
       <ProjectReference Include="..\classLibrary\classLibrary.csproj" />
       <ProjectReference Include="..\components\components.csproj" />
     </ItemGroup>
