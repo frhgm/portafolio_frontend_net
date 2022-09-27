@@ -4,17 +4,95 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="CrearUsuario" Width="800" Height="900">
+        Title="CrearUsuario"
+        Width="800"
+        Height="500"
+        FontSize="15">
     <Grid>
-        <TextBox Name="Txt_Rut"></TextBox>
-        <TextBox Name="Txt_Nombre"></TextBox>
-        <TextBox Name="Txt_ApellidoPaterno"></TextBox>
-        <TextBox Name="Txt_ApellidoMaterno"></TextBox>
-        <TextBox Name="Txt_Telefono"></TextBox>
-        <TextBox Name="Txt_Correo"></TextBox>
-        <TextBox Name="Txt_FechaNacimiento"></TextBox>
-        <TextBox Name="Txt_Rol"></TextBox>
-        <TextBox Name="Txt_Clave"></TextBox>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="200"></ColumnDefinition>
+            <ColumnDefinition Width="250"></ColumnDefinition>
+            <ColumnDefinition Width="200"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
 
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <!--TODO Investigar SourceUpdated -->
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="35"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="35"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="35"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="35"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Label Content="Ingrese el RUT"
+               Grid.Row="0"
+               Grid.Column="1"
+               VerticalAlignment="Bottom"></Label>
+        <TextBox Grid.Row="1"
+                 Grid.Column="1"
+                 Name="Txt_Rut"></TextBox>
+        <Label Content="Ingrese el nombre"
+               Grid.Row="2"
+               Grid.Column="1"
+               VerticalAlignment="Bottom"></Label>
+        <TextBox Name="Txt_Nombre"
+                 Grid.Row="3"
+                 Grid.Column="1"></TextBox>
+        <Label Content="Ingrese el apellido paterno"
+               Grid.Row="4"
+               Grid.Column="1"
+               VerticalAlignment="Bottom"></Label>
+        <TextBox Name="Txt_ApellidoPaterno"
+                 Grid.Row="5"
+                 Grid.Column="1"></TextBox>
+        <Label Content="Ingrese el apellido materno"
+               Grid.Row="6"
+               Grid.Column="1"
+               VerticalAlignment="Bottom"></Label>
+        <TextBox Name="Txt_ApellidoMaterno"
+                 Grid.Row="7"
+                 Grid.Column="1"></TextBox>
+        <Label Content="Ingrese el telefono"
+               Grid.Row="0"
+               Grid.Column="3"
+               VerticalAlignment="Bottom"></Label>
+        <TextBox Name="Txt_Telefono"
+                 Grid.Row="1"
+                 Grid.Column="3"></TextBox>
+        <Label Content="Ingrese el e-mail"
+               Grid.Row="2"
+               Grid.Column="3"
+               VerticalAlignment="Bottom"></Label>
+        <TextBox Name="Txt_eMail"
+                 Grid.Row="3"
+                 Grid.Column="3"></TextBox>
+        <Label Content="Ingrese el fecha de nacimiento"
+               Grid.Row="0"
+               Grid.Column="2" Grid.ColumnSpan="5"
+               VerticalAlignment="Bottom"></Label>
+        <TextBox Name="Txt_FechaNacimiento"
+                  Grid.Row="1"
+                  Grid.Column="2"></TextBox>
+        <Label Content="Ingrese el rol"
+               Grid.Row="4"
+               Grid.Column="3"
+               VerticalAlignment="Bottom"></Label>
+        <TextBox Name="Txt_Rol"
+                 Grid.Row="5"
+                 Grid.Column="3"></TextBox>
+        <Label Content="Ingrese la clave"
+               Grid.Row="6"
+               Grid.Column="3"
+               VerticalAlignment="Bottom"></Label>
+        <TextBox Name="Txt_Clave"
+                 Grid.Row="7"
+                 Grid.Column="3"></TextBox>
+
+        <Button Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="8" Content="Registrar usuario" Name="Btn_RegistrarUsuario" Click="Btn_RegistrarUsuario_Click"></Button>
     </Grid>
 </Window>

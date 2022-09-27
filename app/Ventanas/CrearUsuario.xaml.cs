@@ -1,6 +1,9 @@
-﻿using System;
+﻿using app.Data.Implementations;
+using classLibrary.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,6 +22,7 @@ namespace app.Ventanas
     /// </summary>
     public partial class CrearUsuario : Window
     {
+        UsuariosDataService usuarioDataService = new UsuariosDataService();
         public CrearUsuario()
         {
             InitializeComponent();
@@ -37,6 +41,22 @@ namespace app.Ventanas
             //    RolId = int.Parse(TxtRol.Text),
             //    FechaCreacion = DateTime.Today
             //};
+        }
+
+        private async void Btn_RegistrarUsuario_Click(object sender, RoutedEventArgs e)
+        {
+            UsuarioSalida usuarioPorRegistrar = new(
+                Txt_Rut.Text,
+                Txt_Nombre.Text,
+                Txt_ApellidoPaterno.Text,
+                Txt_ApellidoMaterno.Text,
+                Txt_eMail.Text,
+                Convert.ToInt64(Txt_Telefono.Text),
+                Convert.ToInt32(Txt_Rol.Text),
+                "Admin",
+                Convert.ToDateTime(Txt_FechaNacimiento.Text),
+                Txt_Clave.Text);
+            await usuarioDataService.CrearUsuario(usuarioPorRegistrar);
         }
     }
 }

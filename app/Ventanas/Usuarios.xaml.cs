@@ -20,7 +20,7 @@ namespace app.Ventanas
     /// </summary>
     public partial class Usuarios
     {
-        Usuario usuario = new("18392764-7", "Felipe", "Hites", "Ramirez", "framirezhites@maipogrande.cl", 9974303094, 1, "Administrador", DateTime.Today);
+        Usuario usuario = new("18392764-7", "Felipe", "Hites", "Ramirez", "framirezhites@maipogrande.cl", 9974303094, 1, "Administrador", DateTime.Today, "663401993");
 
         List<EntradaMenu> menus = new();
         private readonly UsuariosDataService UsuariosDataService = new();
