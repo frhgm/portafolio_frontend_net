@@ -4,11 +4,35 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         mc:Ignorable="d"
-        Title="Login" Height="450" Width="800">
+        Title="Login"
+        Height="450"
+        Width="800">
     <Grid>
-        <Button Content="Iniciar sesion" Name="Btn_Login" HorizontalAlignment="Center" Margin="0,269,0,0" VerticalAlignment="Top" Click="BtnLogin_OnClickAsync"/>
-        <TextBox Name="TxtRut" HorizontalAlignment="Left" Margin="349,126,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name="TxtPass" HorizontalAlignment="Left" Margin="349,167,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name="TxtRut"
+                 HorizontalAlignment="Left"
+                 Margin="343,126,0,0"
+                 TextWrapping="Wrap"
+                 VerticalAlignment="Top"
+                 Width="120" />
+        <PasswordBox Name="TxtPass"
+                 HorizontalAlignment="Left"
+                 Margin="343,192,0,0"
+                 VerticalAlignment="Top"
+                 Width="120" />
+        <Button Content="Iniciar sesion"
+                Name="Btn_Login"
+                HorizontalAlignment="Center"
+                Margin="0,269,0,0"
+                VerticalAlignment="Top"
+                Click="BtnLogin_OnClickAsync" />
+        <Label Width="100"
+               Height="40"
+               Content="Ingrese su RUT"
+               Margin="350,109,350,285" />
+        <Label Width="150"
+               Height="30"
+               Content="Ingrese su contraseña"
+               Margin="350,109,310,140" />
 
     </Grid>
 </Window>

@@ -16,7 +16,7 @@ using System.Windows;
 
 namespace app.Data.Implementations
 {
-    internal class UsuariosDataService
+    public class UsuariosDataService
     {
         private readonly HttpClient _httpClient;
         private readonly string _baseAddress;

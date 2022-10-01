@@ -7,7 +7,8 @@ namespace app.Ventanas
 {
     public partial class Login : Window
     {
-        UsuariosDataService UsuariosDataService = new();
+        UsuariosDataService usuarioDataService = new();
+
         public Login()
         {
             InitializeComponent();
@@ -15,7 +16,7 @@ namespace app.Ventanas
 
         private async void BtnLogin_OnClickAsync(object sender, RoutedEventArgs e)
         {
-            if (TxtRut.Text == string.Empty || TxtPass.Text == string.Empty)
+            if (TxtRut.Text == string.Empty || TxtPass.Password == string.Empty)
             {
                 MessageBox.Show("Debe ingresar sus credenciales");
             }
@@ -25,7 +26,7 @@ namespace app.Ventanas
             }
             else
             {
-                var usuario = await UsuariosDataService.Login(TxtRut.Text, TxtPass.Text);
+                var usuario = await usuarioDataService.Login(TxtRut.Text, TxtPass.Password);
 
                 if (usuario == null)
                 {

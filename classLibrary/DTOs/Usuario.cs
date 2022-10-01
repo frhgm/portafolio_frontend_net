@@ -48,12 +48,12 @@ namespace classLibrary.DTO
         [JsonPropertyName("clave")]
         public string Clave { get; set; }
 
-        public Usuario(string rut, string nombre, string apellidoMaterno, string apellidoPaterno, string email, long telefono, int rolId, string nombreRol, DateTime? fechaCreacion, string clave)
+        public Usuario(string rut, string nombre, string apellidoPaterno, string apellidoMaterno, string email, long telefono, int rolId, string nombreRol, DateTime? fechaCreacion, string clave)
         {
             Rut = rut;
             Nombre = nombre;
-            ApellidoMaterno = apellidoMaterno;
             ApellidoPaterno = apellidoPaterno;
+            ApellidoMaterno = apellidoMaterno;
             Email = email;
             Telefono = telefono;
             RolId = rolId;

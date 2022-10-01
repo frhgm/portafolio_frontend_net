@@ -18,5 +18,9 @@ namespace classLibrary.DTOs
             Id = id;
             Nombre_Rol = nombre;
         }
+
+        public Rol()
+        {
+        }
     }
 }

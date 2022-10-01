@@ -83,8 +83,8 @@ namespace app.Ventanas
             roles.Add(new Rol(4, "Productor"));
             roles.Add(new Rol(5, "Cliente interno"));
             roles.Add(new Rol(6, "Cliente externo"));
-            Cb_EditarRol.ItemsSource = roles;
-            Cb_EditarRol.DisplayMemberPath = "Nombre_Rol";
+            //Cb_EditarRol.ItemsSource = roles;
+            //Cb_EditarRol.DisplayMemberPath = "Nombre_Rol";
         }
         public Usuarios()
         {
@@ -99,31 +99,51 @@ namespace app.Ventanas
         {
             //TODO Se debe anclar al final de la pagina
             var usuarios = await UsuariosDataService.TraerUsuarios();
-            DgUsuarios.ItemsSource = usuarios.usuarios;
+            UsuariosDG.ItemsSource = usuarios.usuarios;
         }
 
-        private void dgUsuarios_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            DataGrid dg = (DataGrid)sender;
-            Usuario fila = (Usuario)dg.SelectedItem;
-            if(fila != null)
-            {
-                Txt_EditarNombre.Text = fila.Nombre;
-                Txt_EditarCorreo.Text = fila.Email;
-                Txt_EditarApellidoPaterno.Text = fila.ApellidoPaterno;
-                Txt_EditarApellidoMaterno.Text = fila.ApellidoMaterno;
-                Txt_EditarTelefono.Text = fila.Telefono.ToString();
-                
-                Cb_EditarRol.SelectedIndex = fila.RolId;
-                Cb_EditarRol.SelectedIndex -= 1;
-
-            }
-        }
 
         private void Btn_CrearUsuario_OnClick(object sender, RoutedEventArgs e)
         {
             CrearUsuario cU = new CrearUsuario();
             cU.Show();
+        }
+
+        private void SeleccionarUsuarioParaEditar_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void BorrarUsuario_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AgregarUsuario_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ActualizarUsuario_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void UsuariosDG_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DataGrid dg = (DataGrid)sender;
+            Usuario fila = (Usuario)dg.SelectedItem;
+            if (fila != null)
+            {
+                Mod_Rut.Text = fila.Rut;
+                Mod_Nombre.Text = fila.Nombre;
+                Mod_ApPa.Text = fila.ApellidoPaterno;
+                Mod_ApMa.Text = fila.ApellidoMaterno;
+                Mod_Email.Text = fila.Email;
+                Mod_Telefono.Text = fila.Telefono.ToString();
+
+                Mod_Rol.SelectedIndex = fila.RolId;
+
+            }
         }
     }
 }
