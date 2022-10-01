@@ -16,83 +16,6 @@
     TextOptions.TextFormattingMode="Ideal"
     TextOptions.TextRenderingMode="Auto"
     mc:Ignorable="d">
-    <!--<Grid.RowDefinitions>
-            <RowDefinition Height="45*" />
-            <RowDefinition Height="347*" />
-        </Grid.RowDefinitions>-->
-
-
-    <!--<DataGrid x:Name="DgUsuarios"
-                  VerticalAlignment="Top"
-                  Height="433"
-                  SelectionChanged="dgUsuarios_SelectionChanged"
-                  Margin="-1,352,1,0" />
-        <TextBox HorizontalAlignment="Left"
-                 VerticalAlignment="Top"
-                 Height="30"
-                 Width="125"
-                 Margin="67,65,0,0"
-                 x:Name="Txt_EditarNombre" />
-        <TextBox HorizontalAlignment="Left"
-                 VerticalAlignment="Top"
-                 Width="125"
-                 Margin="67,22,0,0"
-                 Height="30"
-                 x:Name="Txt_EditarCorreo" />
-        <TextBox HorizontalAlignment="Left"
-                 VerticalAlignment="Top"
-                 Width="125"
-                 Margin="67,116,0,0"
-                 Height="30"
-                 x:Name="Txt_EditarApellidoPaterno" />
-        <TextBox HorizontalAlignment="Left"
-                 VerticalAlignment="Top"
-                 Width="125"
-                 Margin="67,171,0,0"
-                 Height="30"
-                 x:Name="Txt_EditarApellidoMaterno" />
-        <TextBox HorizontalAlignment="Left"
-                 VerticalAlignment="Top"
-                 Margin="67,226,0,0"
-                 Width="125"
-                 Height="30"
-                 x:Name="Txt_EditarTelefono" />
-        <ComboBox HorizontalAlignment="Left"
-                  VerticalAlignment="Top"
-                  Width="367"
-                  Margin="291,51,0,0"
-                  Height="30"
-                  x:Name="Cb_EditarRol" />
-    -->
-    <!--<Button Style="{StaticResource MaterialDesignFloatingActionSecondaryLightButton}"
-                ToolTip="Agregar un usuario"
-                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                Margin="1156,43,68,685"
-                Click="Btn_CrearUsuario_OnClick">
-            <materialDesign:PackIcon Kind="Add"/>
-        </Button>-->
-    <!--
-        <Button ToolTip="Agregar un usuario"
-                Content="Agregar"
-                Margin="872,52,197,700"
-                Click="Btn_CrearUsuario_OnClick" />
-        <Label Content="Ingrese su nombre"
-               Height="20"
-               Margin="64,51,1109,713" />
-        <Label Content="Apellido paterno"
-               Margin="64,101,1059,663"
-               Height="20" />
-        <Label Content="Apellido materno"
-               Margin="64,146,1060,618"
-               Height="20" />
-        <Label Content="Telefono"
-               Margin="63,206,1059,558" />
-        <Label Content="Correo"
-               Height="20"
-               Margin="64,10,1109,754" />
-
-    </Grid>-->
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="45" />
@@ -184,6 +107,7 @@
                             Grid.Column="0"
                             Content="RUT" />
                         <TextBox
+                            Name="Add_Rut"
                             Grid.Row="0"
                             Grid.Column="1"
                             Text="{Binding Rut}" />
@@ -192,6 +116,7 @@
                             Grid.Column="0"
                             Content="Nombre" />
                         <TextBox
+                            Name="Add_Nombre"
                             Grid.Row="1"
                             Grid.Column="2"
                             Text="{Binding Nombre}" />
@@ -200,6 +125,7 @@
                             Grid.Column="0"
                             Content="Apellido paterno" />
                         <TextBox
+                            Name="Add_ApellidoPaterno"
                             Grid.Row="2"
                             Grid.Column="3"
                             Text="{Binding ApellidoPaterno}" />
@@ -208,6 +134,7 @@
                             Grid.Column="0"
                             Content="Apellido Materno" />
                         <TextBox
+                            Name="Add_ApellidoMaterno"
                             Grid.Row="3"
                             Grid.Column="4"
                             Text="{Binding ApellidoMaterno}" />
@@ -216,6 +143,7 @@
                             Grid.Column="0"
                             Content="Email" />
                         <TextBox
+                            x:Name="Add_Email"
                             Grid.Row="4"
                             Grid.Column="5"
                             Text="{Binding Email}" />
@@ -224,6 +152,7 @@
                             Grid.Column="0"
                             Content="Telefono" />
                         <TextBox
+                            Name="Add_Telefono"
                             Grid.Row="5"
                             Grid.Column="4"
                             Text="{Binding Telefono}" />
@@ -232,6 +161,7 @@
                             Grid.Column="0"
                             Content="Rol" />
                         <ComboBox
+                            Name="Add_NombreRol"
                             Grid.Row="6"
                             Grid.Column="4"
                             Text="{Binding NombreRol}" />
@@ -240,6 +170,7 @@
                             Grid.Column="0"
                             Content="Clave" />
                         <TextBox
+                            Name="Add_Clave"
                             Grid.Row="7"
                             Grid.Column="4"
                             Text="{Binding Clave}" />
@@ -295,7 +226,6 @@
                             IsEnabled="False"
                             Text="{Binding Rut}" />
                         <Label
-                            Name="Add_Nombre"
                             Grid.Row="1"
                             Grid.Column="0"
                             Content="Nombre" />
@@ -349,6 +279,15 @@
                             Grid.Row="6"
                             Grid.Column="4"
                             Text="{Binding NombreRol}" />
+                        <Label
+                            Grid.Row="7"
+                            Grid.Column="0"
+                            Content="Clave" />
+                        <TextBox
+                            Name="Mod_Clave"
+                            Grid.Row="7"
+                            Grid.Column="4"
+                            Text="{Binding Clave}" />
                         <Label
                             Grid.Row="7"
                             Grid.Column="0"
