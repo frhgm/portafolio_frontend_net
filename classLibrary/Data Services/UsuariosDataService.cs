@@ -138,7 +138,7 @@ namespace app.Data.Implementations
         /// </summary>
         /// <param name="usuario">Un usuario completo, donde se procesaran todos sus datos</param>
         /// <returns>El nuevo usuario creado, o null si fallo</returns>
-        public async Task CrearUsuario(UsuarioSalida usuario)
+        public async Task<UsuarioSalida> CrearUsuario(UsuarioSalida usuario)
         {
             try
             {
@@ -149,6 +149,7 @@ namespace app.Data.Implementations
                 if(response.IsSuccessStatusCode)
                 {
                     Debug.WriteLine("Usuario creado!");
+                    return usuario;
                 } else
                 {
                     Debug.WriteLine($"No fue un status 2XX: {response.StatusCode}");
@@ -159,7 +160,7 @@ namespace app.Data.Implementations
 
                 Debug.WriteLine($"Hubo un error {ex.Message}");
             }
-            return;
+            return null;
         }
     }
 }
