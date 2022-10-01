@@ -20,10 +20,12 @@ namespace app.Ventanas
     /// </summary>
     public partial class Usuarios
     {
+        Rol rolSeleccionadoCrear = new Rol();
+        Rol rolSeleccionadoModificar = new Rol();
         Usuario usuario = new("18392764-7", "Felipe", "Hites", "Ramirez", "framirezhites@maipogrande.cl", 9974303094, 1, "Administrador", DateTime.Today, "663401993");
 
         List<EntradaMenu> menus = new();
-        private readonly UsuariosDataService UsuariosDataService = new();
+        private readonly UsuariosDataService usuarioDataService = new();
         private int rolId;
 
 
@@ -74,18 +76,7 @@ namespace app.Ventanas
             }
         }
 
-        public void PoblarCombos()
-        {
-            List<Rol> roles = new List<Rol>();
-            roles.Add(new Rol(1, "Administrador"));
-            roles.Add(new Rol(2, "Consultor"));
-            roles.Add(new Rol(3, "Transportista"));
-            roles.Add(new Rol(4, "Productor"));
-            roles.Add(new Rol(5, "Cliente interno"));
-            roles.Add(new Rol(6, "Cliente externo"));
-            //Cb_EditarRol.ItemsSource = roles;
-            //Cb_EditarRol.DisplayMemberPath = "Nombre_Rol";
-        }
+        
         public Usuarios()
         {
             InitializeComponent();
@@ -97,13 +88,16 @@ namespace app.Ventanas
             this.rolId = usuario.RolId;
             AgregarMenus();
             CargarUsuarios();
-            PoblarCombos();
+            Utilidades.PoblarCombosRoles(Add_Rol);
+            Utilidades.PoblarCombosRoles(Mod_Rol);
         }
-
+        /// <summary>
+        /// Se llama al metodo TraerUsuarios, que va a buscar al servidor sp_get_all_users, y pobla el DataGrid con esta lista
+        /// </summary>
         private async void CargarUsuarios()
         {
             //TODO Se debe anclar al final de la pagina
-            var usuarios = await UsuariosDataService.TraerUsuarios();
+            var usuarios = await usuarioDataService.TraerUsuarios();
             UsuariosDG.ItemsSource = usuarios.usuarios;
         }
 
@@ -118,23 +112,32 @@ namespace app.Ventanas
 
         private async void AgregarUsuario_Click(object sender, RoutedEventArgs e)
         {
-            //        UsuarioSalida usuarioPorRegistrar = new(
-            //Txt_Rut.Text,
-            //Txt_Nombre.Text,
-            //Txt_ApellidoPaterno.Text,
-            //Txt_ApellidoMaterno.Text,
-            //Txt_eMail.Text,
-            //Convert.ToInt64(Txt_Telefono.Text),
-            //Convert.ToInt32(Txt_Rol.Text),
-            //"Admin",
-            //Convert.ToDateTime(Txt_FechaNacimiento.Text),
-            //Txt_Clave.Text);
-            //        await usuarioDataService.CrearUsuario(usuarioPorRegistrar);
+
+            UsuarioSalida usuarioPorRegistrar = new(
+                Add_Rut.Text,
+                Add_Nombre.Text,
+                Add_ApellidoPaterno.Text,
+                Add_ApellidoMaterno.Text,
+                Add_Email.Text,
+                Convert.ToInt64(Add_Telefono.Text),
+                rolSeleccionadoCrear.Id,
+                rolSeleccionadoCrear.Nombre_Rol,
+                DateTime.Today,
+                Add_Clave.Text);
+            UsuarioSalida resultado = await usuarioDataService.CrearUsuario(usuarioPorRegistrar);
+            if(resultado != null)
+            {
+                UsuariosDG.Items.Add(resultado);
+            }
         }
 
         private void ActualizarUsuario_Click(object sender, RoutedEventArgs e)
         {
+            DataGrid dg = (DataGrid)sender;
+            Rol fila = (Rol)dg.SelectedItem;
 
+            rolSeleccionadoCrear.Id = fila.Id;
+            rolSeleccionadoCrear.Nombre_Rol = fila.Nombre_Rol;
         }
 
         private void UsuariosDG_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -151,8 +154,36 @@ namespace app.Ventanas
                 Mod_Telefono.Text = fila.Telefono.ToString();
 
                 Mod_Rol.SelectedIndex = fila.RolId;
+                rolSeleccionadoCrear.Id = fila.RolId;
+                rolSeleccionadoCrear.Nombre_Rol = fila.NombreRol;
+                //TODO Se debe arreglar para que muestre Rol correcto
+                //Quizas iniciar desde 0 los ID?
+                //Mod_Rol.SelectedIndex -= 1;
 
             }
         }
+        /// <summary>
+        /// Actualiza el rol seleccionado para crear un usuario
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e">Evento de cambio de seleccion, se parsea como un Rol para asi capturar su id y nombre</param>
+        private void Add_Rol_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DataGrid dg = (DataGrid)sender;
+            Rol fila = (Rol)dg.SelectedItem;
+
+            rolSeleccionadoCrear.Id = fila.Id;
+            rolSeleccionadoCrear.Nombre_Rol = fila.Nombre_Rol;
+        }
+        private void Mod_Rol_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DataGrid dg = (DataGrid)sender;
+            Rol fila = (Rol)dg.SelectedItem;
+
+            rolSeleccionadoModificar.Id = fila.Id;
+            rolSeleccionadoModificar.Nombre_Rol = fila.Nombre_Rol;
+        }
+
+
     }
 }

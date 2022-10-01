@@ -161,9 +161,10 @@
                             Grid.Column="0"
                             Content="Rol" />
                         <ComboBox
-                            Name="Add_NombreRol"
+                            Name="Add_Rol"
                             Grid.Row="6"
                             Grid.Column="4"
+                            SelectionChanged="Add_Rol_SelectionChanged"
                             Text="{Binding NombreRol}" />
                         <Label
                             Grid.Row="7"
@@ -278,16 +279,8 @@
                             Name="Mod_Rol"
                             Grid.Row="6"
                             Grid.Column="4"
+                            SelectionChanged="Mod_Rol_SelectionChanged"
                             Text="{Binding NombreRol}" />
-                        <Label
-                            Grid.Row="7"
-                            Grid.Column="0"
-                            Content="Clave" />
-                        <TextBox
-                            Name="Mod_Clave"
-                            Grid.Row="7"
-                            Grid.Column="4"
-                            Text="{Binding Clave}" />
                         <Label
                             Grid.Row="7"
                             Grid.Column="0"
