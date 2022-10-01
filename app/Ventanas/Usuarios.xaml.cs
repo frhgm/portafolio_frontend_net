@@ -29,12 +29,12 @@ namespace app.Ventanas
 
         public void MenuSeleccionadoSet(object sender, EventArgs e, string menu)
         {
-            Utils.ObtenerInstanciaVentana(String.Concat("app.Usuarios.", menu));
+            Utilidades.ObtenerInstanciaVentana(String.Concat("app.Usuarios.", menu));
         }
 
         public void AgregarMenus()
         {
-            menus = Utils.PoblarListaEntradaMenus();
+            menus = Utilidades.PoblarListaEntradaMenus();
             if (menus.Count != 0)
             {
                 MenuItem mantenedores = new()
@@ -73,7 +73,7 @@ namespace app.Ventanas
                 MessageBox.Show("Usted no tiene un rol asignado para acceder al sistema");
             }
         }
-       
+
         public void PoblarCombos()
         {
             List<Rol> roles = new List<Rol>();
@@ -89,6 +89,11 @@ namespace app.Ventanas
         public Usuarios()
         {
             InitializeComponent();
+            if (Utilidades.ComprobarConexionInternet() == false)
+            {
+                MessageBox.Show("Sin conexion a internet, cerrando");
+                return;
+            }
             this.rolId = usuario.RolId;
             AgregarMenus();
             CargarUsuarios();
@@ -102,13 +107,6 @@ namespace app.Ventanas
             UsuariosDG.ItemsSource = usuarios.usuarios;
         }
 
-
-        private void Btn_CrearUsuario_OnClick(object sender, RoutedEventArgs e)
-        {
-            CrearUsuario cU = new CrearUsuario();
-            cU.Show();
-        }
-
         private void SeleccionarUsuarioParaEditar_Click(object sender, RoutedEventArgs e)
         {
 
@@ -118,9 +116,20 @@ namespace app.Ventanas
 
         }
 
-        private void AgregarUsuario_Click(object sender, RoutedEventArgs e)
+        private async void AgregarUsuario_Click(object sender, RoutedEventArgs e)
         {
-
+            //        UsuarioSalida usuarioPorRegistrar = new(
+            //Txt_Rut.Text,
+            //Txt_Nombre.Text,
+            //Txt_ApellidoPaterno.Text,
+            //Txt_ApellidoMaterno.Text,
+            //Txt_eMail.Text,
+            //Convert.ToInt64(Txt_Telefono.Text),
+            //Convert.ToInt32(Txt_Rol.Text),
+            //"Admin",
+            //Convert.ToDateTime(Txt_FechaNacimiento.Text),
+            //Txt_Clave.Text);
+            //        await usuarioDataService.CrearUsuario(usuarioPorRegistrar);
         }
 
         private void ActualizarUsuario_Click(object sender, RoutedEventArgs e)
