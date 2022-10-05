@@ -53,17 +53,17 @@
                 <DataGridTextColumn Binding="{Binding Email}" Header="Email" />
                 <DataGridTextColumn Binding="{Binding Telefono}" Header="Telefono" />
                 <DataGridTextColumn Binding="{Binding NombreRol}" Header="Rol" />
-                <DataGridTemplateColumn Width="80" Header="Editar">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Click="SeleccionarUsuarioParaEditar_Click" Content="{materialDesign:PackIcon edit}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                <!-- <DataGridTemplateColumn Width="80" Header="Editar"> -->
+                <!--     <DataGridTemplateColumn.CellTemplate> -->
+                <!--         <DataTemplate> -->
+                <!--             <Button Click="SeleccionarUsuarioParaEditar_Click" Content="{materialDesign:PackIcon edit}" /> -->
+                <!--         </DataTemplate> -->
+                <!--     </DataGridTemplateColumn.CellTemplate> -->
+                <!-- </DataGridTemplateColumn> -->
                 <DataGridTemplateColumn Width="80" Header="Borrar">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Click="BorrarUsuario_Click" Content="{materialDesign:PackIcon close}" />
+                            <Button Click="BorrarUsuario_Click" Content="{materialDesign:PackIcon trash}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -234,6 +234,7 @@
                             Name="Mod_Nombre"
                             Grid.Row="1"
                             Grid.Column="2"
+                            IsEnabled="False"
                             Text="{Binding Nombre}" />
                         <Label
                             Grid.Row="2"
@@ -243,6 +244,7 @@
                             Name="Mod_ApPa"
                             Grid.Row="2"
                             Grid.Column="3"
+                            IsEnabled="False"
                             Text="{Binding ApellidoPaterno}" />
                         <Label
                             Grid.Row="3"
@@ -252,6 +254,7 @@
                             x:Name="Mod_ApMa"
                             Grid.Row="3"
                             Grid.Column="4"
+                            IsEnabled="False"
                             Text="{Binding ApellidoMaterno}" />
                         <Label
                             Grid.Row="4"
@@ -279,6 +282,7 @@
                             Name="Mod_Rol"
                             Grid.Row="6"
                             Grid.Column="4"
+                            IsEnabled="False"
                             SelectionChanged="Mod_Rol_SelectionChanged"
                             Text="{Binding NombreRol}" />
                         <Label
@@ -298,7 +302,7 @@
                             Margin="5"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Bottom"
-                            Click="AgregarUsuario_Click"
+                            Click="ActualizarUsuario_Click"
                             Content="Actualizar" />
                     </Grid>
                 </StackPanel>

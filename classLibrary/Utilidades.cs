@@ -43,7 +43,7 @@ namespace classLibrary
         }
         public static List<EntradaMenu> PoblarListaEntradaMenus()
         {
-            string[] ventanas = { "Transporte", "Pedido", "Detalle Pedidos", "Solicitud Pedido", "Detalle Solicitud Pedido", "Producto", "Producto Cliente", "Producto Productor", "Contrato", "Usuario", "Rol", "Subasta", "Oferta Subasta", "Solicitud Pedido", "Reportes", "Pagar Pedidos", "Activar Seguros" };
+            string[] ventanas = { "Transporte", "Pedido", "Detalle Pedidos", "Solicitud Pedido", "Detalle Solicitud Pedido", "Producto", "Producto Cliente", "Producto Productor", "Contrato", "Usuarios", "Rol", "Subasta", "Oferta Subasta", "Solicitud Pedido", "Reportes", "Pagar Pedidos", "Activar Seguros" };
             List<EntradaMenu> menus = new();
             for (int i = 1; i < ventanas.Length; i++)
             {
@@ -70,5 +70,6 @@ namespace classLibrary
 
             }
         }
+
     }
 }

@@ -48,6 +48,10 @@ namespace classLibrary.DTO
         [JsonPropertyName("clave")]
         public string Clave { get; set; }
 
+        public Usuario()
+        {
+
+        }
         public Usuario(string rut, string nombre, string apellidoPaterno, string apellidoMaterno, string email, long telefono, int rolId, string nombreRol, DateTime? fechaCreacion, string clave)
         {
             Rut = rut;
@@ -62,7 +66,7 @@ namespace classLibrary.DTO
             Clave = clave;
         }
     }
-    public class UsuarioSalida
+    public class RegistrarUsuario
     {
         [JsonPropertyName("in_rut")]
         public string Rut { get; set; }
@@ -94,7 +98,7 @@ namespace classLibrary.DTO
         [JsonPropertyName("in_clave")]
         public string Clave { get; set; }
 
-        public UsuarioSalida(string rut, string nombre, string apellidoPaterno, string apellidoMaterno, string email, long telefono, int rolId, string nombreRol, DateTime? fechaCreacion, string clave)
+        public RegistrarUsuario(string rut, string nombre, string apellidoPaterno, string apellidoMaterno, string email, long telefono, int rolId, string nombreRol, DateTime? fechaCreacion, string clave)
         {
             Rut = rut;
             Nombre = nombre;
@@ -106,6 +110,34 @@ namespace classLibrary.DTO
             NombreRol = nombreRol;
             FechaCreacion = fechaCreacion;
             Clave = clave;
+        }
+    }
+
+    public class ActualizarUsuario
+    {
+        [JsonPropertyName("in_rut")]
+        public string Rut { get; set; }
+
+        [JsonPropertyName("in_email")]
+        public string Email { get; set; }
+
+        [JsonPropertyName("in_telefono")]
+        public long Telefono { get; set; }
+
+        [JsonPropertyName("in_clave")]
+        public string Clave { get; set; }
+
+
+        [JsonPropertyName("in_foto_perfil")]
+        public string FotoPerfil { get; set; }
+
+        public ActualizarUsuario(string rut, string email, long telefono, string clave, string fotoPerfil)
+        {
+            Rut = rut;
+            Telefono = telefono;
+            Email = email;
+            Clave = clave;
+            FotoPerfil = fotoPerfil;
         }
     }
 }

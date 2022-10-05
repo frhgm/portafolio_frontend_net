@@ -118,9 +118,28 @@ namespace app.Data.Implementations
         /// <param name="usuario">Un usuario completo, para identificar y capturar campos a modificar</param>
         /// <returns>El nuevo usuario</returns>
         /// <exception cref="NotImplementedException"></exception>
-        public Task ActualizarUsuario(Usuario usuario)
+        public async Task ActualizarUsuario(ActualizarUsuario usuario)
         {
-            throw new NotImplementedException();
+            try
+            {
+                string jsonUsuario = JsonSerializer.Serialize(usuario, _jsonSerializerOptions);
+                StringContent content = new StringContent(jsonUsuario, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await _httpClient.PostAsync($"{_baseAddress}sp_update_usuario/", content);
+                if (response.IsSuccessStatusCode)
+                {
+                    Debug.WriteLine("Usuario creado!");
+                }
+                else
+                {
+                    Debug.WriteLine($"No fue un status 2XX: {response.StatusCode}");
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Debug.WriteLine($"Hubo un error {ex.Message}");
+            }
         }
         /// <summary>
         /// Borra un usuario por el RUT
@@ -138,11 +157,11 @@ namespace app.Data.Implementations
         /// </summary>
         /// <param name="usuario">Un usuario completo, donde se procesaran todos sus datos</param>
         /// <returns>El nuevo usuario creado, o null si fallo</returns>
-        public async Task<UsuarioSalida> CrearUsuario(UsuarioSalida usuario)
+        public async Task<RegistrarUsuario> CrearUsuario(RegistrarUsuario usuario)
         {
             try
             {
-                string jsonUsuario = JsonSerializer.Serialize<UsuarioSalida>(usuario, _jsonSerializerOptions);
+                string jsonUsuario = JsonSerializer.Serialize<RegistrarUsuario>(usuario, _jsonSerializerOptions);
                 StringContent content = new StringContent(jsonUsuario, Encoding.UTF8, "application/json");
 
                 HttpResponseMessage response = await _httpClient.PostAsync($"{_baseAddress}sp_insert_usuario/", content);

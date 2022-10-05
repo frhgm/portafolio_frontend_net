@@ -76,7 +76,7 @@ namespace app.Ventanas
             }
         }
 
-        
+
         public Usuarios()
         {
             InitializeComponent();
@@ -113,7 +113,7 @@ namespace app.Ventanas
         private async void AgregarUsuario_Click(object sender, RoutedEventArgs e)
         {
 
-            UsuarioSalida usuarioPorRegistrar = new(
+            RegistrarUsuario usuarioPorRegistrar = new(
                 Add_Rut.Text,
                 Add_Nombre.Text,
                 Add_ApellidoPaterno.Text,
@@ -124,20 +124,22 @@ namespace app.Ventanas
                 rolSeleccionadoCrear.Nombre_Rol,
                 DateTime.Today,
                 Add_Clave.Text);
-            UsuarioSalida resultado = await usuarioDataService.CrearUsuario(usuarioPorRegistrar);
-            if(resultado != null)
+            RegistrarUsuario resultado = await usuarioDataService.CrearUsuario(usuarioPorRegistrar);
+            if (resultado != null)
             {
                 UsuariosDG.Items.Add(resultado);
             }
         }
 
-        private void ActualizarUsuario_Click(object sender, RoutedEventArgs e)
+        private async void ActualizarUsuario_Click(object sender, RoutedEventArgs e)
         {
-            DataGrid dg = (DataGrid)sender;
-            Rol fila = (Rol)dg.SelectedItem;
-
-            rolSeleccionadoCrear.Id = fila.Id;
-            rolSeleccionadoCrear.Nombre_Rol = fila.Nombre_Rol;
+            ActualizarUsuario usuarioPorActualizar = new(
+                Mod_Rut.Text,
+                Mod_Email.Text,
+                Convert.ToInt64(Mod_Telefono.Text),
+                Mod_Clave.Text,
+                "");
+            await usuarioDataService.ActualizarUsuario(usuarioPorActualizar);
         }
 
         private void UsuariosDG_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -169,16 +171,16 @@ namespace app.Ventanas
         /// <param name="e">Evento de cambio de seleccion, se parsea como un Rol para asi capturar su id y nombre</param>
         private void Add_Rol_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            DataGrid dg = (DataGrid)sender;
-            Rol fila = (Rol)dg.SelectedItem;
+            ComboBox cb = (ComboBox)sender;
+            Rol fila = (Rol)cb.SelectedItem;
 
             rolSeleccionadoCrear.Id = fila.Id;
             rolSeleccionadoCrear.Nombre_Rol = fila.Nombre_Rol;
         }
         private void Mod_Rol_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            DataGrid dg = (DataGrid)sender;
-            Rol fila = (Rol)dg.SelectedItem;
+            ComboBox cb = (ComboBox)sender;
+            Rol fila = (Rol)cb.SelectedItem;
 
             rolSeleccionadoModificar.Id = fila.Id;
             rolSeleccionadoModificar.Nombre_Rol = fila.Nombre_Rol;
