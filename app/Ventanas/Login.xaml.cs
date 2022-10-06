@@ -8,6 +8,7 @@ namespace app.Ventanas
     public partial class Login : Window
     {
         UsuariosDataService usuarioDataService = new();
+        public Usuario usuarioInput = null;
 
         public Login()
         {
@@ -27,6 +28,7 @@ namespace app.Ventanas
             else
             {
                 var usuario = await usuarioDataService.Login(TxtRut.Text, TxtPass.Password);
+                usuarioInput = usuario;
 
                 if (usuario == null)
                 {
@@ -36,7 +38,7 @@ namespace app.Ventanas
                 {
                     //MessageBox.Show("Exito!");
                     //TODO Enviar usuario recuperado a Lista
-                    Usuarios u = new Usuarios();
+                    Usuarios u = new Usuarios(this);
                     //{
                     //    Content = new MenuDinamico(usuario.RolId)
                     //};

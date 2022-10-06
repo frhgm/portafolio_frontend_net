@@ -22,12 +22,28 @@ namespace app.Ventanas
     {
         Rol rolSeleccionadoCrear = new Rol();
         Rol rolSeleccionadoModificar = new Rol();
-        Usuario usuario = new("18392764-7", "Felipe", "Hites", "Ramirez", "framirezhites@maipogrande.cl", 9974303094, 1, "Administrador", DateTime.Today, "663401993");
+        private Usuario usuario = null;
 
         List<EntradaMenu> menus = new();
         private readonly UsuariosDataService usuarioDataService = new();
         private int rolId;
 
+        //TODO Esto deberia ser reemplazado por el patron MVVM
+        public Usuarios(Login login)
+        {
+            InitializeComponent();
+            usuario = login.usuarioInput;
+            if (Utilidades.ComprobarConexionInternet() == false)
+            {
+                MessageBox.Show("Sin conexion a internet, cerrando");
+                return;
+            }
+            this.rolId = usuario.RolId;
+            AgregarMenus();
+            CargarUsuarios();
+            Utilidades.PoblarCombosRoles(Add_Rol);
+            Utilidades.PoblarCombosRoles(Mod_Rol);
+        }
 
         public void MenuSeleccionadoSet(object sender, EventArgs e, string menu)
         {
@@ -77,20 +93,7 @@ namespace app.Ventanas
         }
 
 
-        public Usuarios()
-        {
-            InitializeComponent();
-            if (Utilidades.ComprobarConexionInternet() == false)
-            {
-                MessageBox.Show("Sin conexion a internet, cerrando");
-                return;
-            }
-            this.rolId = usuario.RolId;
-            AgregarMenus();
-            CargarUsuarios();
-            Utilidades.PoblarCombosRoles(Add_Rol);
-            Utilidades.PoblarCombosRoles(Mod_Rol);
-        }
+        
         /// <summary>
         /// Se llama al metodo TraerUsuarios, que va a buscar al servidor sp_get_all_users, y pobla el DataGrid con esta lista
         /// </summary>
@@ -107,7 +110,9 @@ namespace app.Ventanas
         }
         private void BorrarUsuario_Click(object sender, RoutedEventArgs e)
         {
+            //var usuarioSeleccionado = (Usuario)sender;
 
+            MessageBox.Show("Seguro que desea eliminar un usuario?", "Seleccione una opcion", MessageBoxButton.YesNo);
         }
 
         private async void AgregarUsuario_Click(object sender, RoutedEventArgs e)
