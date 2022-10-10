@@ -160,7 +160,7 @@ namespace app.Data.Implementations
 
                 var request = new HttpRequestMessage
                 {
-                    Method = HttpMethod.Delete,
+                    Method = HttpMethod.Post,
                     RequestUri = new Uri($"{_baseAddress}sp_delete_usuario/"),
                     Content = content
                 };
