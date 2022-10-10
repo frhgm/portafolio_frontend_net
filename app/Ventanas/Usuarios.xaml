@@ -1,4 +1,6 @@
-﻿<Window
+﻿
+<!--  Tamanio de fuente para presentacion FontSize="20"  -->
+<Window
     x:Class="app.Ventanas.Usuarios"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -26,6 +28,7 @@
             x:Name="menuPrincipal"
             Height="40"
             VerticalAlignment="Top"
+            FontSize="13"
             IsMainMenu="True" />
         <Label
             Grid.Row="0"
@@ -34,6 +37,7 @@
             VerticalAlignment="Center"
             Content="Mantenedor de Usuarios"
             FontSize="18" />
+        <!--  Tamanio de fuente para presentacion FontSize="17"  -->
         <DataGrid
             x:Name="UsuariosDG"
             Grid.Row="1"
