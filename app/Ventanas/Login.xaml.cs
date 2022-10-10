@@ -13,6 +13,8 @@ namespace app.Ventanas
         public Login()
         {
             InitializeComponent();
+            TxtRut.Text = "18392764-7";
+            TxtPass.Password = "framirez";
         }
 
         private async void BtnLogin_OnClickAsync(object sender, RoutedEventArgs e)
@@ -36,6 +38,11 @@ namespace app.Ventanas
                 }
                 else
                 {
+                    if (usuario.RolId != 1)
+                    {
+                        MessageBox.Show("Debe ingresar por el sitio web, cerrando...");
+                        this.Close();
+                    }
                     //MessageBox.Show("Exito!");
                     //TODO Enviar usuario recuperado a Lista
                     Usuarios u = new Usuarios(this);

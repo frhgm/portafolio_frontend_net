@@ -22,7 +22,7 @@ namespace app.Ventanas
     {
         Rol rolSeleccionadoCrear = new Rol();
         Rol rolSeleccionadoModificar = new Rol();
-        private Usuario usuario = null;
+        private Usuario usuario = new("18392764-7", "Felipe", "Ramirez", "Hites", "framirezhites@maipogrande.cl", 9974303094, 1, "Admin", DateTime.Today, "663401993");
 
         List<EntradaMenu> menus = new();
         private readonly UsuariosDataService usuarioDataService = new();
@@ -33,6 +33,7 @@ namespace app.Ventanas
         {
             InitializeComponent();
             usuario = login.usuarioInput;
+
             if (Utilidades.ComprobarConexionInternet() == false)
             {
                 MessageBox.Show("Sin conexion a internet, cerrando");
@@ -93,7 +94,7 @@ namespace app.Ventanas
         }
 
 
-        
+
         /// <summary>
         /// Se llama al metodo TraerUsuarios, que va a buscar al servidor sp_get_all_users, y pobla el DataGrid con esta lista
         /// </summary>
@@ -108,11 +109,16 @@ namespace app.Ventanas
         {
 
         }
-        private void BorrarUsuario_Click(object sender, RoutedEventArgs e)
+        private async void BorrarUsuario_Click(object sender, RoutedEventArgs e)
         {
-            //var usuarioSeleccionado = (Usuario)sender;
+            Usuario data = (sender as FrameworkElement).DataContext as Usuario;
 
-            MessageBox.Show("Seguro que desea eliminar un usuario?", "Seleccione una opcion", MessageBoxButton.YesNo);
+            var eleccion = MessageBox.Show("Seguro que desea eliminar un usuario?", "Seleccione una opcion", MessageBoxButton.YesNo);
+
+            if (eleccion == MessageBoxResult.Yes)
+            {
+                await usuarioDataService.BorrarUsuario(data);
+            } 
         }
 
         private async void AgregarUsuario_Click(object sender, RoutedEventArgs e)
@@ -128,11 +134,15 @@ namespace app.Ventanas
                 rolSeleccionadoCrear.Id,
                 rolSeleccionadoCrear.Nombre_Rol,
                 DateTime.Today,
-                Add_Clave.Text);
+                Add_Clave.Password);
             RegistrarUsuario resultado = await usuarioDataService.CrearUsuario(usuarioPorRegistrar);
             if (resultado != null)
             {
-                UsuariosDG.Items.Add(resultado);
+                //TODO Idealmente, simplemente agregar nueva fila https://stackoverflow.com/questions/24095172/how-i-can-add-new-row-into-datagrid-in-wpf
+                UsuariosDG.ItemsSource = null;
+                var usuarios = await usuarioDataService.TraerUsuarios();
+                UsuariosDG.ItemsSource = usuarios.usuarios;
+                MessageBox.Show("Usuario registrado exitosamente!");
             }
         }
 
@@ -142,7 +152,7 @@ namespace app.Ventanas
                 Mod_Rut.Text,
                 Mod_Email.Text,
                 Convert.ToInt64(Mod_Telefono.Text),
-                Mod_Clave.Text,
+                Mod_Clave.Password,
                 "");
             await usuarioDataService.ActualizarUsuario(usuarioPorActualizar);
         }

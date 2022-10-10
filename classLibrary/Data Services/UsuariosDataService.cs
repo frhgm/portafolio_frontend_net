@@ -10,6 +10,7 @@ using System.Security.Policy;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -90,11 +91,11 @@ namespace app.Data.Implementations
         {
             try
             {
-                HttpResponseMessage response = await _httpClient.PostAsJsonAsync($"{_baseAddress}sp_get_all_users/", new { });
+                HttpResponseMessage response = await _httpClient.PostAsJsonAsync($"{_baseAddress}sp_get_all_users/", new { }); //puedo recibir
 
                 if (response.IsSuccessStatusCode)
                 {
-                    string content = await response.Content.ReadAsStringAsync();
+                    string content = await response.Content.ReadAsStringAsync(); //tambien
                     if (content != string.Empty)
                     {
                         var usuarios = JsonSerializer.Deserialize<ListaUsuarios>(content, _jsonSerializerOptions);
@@ -141,15 +142,43 @@ namespace app.Data.Implementations
                 Debug.WriteLine($"Hubo un error {ex.Message}");
             }
         }
+
         /// <summary>
         /// Borra un usuario por el RUT
         /// </summary>
         /// <param name="rut">RUT recibido desde formulario</param>
         /// <returns>Nada</returns>
         /// <exception cref="NotImplementedException"></exception>
-        public Task BorrarUsuario(string rut)
+        public async Task BorrarUsuario(Usuario usuario)
         {
-            throw new NotImplementedException();
+            BorrarUsuario aBorrar = new BorrarUsuario();
+            aBorrar.Rut = usuario.Rut;
+            try
+            {
+                string jsonRut = JsonSerializer.Serialize<BorrarUsuario>(aBorrar, _jsonSerializerOptions);
+                StringContent content = new StringContent(jsonRut, Encoding.UTF8, "application/json");
+
+                var request = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Delete,
+                    RequestUri = new Uri($"{_baseAddress}sp_delete_usuario/"),
+                    Content = content
+                };
+                var response = await _httpClient.SendAsync(request);
+                if (response.IsSuccessStatusCode)
+                {
+                    Debug.WriteLine("Usuario creado!");
+                }
+                else
+                {
+                    Debug.WriteLine($"No fue un status 2XX: {response.StatusCode}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Hubo un error {ex.Message}");
+
+            }
         }
 
         /// <summary>
@@ -165,13 +194,15 @@ namespace app.Data.Implementations
                 StringContent content = new StringContent(jsonUsuario, Encoding.UTF8, "application/json");
 
                 HttpResponseMessage response = await _httpClient.PostAsync($"{_baseAddress}sp_insert_usuario/", content);
-                if(response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
                 {
                     Debug.WriteLine("Usuario creado!");
                     return usuario;
-                } else
+                }
+                else
                 {
                     Debug.WriteLine($"No fue un status 2XX: {response.StatusCode}");
+                    return null;
                 }
             }
             catch (Exception ex)

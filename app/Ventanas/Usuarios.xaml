@@ -174,11 +174,10 @@
                             Grid.Row="7"
                             Grid.Column="0"
                             Content="Clave" />
-                        <TextBox
+                        <PasswordBox
                             Name="Add_Clave"
                             Grid.Row="7"
-                            Grid.Column="4"
-                            Text="{Binding Clave}" />
+                            Grid.Column="4" />
 
                         <Button
                             Grid.Row="9"
@@ -293,11 +292,10 @@
                             Grid.Row="7"
                             Grid.Column="0"
                             Content="Clave" />
-                        <TextBox
+                        <PasswordBox
                             Name="Mod_Clave"
                             Grid.Row="7"
-                            Grid.Column="4"
-                            Text="{Binding Clave}" />
+                            Grid.Column="4" />
 
                         <Button
                             Grid.Row="9"

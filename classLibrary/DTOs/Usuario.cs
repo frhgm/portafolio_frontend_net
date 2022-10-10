@@ -66,6 +66,11 @@ namespace classLibrary.DTO
             Clave = clave;
         }
     }
+    public class BorrarUsuario
+    {
+        [JsonPropertyName("in_rut")]
+        public string Rut { get; set; }
+    }
     public class RegistrarUsuario
     {
         [JsonPropertyName("in_rut")]
