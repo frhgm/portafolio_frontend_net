@@ -119,7 +119,7 @@ namespace app.Data.Implementations
         /// <param name="usuario">Un usuario completo, para identificar y capturar campos a modificar</param>
         /// <returns>El nuevo usuario</returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task ActualizarUsuario(ActualizarUsuario usuario)
+        public async Task<ActualizarUsuario> ActualizarUsuario(ActualizarUsuario usuario)
         {
             try
             {
@@ -130,16 +130,18 @@ namespace app.Data.Implementations
                 if (response.IsSuccessStatusCode)
                 {
                     Debug.WriteLine("Usuario creado!");
+                    return usuario;
                 }
                 else
                 {
                     Debug.WriteLine($"No fue un status 2XX: {response.StatusCode}");
+                    return null;
                 }
             }
             catch (Exception ex)
             {
-
                 Debug.WriteLine($"Hubo un error {ex.Message}");
+                return null;
             }
         }
 

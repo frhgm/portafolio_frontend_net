@@ -154,7 +154,14 @@ namespace app.Ventanas
                 Convert.ToInt64(Mod_Telefono.Text),
                 Mod_Clave.Password,
                 "");
-            await usuarioDataService.ActualizarUsuario(usuarioPorActualizar);
+            var usuario = await usuarioDataService.ActualizarUsuario(usuarioPorActualizar);
+            if (usuario != null)
+            {
+                UsuariosDG.ItemsSource = null;
+                var usuarios = await usuarioDataService.TraerUsuarios();
+                UsuariosDG.ItemsSource = usuarios.usuarios;
+                MessageBox.Show("Usuario actualizado exitosamente!");
+            }
         }
 
         private void UsuariosDG_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -170,7 +177,7 @@ namespace app.Ventanas
                 Mod_Email.Text = fila.Email;
                 Mod_Telefono.Text = fila.Telefono.ToString();
 
-                Mod_Rol.SelectedIndex = fila.RolId;
+                Mod_Rol.SelectedIndex = fila.RolId -1; //TODO Esto esta asi porque la lista empieza en 1, y el arreglo en 0
                 rolSeleccionadoCrear.Id = fila.RolId;
                 rolSeleccionadoCrear.Nombre_Rol = fila.NombreRol;
                 //TODO Se debe arreglar para que muestre Rol correcto
