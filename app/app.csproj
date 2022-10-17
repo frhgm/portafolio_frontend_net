@@ -8,6 +8,14 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Compile Remove="Ventanas\Solicitudes.xaml.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Page Remove="Ventanas\Solicitudes.xaml" />
+    </ItemGroup>
+
+    <ItemGroup>
       <None Include="..\.editorconfig" Link=".editorconfig" />
     </ItemGroup>
 

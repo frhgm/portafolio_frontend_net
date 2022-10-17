@@ -45,7 +45,8 @@ namespace app.Ventanas
                     }
                     //MessageBox.Show("Exito!");
                     //TODO Enviar usuario recuperado a Lista
-                    Usuarios u = new Usuarios(this);
+                    Usuarios u = new Usuarios();
+                    u.SetUsuario(usuario);
                     //{
                     //    Content = new MenuDinamico(usuario.RolId)
                     //};
