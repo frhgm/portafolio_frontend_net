@@ -163,7 +163,7 @@
                         <Label
                             Grid.Row="6"
                             Grid.Column="0"
-                            Content="Rol" />
+                            Content="Rol" HorizontalAlignment="Right" />
                         <ComboBox
                             Name="Add_Rol"
                             Grid.Row="6"
