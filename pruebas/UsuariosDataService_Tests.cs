@@ -30,6 +30,17 @@ namespace pruebas
             var usuariosTraidos = await dataService.TraerUsuarios();
             // Assert 
             Assert.AreEqual(listaUsuarios.Count > 0, usuariosTraidos.usuarios.Count > 0);
-        } 
+        }
+
+        [Test]
+        public async Task CrearUsuario_Test(RegistrarUsuario usuarioTest)
+        {
+            // Assign
+
+            // Act
+            var usuariosTraidos = await dataService.TraerUsuarios();
+            // Assert 
+            //Assert.AreEqual(listaUsuarios.Count > 0, usuariosTraidos.usuarios.Count > 0);
+        }
     }
 }
