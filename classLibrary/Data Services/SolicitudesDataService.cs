@@ -39,18 +39,18 @@ namespace app.Data.Implementations
         /// </summary>
         /// <returns>Devuelve una lista de usuarios registrados en el sistema</returns>
 
-        public async Task<List<SolicitudPedido>> TraerSolicitudes()
+        public async Task<Solicitudes_Pedidos> TraerSolicitudes()
         {
             try
             {
-                HttpResponseMessage response = await _httpClient.PostAsJsonAsync($"{_baseAddress}sp_get_all_solicitudes/", new { }); //puedo recibir
+                HttpResponseMessage response = await _httpClient.PostAsJsonAsync($"{_baseAddress}sp_get_all_solicitud_pedido/", new { }); //puedo recibir
 
                 if (response.IsSuccessStatusCode)
                 {
                     string content = await response.Content.ReadAsStringAsync(); //tambien
                     if (content != string.Empty)
                     {
-                        var solicitudes = JsonSerializer.Deserialize<List<SolicitudPedido>>(content, _jsonSerializerOptions);
+                        var solicitudes = JsonSerializer.Deserialize<Solicitudes_Pedidos>(content, _jsonSerializerOptions);
                         return solicitudes;
                     }
                 }

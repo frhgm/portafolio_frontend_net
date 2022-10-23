@@ -1,5 +1,4 @@
-﻿
-<!--  Tamanio de fuente para presentacion FontSize="20"  -->
+﻿<!--  Tamanio de fuente para presentacion FontSize="20"  -->
 <Window
     x:Class="app.Ventanas.Solicitudes"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -47,16 +46,13 @@
             ColumnWidth="*"
             FontSize="11"
             IsReadOnly="True"
-            IsSynchronizedWithCurrentItem="True"
-            SelectionChanged="SolicitudesDG_SelectionChanged">
+            IsSynchronizedWithCurrentItem="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Rut}" Header="RUT" />
-                <DataGridTextColumn Binding="{Binding Nombre}" Header="Nombre" />
-                <DataGridTextColumn Binding="{Binding ApellidoPaterno}" Header="Apellido paterno" />
-                <DataGridTextColumn Binding="{Binding ApellidoMaterno}" Header="Apellido materno" />
-                <DataGridTextColumn Binding="{Binding Email}" Header="Email" />
-                <DataGridTextColumn Binding="{Binding Telefono}" Header="Telefono" />
-                <DataGridTextColumn Binding="{Binding NombreRol}" Header="Rol" />
+                <DataGridTextColumn Binding="{Binding Id}" Header="Id" />
+                <DataGridTextColumn Binding="{Binding Usuario_id}" Header="RUT" />
+                <DataGridTextColumn Binding="{Binding Fecha}" Header="Fecha de solicitud" />
+                <DataGridTextColumn Binding="{Binding Direccion}" Header="Direccion" />
+                <DataGridTextColumn Binding="{Binding Estado_solicitud}" Header="Estado" />
                 <!-- <DataGridTemplateColumn Width="80" Header="Editar"> -->
                 <!--     <DataGridTemplateColumn.CellTemplate> -->
                 <!--         <DataTemplate> -->
@@ -64,6 +60,14 @@
                 <!--         </DataTemplate> -->
                 <!--     </DataGridTemplateColumn.CellTemplate> -->
                 <!-- </DataGridTemplateColumn> -->
+                <DataGridTemplateColumn Width="80" Header="Borrar">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="BorrarUsuario_Click" Content="{materialDesign:PackIcon edit}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
                 <DataGridTemplateColumn Width="80" Header="Borrar">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -114,7 +118,7 @@
                             Name="Add_Rut"
                             Grid.Row="0"
                             Grid.Column="1"
-                            Text="{Binding Rut}" />
+                            Text="{Binding Id}" />
                         <Label
                             Grid.Row="1"
                             Grid.Column="0"
@@ -123,7 +127,7 @@
                             Name="Add_Nombre"
                             Grid.Row="1"
                             Grid.Column="2"
-                            Text="{Binding Nombre}" />
+                            Text="{Binding Usuario_id}" />
                         <Label
                             Grid.Row="2"
                             Grid.Column="0"
@@ -132,7 +136,7 @@
                             Name="Add_ApellidoPaterno"
                             Grid.Row="2"
                             Grid.Column="3"
-                            Text="{Binding ApellidoPaterno}" />
+                            Text="{Binding Fecha}" />
                         <Label
                             Grid.Row="3"
                             Grid.Column="0"
@@ -141,7 +145,7 @@
                             Name="Add_ApellidoMaterno"
                             Grid.Row="3"
                             Grid.Column="4"
-                            Text="{Binding ApellidoMaterno}" />
+                            Text="{Binding Direccion}" />
                         <Label
                             Grid.Row="4"
                             Grid.Column="0"
@@ -150,34 +154,7 @@
                             x:Name="Add_Email"
                             Grid.Row="4"
                             Grid.Column="5"
-                            Text="{Binding Email}" />
-                        <Label
-                            Grid.Row="5"
-                            Grid.Column="0"
-                            Content="Telefono" />
-                        <TextBox
-                            Name="Add_Telefono"
-                            Grid.Row="5"
-                            Grid.Column="4"
-                            Text="{Binding Telefono}" />
-                        <Label
-                            Grid.Row="6"
-                            Grid.Column="0"
-                            Content="Rol" />
-                        <ComboBox
-                            Name="Add_Rol"
-                            Grid.Row="6"
-                            Grid.Column="4"
-                            SelectionChanged="Add_Rol_SelectionChanged"
-                            Text="{Binding NombreRol}" />
-                        <Label
-                            Grid.Row="7"
-                            Grid.Column="0"
-                            Content="Clave" />
-                        <PasswordBox
-                            Name="Add_Clave"
-                            Grid.Row="7"
-                            Grid.Column="4" />
+                            Text="{Binding Estado_solicitud}" />
 
                         <Button
                             Grid.Row="9"
@@ -186,7 +163,6 @@
                             Margin="5"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Bottom"
-                            Click="AgregarSolicitud_Click"
                             Content="Crear" />
                     </Grid>
                 </StackPanel>
@@ -228,7 +204,7 @@
                             Grid.Row="0"
                             Grid.Column="1"
                             IsEnabled="False"
-                            Text="{Binding Rut}" />
+                            Text="{Binding Id}" />
                         <Label
                             Grid.Row="1"
                             Grid.Column="0"
@@ -238,7 +214,7 @@
                             Grid.Row="1"
                             Grid.Column="2"
                             IsEnabled="False"
-                            Text="{Binding Nombre}" />
+                            Text="{Binding Usuario_id}" />
                         <Label
                             Grid.Row="2"
                             Grid.Column="0"
@@ -248,7 +224,7 @@
                             Grid.Row="2"
                             Grid.Column="3"
                             IsEnabled="False"
-                            Text="{Binding ApellidoPaterno}" />
+                            Text="{Binding Fecha}" />
                         <Label
                             Grid.Row="3"
                             Grid.Column="0"
@@ -258,7 +234,7 @@
                             Grid.Row="3"
                             Grid.Column="4"
                             IsEnabled="False"
-                            Text="{Binding ApellidoMaterno}" />
+                            Text="{Binding Direccion}" />
                         <Label
                             Grid.Row="4"
                             Grid.Column="0"
@@ -267,35 +243,7 @@
                             Name="Mod_Email"
                             Grid.Row="4"
                             Grid.Column="5"
-                            Text="{Binding Email}" />
-                        <Label
-                            Grid.Row="5"
-                            Grid.Column="0"
-                            Content="Telefono" />
-                        <TextBox
-                            Name="Mod_Telefono"
-                            Grid.Row="5"
-                            Grid.Column="4"
-                            Text="{Binding Telefono}" />
-                        <Label
-                            Grid.Row="6"
-                            Grid.Column="0"
-                            Content="Rol" />
-                        <ComboBox
-                            Name="Mod_Rol"
-                            Grid.Row="6"
-                            Grid.Column="4"
-                            IsEnabled="False"
-                            SelectionChanged="Mod_Rol_SelectionChanged"
-                            Text="{Binding NombreRol}" />
-                        <Label
-                            Grid.Row="7"
-                            Grid.Column="0"
-                            Content="Clave" />
-                        <PasswordBox
-                            Name="Mod_Clave"
-                            Grid.Row="7"
-                            Grid.Column="4" />
+                            Text="{Binding Estado_solicitud}" />
 
                         <Button
                             Grid.Row="9"
@@ -304,7 +252,6 @@
                             Margin="5"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Bottom"
-                            Click="ActualizarSolicitud_Click"
                             Content="Actualizar" />
                     </Grid>
                 </StackPanel>

@@ -30,25 +30,24 @@ namespace app.Ventanas
         {
             InitializeComponent();
 
-            if (Utilidades.ComprobarConexionInternet() == false)
+            if (UtilidadesLogica.ComprobarConexionInternet() == false)
             {
                 MessageBox.Show("Sin conexion a internet, cerrando");
                 return;
             }
             AgregarMenus();
-            CargarUsuarios();
-            Utilidades.PoblarCombosRoles(Add_Rol);
-            Utilidades.PoblarCombosRoles(Mod_Rol);
+            CargarSolicitudes();
         }
 
         public void MenuSeleccionadoSet(object sender, EventArgs e, string menu)
         {
-            Utilidades.ObtenerInstanciaVentana(String.Concat("app.Usuarios.", menu));
+            UtilidadesVentanas.ObtenerInstanciaVentana(String.Concat("app.Usuarios.", menu));
+            this.Close();
         }
 
         public void AgregarMenus()
         {
-            menus = Utilidades.PoblarListaEntradaMenus();
+            menus = UtilidadesLogica.PoblarListaEntradaMenus();
             if (menus.Count != 0)
             {
                 MenuItem mantenedores = new()
@@ -93,17 +92,12 @@ namespace app.Ventanas
         /// <summary>
         /// Se llama al metodo TraerUsuarios, que va a buscar al servidor sp_get_all_users, y pobla el DataGrid con esta lista
         /// </summary>
-        private async void CargarUsuarios()
+        private async void CargarSolicitudes()
         {
-            //TODO Se debe anclar al final de la pagina
-            var usuarios = await dataService.TraerSolicitudes();
-            SolicitudesDG.ItemsSource = null; 
+            var solicitudes = await dataService.TraerSolicitudes();
+            SolicitudesDG.ItemsSource = solicitudes.solicitudes_pedidos; 
         }
 
-        private void SeleccionarUsuarioParaEditar_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
         private async void BorrarUsuario_Click(object sender, RoutedEventArgs e)
         {
             SolicitudPedido data = (sender as FrameworkElement).DataContext as SolicitudPedido;
