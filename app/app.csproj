@@ -21,4 +21,8 @@
       <ProjectReference Include="..\components\components.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Ventanas\Modales\" />
+    </ItemGroup>
+
 </Project>

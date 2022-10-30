@@ -13,7 +13,10 @@ using System.Windows.Controls;
 
 namespace classLibrary
 {
-    public class Utilidades
+    /// <summary>
+    /// Esta clase provee logica que puede ser reutilizada en toda la solucion
+    /// </summary>
+    public class UtilidadesLogica
     {
         public static bool ComprobarConexionInternet()
         {
@@ -44,7 +47,7 @@ namespace classLibrary
         }
         public static List<EntradaMenu> PoblarListaEntradaMenus()
         {
-            string[] ventanas = { "Transporte", "Pedido", "Detalle Pedidos", "Solicitud Pedido", "Detalle Solicitud Pedido", "Producto", "Producto Cliente", "Producto Productor", "Contrato", "Usuarios", "Rol", "Subasta", "Oferta Subasta", "Solicitud Pedido", "Reportes", "Pagar Pedidos", "Activar Seguros" };
+            string[] ventanas = { "Transporte", "Pedido", "Detalle Pedidos", "Solicitudes", "Detalle Solicitud Pedido", "Producto", "Producto Cliente", "Producto Productor", "Contrato", "Usuarios", "Rol", "Subasta", "Oferta Subasta", "Solicitud Pedido", "Reportes", "Pagar Pedidos", "Activar Seguros" };
             List<EntradaMenu> menus = new();
             for (int i = 1; i < ventanas.Length; i++)
             {
@@ -52,26 +55,7 @@ namespace classLibrary
             }
             return menus;
         }
-        public static void ObtenerInstanciaVentana(string nombre)
-        {
-            Assembly assemby = Assembly.GetExecutingAssembly();
-            System.Type[] types = assemby.GetTypes();
-            var varWindows = types.ToList()
-                .Where(current => current.BaseType == typeof(Window));
-            varWindows.FirstOrDefault(x => x.Name == nombre);
-            Type? ventana = Type.GetType(nombre, true);
-            try
-            {
-                Window? v = Activator.CreateInstance(ventana) as Window;
-                v.Show();
-
-            }
-            catch (Exception e)
-            {
-
-            }
-        }
-
+        
         
         //public static string Encriptar(string dato)
         //{

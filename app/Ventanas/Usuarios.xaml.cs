@@ -22,19 +22,21 @@ namespace app.Ventanas
     {
         Rol rolSeleccionadoCrear = new Rol();
         Rol rolSeleccionadoModificar = new Rol();
-        private Usuario usuario = new("18392764-7", "Felipe", "Ramirez", "Hites", "framirezhites@maipogrande.cl", 9974303094, 1, "Admin", DateTime.Today, "663401993");
-
+        public Usuario usuario { get; set; } = new("18392764-7", "Felipe", "Ramirez", "Hites", "framirezhites@maipogrande.cl", 9974303094, 1, "Admin", DateTime.Today, "663401993");
         List<EntradaMenu> menus = new();
         private readonly UsuariosDataService usuarioDataService = new();
         private int rolId;
 
+        public void SetUsuario(Usuario usuario)
+        {
+            this.usuario = usuario;
+        }
         //TODO Esto deberia ser reemplazado por el patron MVVM
-        public Usuarios(Login login)
+        public Usuarios()
         {
             InitializeComponent();
-            usuario = login.usuarioInput;
 
-            if (Utilidades.ComprobarConexionInternet() == false)
+            if (UtilidadesLogica.ComprobarConexionInternet() == false)
             {
                 MessageBox.Show("Sin conexion a internet, cerrando");
                 return;
@@ -42,18 +44,19 @@ namespace app.Ventanas
             this.rolId = usuario.RolId;
             AgregarMenus();
             CargarUsuarios();
-            Utilidades.PoblarCombosRoles(Add_Rol);
-            Utilidades.PoblarCombosRoles(Mod_Rol);
+            UtilidadesLogica.PoblarCombosRoles(Add_Rol);
+            UtilidadesLogica.PoblarCombosRoles(Mod_Rol);
         }
 
         public void MenuSeleccionadoSet(object sender, EventArgs e, string menu)
         {
-            Utilidades.ObtenerInstanciaVentana(String.Concat("app.Usuarios.", menu));
+            UtilidadesVentanas.ObtenerInstanciaVentana(String.Concat("app.Ventanas.", menu));
+            this.Close();
         }
 
         public void AgregarMenus()
         {
-            menus = Utilidades.PoblarListaEntradaMenus();
+            menus = UtilidadesLogica.PoblarListaEntradaMenus();
             if (menus.Count != 0)
             {
                 MenuItem mantenedores = new()
@@ -118,7 +121,7 @@ namespace app.Ventanas
             if (eleccion == MessageBoxResult.Yes)
             {
                 await usuarioDataService.BorrarUsuario(data);
-            } 
+            }
         }
 
         private async void AgregarUsuario_Click(object sender, RoutedEventArgs e)
@@ -177,7 +180,7 @@ namespace app.Ventanas
                 Mod_Email.Text = fila.Email;
                 Mod_Telefono.Text = fila.Telefono.ToString();
 
-                Mod_Rol.SelectedIndex = fila.RolId -1; //TODO Esto esta asi porque la lista empieza en 1, y el arreglo en 0
+                Mod_Rol.SelectedIndex = fila.RolId - 1; //TODO Esto esta asi porque la lista empieza en 1, y el arreglo en 0
                 rolSeleccionadoCrear.Id = fila.RolId;
                 rolSeleccionadoCrear.Nombre_Rol = fila.NombreRol;
                 //TODO Se debe arreglar para que muestre Rol correcto
