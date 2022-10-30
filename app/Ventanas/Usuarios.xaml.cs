@@ -36,7 +36,7 @@ namespace app.Ventanas
         {
             InitializeComponent();
 
-            if (Utilidades.ComprobarConexionInternet() == false)
+            if (UtilidadesLogica.ComprobarConexionInternet() == false)
             {
                 MessageBox.Show("Sin conexion a internet, cerrando");
                 return;
@@ -44,18 +44,19 @@ namespace app.Ventanas
             this.rolId = usuario.RolId;
             AgregarMenus();
             CargarUsuarios();
-            Utilidades.PoblarCombosRoles(Add_Rol);
-            Utilidades.PoblarCombosRoles(Mod_Rol);
+            UtilidadesLogica.PoblarCombosRoles(Add_Rol);
+            UtilidadesLogica.PoblarCombosRoles(Mod_Rol);
         }
 
         public void MenuSeleccionadoSet(object sender, EventArgs e, string menu)
         {
-            Utilidades.ObtenerInstanciaVentana(String.Concat("app.Usuarios.", menu));
+            UtilidadesVentanas.ObtenerInstanciaVentana(String.Concat("app.Ventanas.", menu));
+            this.Close();
         }
 
         public void AgregarMenus()
         {
-            menus = Utilidades.PoblarListaEntradaMenus();
+            menus = UtilidadesLogica.PoblarListaEntradaMenus();
             if (menus.Count != 0)
             {
                 MenuItem mantenedores = new()

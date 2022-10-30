@@ -8,14 +8,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Compile Remove="Ventanas\Solicitudes.xaml.cs" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Page Remove="Ventanas\Solicitudes.xaml" />
-    </ItemGroup>
-
-    <ItemGroup>
       <None Include="..\.editorconfig" Link=".editorconfig" />
     </ItemGroup>
 
@@ -27,6 +19,10 @@
     <ItemGroup>
       <ProjectReference Include="..\classLibrary\classLibrary.csproj" />
       <ProjectReference Include="..\components\components.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Ventanas\Modales\" />
     </ItemGroup>
 
 </Project>
