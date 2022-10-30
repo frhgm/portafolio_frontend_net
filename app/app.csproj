@@ -25,4 +25,15 @@
       <Folder Include="Ventanas\Modales\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Page Update="Ventanas\Contratos.xaml">
+        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="Ventanas\Productos.xaml">
+        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
+    </ItemGroup>
+
 </Project>
