@@ -72,27 +72,33 @@ namespace classLibrary.DataServices
         /// <param name="usuario">Un usuario completo, para identificar y capturar campos a modificar</param>
         /// <returns>El nuevo usuario</returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task ActualizarUsuario(ActualizarUsuario usuario)
+        public async Task<bool> ActualizarProducto(ActualizarProducto producto)
         {
             try
             {
-                string jsonUsuario = JsonSerializer.Serialize(usuario, _jsonSerializerOptions);
+                string jsonUsuario = JsonSerializer.Serialize(producto, _jsonSerializerOptions);
                 StringContent content = new StringContent(jsonUsuario, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await _httpClient.PostAsync($"{_baseAddress}sp_update_usuario/", content);
-                if (response.IsSuccessStatusCode)
+                HttpResponseMessage response = await _httpClient.PostAsync($"{_baseAddress}sp_update_producto/", content);
+
+                var result = response.Content.ReadAsStringAsync().Result;
+                var responseAPI = JsonSerializer.Deserialize<ResponseGeneral>(result, _jsonSerializerOptions);
+                if (responseAPI.MensajeSalida.Contains("MODIFICADO CORRECTAMENTE"))
                 {
-                    Debug.WriteLine("Usuario creado!");
+                    Debug.WriteLine("Producto eliminado!");
+                    return true;
                 }
                 else
                 {
                     Debug.WriteLine($"No fue un status 2XX: {response.StatusCode}");
+                    return false;
                 }
+
             }
             catch (Exception ex)
             {
-
                 Debug.WriteLine($"Hubo un error {ex.Message}");
+                return false;
             }
         }
 
@@ -118,8 +124,8 @@ namespace classLibrary.DataServices
                 var response = await _httpClient.SendAsync(request);
 
                 var result = response.Content.ReadAsStringAsync().Result;
-                var responseAPI = JsonSerializer.Deserialize<BorrarProducto>(result, _jsonSerializerOptions);
-                if (responseAPI.out_mensaje_salida.Contains("ELIMINADO"))
+                var responseAPI = JsonSerializer.Deserialize<ResponseGeneral>(result, _jsonSerializerOptions);
+                if (responseAPI.MensajeSalida.Contains("ELIMINADO"))
                 {
                     Debug.WriteLine("Producto eliminado!");
                     return true;
@@ -142,7 +148,7 @@ namespace classLibrary.DataServices
         /// </summary>
         /// <param name="producto">Un producto completo, donde se procesara e intentara insertar todos sus datos</param>
         /// <returns>El mismo usuario enviado en caso de exito, o null si no</returns>
-        public async Task<RegistrarProducto> CrearProducto(RegistrarProducto producto)
+        public async Task<bool> CrearProducto(RegistrarProducto producto)
         {
             try
             {
@@ -153,12 +159,12 @@ namespace classLibrary.DataServices
                 if (response.IsSuccessStatusCode)
                 {
                     Debug.WriteLine("Producto creado!");
-                    return producto;
+                    return true;
                 }
                 else
                 {
                     Debug.WriteLine($"No fue un status 2XX: {response.StatusCode}");
-                    return null;
+                    return false;
                 }
             }
             catch (Exception ex)
@@ -166,7 +172,7 @@ namespace classLibrary.DataServices
 
                 Debug.WriteLine($"Hubo un error {ex.Message}");
             }
-            return null;
+            return false;
         }
     }
 }
