@@ -23,7 +23,6 @@ namespace classLibrary.DataServices
         private readonly HttpClient _httpClient;
         private readonly string _imgBBKey = "c5e06383708ec42092d15248d26eaf46";
         private readonly string _baseImgBB = "https://api.imgbb.com/1/upload";
-;
         private readonly JsonSerializerOptions _jsonSerializerOptions;
 
         /// <summary>
@@ -60,7 +59,6 @@ namespace classLibrary.DataServices
             var result = response.Content.ReadAsStringAsync().Result;
 
 
-            //TODO Ver como mapear respuesta
             var responseAPI = JsonSerializer.Deserialize<ResponseImgBB>(result, _jsonSerializerOptions);
             if (response.IsSuccessStatusCode)
             {
