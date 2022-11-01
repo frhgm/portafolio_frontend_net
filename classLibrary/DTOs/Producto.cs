@@ -51,4 +51,26 @@ namespace classLibrary.DTOs
         }
     }
 
+    public class ActualizarProducto
+    {
+        [JsonPropertyName("in_id")]
+        public int Id { get; set; }
+        [JsonPropertyName("in_nombre")]
+        public string NombreProducto { get; set; }
+        [JsonPropertyName("in_descripcion")]
+        public string Descripcion { get; set; }
+        [JsonPropertyName("in_imagen")]
+        public string Imagen { get; set; }
+
+
+        public ActualizarProducto(int id, string nombreProducto, string descripcion, string imagen)
+        {
+            Id = id;
+            NombreProducto = nombreProducto;
+            Descripcion = descripcion;
+            Imagen = imagen;
+        }
+    }
+    
+
 }

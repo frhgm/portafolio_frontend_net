@@ -3,6 +3,7 @@ using classLibrary.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -71,65 +72,74 @@ namespace classLibrary.DataServices
         /// <param name="usuario">Un usuario completo, para identificar y capturar campos a modificar</param>
         /// <returns>El nuevo usuario</returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task ActualizarUsuario(ActualizarUsuario usuario)
+        public async Task<bool> ActualizarProducto(ActualizarProducto producto)
         {
             try
             {
-                string jsonUsuario = JsonSerializer.Serialize(usuario, _jsonSerializerOptions);
+                string jsonUsuario = JsonSerializer.Serialize(producto, _jsonSerializerOptions);
                 StringContent content = new StringContent(jsonUsuario, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await _httpClient.PostAsync($"{_baseAddress}sp_update_usuario/", content);
-                if (response.IsSuccessStatusCode)
+                HttpResponseMessage response = await _httpClient.PostAsync($"{_baseAddress}sp_update_producto/", content);
+
+                var result = response.Content.ReadAsStringAsync().Result;
+                var responseAPI = JsonSerializer.Deserialize<ResponseGeneral>(result, _jsonSerializerOptions);
+                if (responseAPI.MensajeSalida.Contains("MODIFICADO CORRECTAMENTE"))
                 {
-                    Debug.WriteLine("Usuario creado!");
+                    Debug.WriteLine("Producto eliminado!");
+                    return true;
                 }
                 else
                 {
                     Debug.WriteLine($"No fue un status 2XX: {response.StatusCode}");
+                    return false;
                 }
+
             }
             catch (Exception ex)
             {
-
                 Debug.WriteLine($"Hubo un error {ex.Message}");
+                return false;
             }
         }
 
         /// <summary>
         /// Borra un usuario por el RUT
         /// </summary>
-        /// <param name="rut">RUT recibido desde formulario</param>
+        /// <param name="in_id">Id de producto seleccionado a borrar/param>
         /// <returns>Nada</returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task BorrarUsuario(Usuario usuario)
+        public async Task<bool> BorrarProducto(int in_id)
         {
-            BorrarUsuario aBorrar = new BorrarUsuario();
-            aBorrar.Rut = usuario.Rut;
             try
             {
-                string jsonRut = JsonSerializer.Serialize<BorrarUsuario>(aBorrar, _jsonSerializerOptions);
-                StringContent content = new StringContent(jsonRut, Encoding.UTF8, "application/json");
+                string json = JsonSerializer.Serialize<object>(new { in_id }, _jsonSerializerOptions);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 var request = new HttpRequestMessage
                 {
                     Method = HttpMethod.Post,
-                    RequestUri = new Uri($"{_baseAddress}sp_delete_usuario/"),
+                    RequestUri = new Uri($"{_baseAddress}sp_delete_producto/"),
                     Content = content
                 };
                 var response = await _httpClient.SendAsync(request);
-                if (response.IsSuccessStatusCode)
+
+                var result = response.Content.ReadAsStringAsync().Result;
+                var responseAPI = JsonSerializer.Deserialize<ResponseGeneral>(result, _jsonSerializerOptions);
+                if (responseAPI.MensajeSalida.Contains("ELIMINADO"))
                 {
-                    Debug.WriteLine("Usuario creado!");
+                    Debug.WriteLine("Producto eliminado!");
+                    return true;
                 }
                 else
                 {
                     Debug.WriteLine($"No fue un status 2XX: {response.StatusCode}");
+                    return false;
                 }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"Hubo un error {ex.Message}");
-
+                return false;
             }
         }
 
@@ -138,7 +148,7 @@ namespace classLibrary.DataServices
         /// </summary>
         /// <param name="producto">Un producto completo, donde se procesara e intentara insertar todos sus datos</param>
         /// <returns>El mismo usuario enviado en caso de exito, o null si no</returns>
-        public async Task<RegistrarProducto> CrearProducto(RegistrarProducto producto)
+        public async Task<bool> CrearProducto(RegistrarProducto producto)
         {
             try
             {
@@ -148,13 +158,13 @@ namespace classLibrary.DataServices
                 HttpResponseMessage response = await _httpClient.PostAsync($"{_baseAddress}sp_insert_producto/", content);
                 if (response.IsSuccessStatusCode)
                 {
-                    Debug.WriteLine("Usuario creado!");
-                    return producto;
+                    Debug.WriteLine("Producto creado!");
+                    return true;
                 }
                 else
                 {
                     Debug.WriteLine($"No fue un status 2XX: {response.StatusCode}");
-                    return null;
+                    return false;
                 }
             }
             catch (Exception ex)
@@ -162,7 +172,7 @@ namespace classLibrary.DataServices
 
                 Debug.WriteLine($"Hubo un error {ex.Message}");
             }
-            return null;
+            return false;
         }
     }
 }

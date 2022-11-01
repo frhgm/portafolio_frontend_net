@@ -15,6 +15,7 @@ using classLibrary.DTOs;
 using System.Diagnostics;
 using System.IO;
 using classLibrary.DataServices;
+using app;
 
 namespace app.Ventanas
 {
@@ -23,13 +24,15 @@ namespace app.Ventanas
     /// </summary>
     public partial class Productos
     {
+        UtilidadesVentanas utilidadesVentanas = new UtilidadesVentanas();
         string urlImagenGuardada = "";
+        string urlFilaImagenSeleccionada = "";
+        int idSeleccionado = 0;
         List<EntradaMenu> menus = new();
         private readonly ProductosDataService dataService = new();
         private int rolId;
 
 
-        //TODO Esto deberia ser reemplazado por el patron MVVM
         public Productos()
         {
             InitializeComponent();
@@ -39,92 +42,35 @@ namespace app.Ventanas
                 MessageBox.Show("Sin conexion a internet, cerrando");
                 return;
             }
-            AgregarMenus();
+            // TODO Recuperar nombre de ventana actual, asi si cambia el nombre no se caera al invocarla
+            var menus = utilidadesVentanas.AgregarMenus("Productos");
+            menuPrincipal.Items.Add(menus.Item1);
+            menuPrincipal.Items.Add(menus.Item2);
+
             CargarProductos();
         }
 
-        public void MenuSeleccionadoSet(object sender, EventArgs e, string menu)
-        {
-            UtilidadesVentanas.ObtenerInstanciaVentana(String.Concat("app.Usuarios.", menu));
-            this.Close();
-        }
-
-        public void AgregarMenus()
-        {
-            menus = UtilidadesLogica.PoblarListaEntradaMenus();
-            if (menus.Count != 0)
-            {
-                MenuItem mantenedores = new()
-                {
-                    Header = "Mantenedores",
-                    VerticalAlignment = VerticalAlignment.Top
-                };
-                MenuItem acciones = new()
-                {
-                    Header = "Acciones",
-                    VerticalAlignment = VerticalAlignment.Top
-                };
-                foreach (EntradaMenu menu in menus)
-                {
-                    MenuItem iterador = new()
-                    {
-                        Header = menu.Nombre
-                    };
-                    iterador.Click += (sender, e) => MenuSeleccionadoSet(sender, e, menu.Nombre);
-
-                    if (menu.Id > 13)
-                    {
-                        acciones.Items.Add(iterador);
-                    }
-                    else
-                    {
-                        mantenedores.Items.Add(iterador);
-                    }
-                }
-
-                menuPrincipal.Items.Add(acciones);
-                menuPrincipal.Items.Add(mantenedores);
-            }
-            else
-            {
-                MessageBox.Show("Usted no tiene un rol asignado para acceder al sistema");
-            }
-        }
-
-
-
         /// <summary>
-        /// Se llama al metodo TraerUsuarios, que va a buscar al servidor sp_get_all_users, y pobla el DataGrid con esta lista
+        /// Se llama al metodo TraerProductos, que va a buscar al servidor sp_get_all_productos, y pobla el DataGrid con esta lista
         /// </summary>
         private async void CargarProductos()
         {
+            ProductosDG.ItemsSource = null;
             var productos = await dataService.TraerProductos();
             ProductosDG.ItemsSource = productos.productos;
         }
 
-        private async void BorrarUsuario_Click(object sender, RoutedEventArgs e)
-        {
-            SolicitudPedido data = (sender as FrameworkElement).DataContext as SolicitudPedido;
 
-            var eleccion = MessageBox.Show("Seguro que desea eliminar un usuario?", "Seleccione una opcion", MessageBoxButton.YesNo);
-
-            if (eleccion == MessageBoxResult.Yes)
-            {
-                //await dataService.BorrarUsuario(data);
-            }
-
-        }
 
         private async void AddImagen_Click(object sender, RoutedEventArgs e)
         {
             // Create OpenFileDialog 
-            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-
-
-
-            // Set filter for file extension and default file extension 
-            dlg.DefaultExt = ".jpg";
-            dlg.Filter = "JPEG Files (*.jpg)|*.jpg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif";
+            OpenFileDialog dlg = new()
+            {
+                // Set filter for file extension and default file extension 
+                DefaultExt = ".jpg",
+                Filter = "JPEG Files (*.jpg)|*.jpg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif"
+            };
 
 
             // Display OpenFileDialog by calling ShowDialog method 
@@ -170,50 +116,76 @@ namespace app.Ventanas
                 Add_Descripcion.Text,
                urlImagenGuardada
             );
-            RegistrarProducto resultado = await dataService.CrearProducto(productoPorRegistrar);
-            if (resultado != null)
+            bool productoCreado = await dataService.CrearProducto(productoPorRegistrar);
+            if (productoCreado)
             {
                 //TODO Idealmente, simplemente agregar nueva fila https://stackoverflow.com/questions/24095172/how-i-can-add-new-row-into-datagrid-in-wpf
-                ProductosDG.ItemsSource = null;
-                var productos = await dataService.TraerProductos();
-                ProductosDG.ItemsSource = productos.productos;
-                MessageBox.Show("Usuario registrado exitosamente!");
+                CargarProductos();
+                MessageBox.Show("Producto registrado exitosamente!");
+            }
+            else
+            {
+                MessageBox.Show("No se creó producto, intente nuevamente");
             }
         }
 
-        //private async void ActualizarUsuario_Click(object sender, RoutedEventArgs e)
-        //{
-        //    ActualizarUsuario usuarioPorActualizar = new(
-        //        Mod_Rut.Text,
-        //        Mod_Email.Text,
-        //        Convert.ToInt64(Mod_Telefono.Text),
-        //        Mod_Clave.Password,
-        //        "");
-        //    await usuarioDataService.ActualizarUsuario(usuarioPorActualizar);
-        //}
+        private async void BorrarProducto_Click(object sender, RoutedEventArgs e)
+        {
+            Producto data = (sender as FrameworkElement).DataContext as Producto;
 
-        //private void UsuariosDG_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    DataGrid dg = (DataGrid)sender;
-        //    Usuario fila = (Usuario)dg.SelectedItem;
-        //    if (fila != null)
-        //    {
-        //        Mod_Rut.Text = fila.Rut;
-        //        Mod_Nombre.Text = fila.Nombre;
-        //        Mod_ApPa.Text = fila.ApellidoPaterno;
-        //        Mod_ApMa.Text = fila.ApellidoMaterno;
-        //        Mod_Email.Text = fila.Email;
-        //        Mod_Telefono.Text = fila.Telefono.ToString();
+            var eleccion = MessageBox.Show("Seguro que desea eliminar el producto?", "Seleccione una opcion", MessageBoxButton.YesNo);
 
-        //        Mod_Rol.SelectedIndex = fila.RolId;
-        //        rolSeleccionadoCrear.Id = fila.RolId;
-        //        rolSeleccionadoCrear.Nombre_Rol = fila.NombreRol;
-        //        //TODO Se debe arreglar para que muestre Rol correcto
-        //        //Quizas iniciar desde 0 los ID?
-        //        //Mod_Rol.SelectedIndex -= 1;
+            if (eleccion == MessageBoxResult.Yes)
+            {
+                bool respuesta = await dataService.BorrarProducto(data.Id);
+                if (respuesta)
+                {
+                    MessageBox.Show("Producto eliminado correctamente");
+                    CargarProductos();
+                }
+                else
+                {
+                    MessageBox.Show("Ocurrio un error, intentar nuevamente por favor");
+                }
+            }
+        }
 
-        //    }
-        //}
+        private void RefrescarTabla_Click(object sender, RoutedEventArgs e)
+        {
+            CargarProductos();
+        }
+        private async void ActualizarProducto_Click(object sender, RoutedEventArgs e)
+        {
+            ActualizarProducto productoPorActualizar = new(
+                idSeleccionado,
+                Mod_NombreProducto.Text,
+                Mod_Descripcion.Text,
+                urlFilaImagenSeleccionada);
+            bool productoActualizado = await dataService.ActualizarProducto(productoPorActualizar);
+            if (productoActualizado)
+            {
+                //TODO Idealmente, simplemente agregar nueva fila https://stackoverflow.com/questions/24095172/how-i-can-add-new-row-into-datagrid-in-wpf
+                MessageBox.Show("Producto actualizado exitosamente!");
+                CargarProductos();
+            }
+            else
+            {
+                MessageBox.Show("No se actualizó producto, intente nuevamente");
+            }
+        }
+
+        private void ProductosDG_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DataGrid dg = (DataGrid)sender;
+            Producto fila = (Producto)dg.SelectedItem;
+            if (fila != null)
+            {
+                Mod_NombreProducto.Text = fila.NombreProducto;
+                Mod_Descripcion.Text = fila.Descripcion;
+                idSeleccionado = fila.Id;
+                urlFilaImagenSeleccionada = fila.Imagen;
+            }
+        }
         ///// <summary>
         ///// Actualiza el rol seleccionado para crear un usuario
         ///// </summary>
