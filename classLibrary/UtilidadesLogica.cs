@@ -33,6 +33,7 @@ namespace classLibrary
                 return false;
             }
         }
+
         public static void PoblarCombosRoles(ComboBox combo)
         {
             List<Rol> roles = new List<Rol>();
@@ -47,7 +48,26 @@ namespace classLibrary
         }
         public static List<EntradaMenu> PoblarListaEntradaMenus()
         {
-            string[] ventanas = { "Transporte", "Pedido", "Detalle Pedidos", "Solicitudes", "Detalle Solicitud Pedido", "Producto", "Producto Cliente", "Producto Productor", "Contrato", "Usuarios", "Rol", "Subasta", "Oferta Subasta", "Solicitud Pedido", "Reportes", "Pagar Pedidos", "Activar Seguros" };
+            string[] ventanas =
+            {
+                "Contrato",
+                "Detalle Pedidos",
+                "Detalle Solicitud Pedido",
+                "Pedido",
+                "Productos",
+                "Producto Cliente",
+                "Producto Productor",
+                "Rol",
+                "Solicitudes",
+                "Transporte",
+                "Usuarios",
+                "Activar Seguros",
+                "Oferta Subasta",
+                "Pagar Pedidos",
+                "Reportes",
+                "Solicitud Pedido",
+                "Subasta"
+            };
             List<EntradaMenu> menus = new();
             for (int i = 1; i < ventanas.Length; i++)
             {
