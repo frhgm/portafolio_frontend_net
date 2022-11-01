@@ -59,14 +59,13 @@ namespace classLibrary
                 "Producto Productor",
                 "Rol",
                 "Solicitudes",
+                "Subasta",
                 "Transporte",
                 "Usuarios",
                 "Activar Seguros",
-                "Oferta Subasta",
+                "Ofertar Subasta",
                 "Pagar Pedidos",
                 "Reportes",
-                "Solicitud Pedido",
-                "Subasta"
             };
             List<EntradaMenu> menus = new();
             for (int i = 1; i < ventanas.Length; i++)

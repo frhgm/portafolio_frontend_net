@@ -22,6 +22,7 @@ namespace app.Ventanas
     {
         Rol rolSeleccionadoCrear = new Rol();
         Rol rolSeleccionadoModificar = new Rol();
+        UtilidadesVentanas utilidadesVentanas = new UtilidadesVentanas();
         public Usuario usuario { get; set; } = new("18392764-7", "Felipe", "Ramirez", "Hites", "framirezhites@maipogrande.cl", 9974303094, 1, "Admin", DateTime.Today, "663401993");
         List<EntradaMenu> menus = new();
         private readonly UsuariosDataService usuarioDataService = new();
@@ -41,59 +42,15 @@ namespace app.Ventanas
                 MessageBox.Show("Sin conexion a internet, cerrando");
                 return;
             }
+
             this.rolId = usuario.RolId;
-            AgregarMenus();
+            var menus = utilidadesVentanas.AgregarMenus("Usuarios");
+            menuPrincipal.Items.Add(menus.Item1);
+            menuPrincipal.Items.Add(menus.Item2);
+
             CargarUsuarios();
             UtilidadesLogica.PoblarCombosRoles(Add_Rol);
             UtilidadesLogica.PoblarCombosRoles(Mod_Rol);
-        }
-
-        public void MenuSeleccionadoSet(object sender, EventArgs e, string menu)
-        {
-            UtilidadesVentanas.ObtenerInstanciaVentana(String.Concat("app.Ventanas.", menu));
-            this.Close();
-        }
-
-        public void AgregarMenus()
-        {
-            menus = UtilidadesLogica.PoblarListaEntradaMenus();
-            if (menus.Count != 0)
-            {
-                MenuItem mantenedores = new()
-                {
-                    Header = "Mantenedores",
-                    VerticalAlignment = VerticalAlignment.Top
-                };
-                MenuItem acciones = new()
-                {
-                    Header = "Acciones",
-                    VerticalAlignment = VerticalAlignment.Top
-                };
-                foreach (EntradaMenu menu in menus)
-                {
-                    MenuItem iterador = new()
-                    {
-                        Header = menu.Nombre
-                    };
-                    iterador.Click += (sender, e) => MenuSeleccionadoSet(sender, e, menu.Nombre);
-
-                    if (menu.Id > 13)
-                    {
-                        acciones.Items.Add(iterador);
-                    }
-                    else
-                    {
-                        mantenedores.Items.Add(iterador);
-                    }
-                }
-
-                menuPrincipal.Items.Add(acciones);
-                menuPrincipal.Items.Add(mantenedores);
-            }
-            else
-            {
-                MessageBox.Show("Usted no tiene un rol asignado para acceder al sistema");
-            }
         }
 
 
