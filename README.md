@@ -1,15 +1,19 @@
 # portafolio_frontend_net
-Nuestro proyecto de WPF para consumir API REST en Java Spring Boot
+Nuestro proyecto de WPF para consumir API AutoREST de Oracle Autonomous Database realizada para este proyecto
 
 ## Estructura (inicial) de proyecto
 ### app
-Esto contendra las vistas de WPF
+**Este proyecto contiene:**
+- Todas las ventanas
+- Cualquier utilidad adicional, relacionada directamente al WPF
 
-### classLibrary (no se me ocurrio un mejor nombre
-Por ahora estamos almacenando los DTO's aca, quizas sea bueno mover cosas transversales, como conexion a Oracle
+### classLibrary (no se me ocurrio un mejor nombre)
+**Este proyecto tiene:**
+- Todos los Data Services
+- Todos los DTOs
 
 ### components
 Libreria de componentes, que pueden ser reutilizados (aun por trabajarl en ellos)
 
-~~### pruebas-unitarias (bastante explicativo)~~
-~~Por ahora es un proyecto MSTest, aunque lo podemos cambiar en el futuro, comentenme~~
+### pruebas (bastante explicativo)
+Proyecto de pruebas unitarias, realizado con [NUnit](https://nunit.org/)
