@@ -70,7 +70,7 @@ namespace app
                     };
                     iterador.Click += (sender, e) => MenuSeleccionadoSet(sender, e, menuOriginal, menu.Nombre);
 
-                    if (menu.Id > 13)
+                    if (menu.Id > 11)
                     {
                         acciones.Items.Add(iterador);
                     }

@@ -51,7 +51,7 @@ namespace app.Ventanas
         }
 
         /// <summary>
-        /// Se llama al metodo TraerUsuarios, que va a buscar al servidor sp_get_all_users, y pobla el DataGrid con esta lista
+        /// Se llama al metodo TraerProductos, que va a buscar al servidor sp_get_all_productos, y pobla el DataGrid con esta lista
         /// </summary>
         private async void CargarProductos()
         {
