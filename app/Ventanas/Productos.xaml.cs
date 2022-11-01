@@ -177,10 +177,31 @@ namespace app.Ventanas
                 ProductosDG.ItemsSource = null;
                 var productos = await dataService.TraerProductos();
                 ProductosDG.ItemsSource = productos.productos;
-                MessageBox.Show("Usuario registrado exitosamente!");
+                MessageBox.Show("Producto registrado exitosamente!");
             }
         }
 
+        private async void BorrarProducto_Click(object sender, RoutedEventArgs e)
+        {
+            Producto data = (sender as FrameworkElement).DataContext as Producto;
+
+            var eleccion = MessageBox.Show("Seguro que desea eliminar el producto?", "Seleccione una opcion", MessageBoxButton.YesNo);
+
+            if (eleccion == MessageBoxResult.Yes)
+            {
+                bool respuesta = await dataService.BorrarProducto(data.Id);
+                if (respuesta)
+                {
+                    MessageBox.Show("Producto eliminado correctamente");
+                    ProductosDG.ItemsSource = null;
+                    var productos = await dataService.TraerProductos();
+                    ProductosDG.ItemsSource = productos.productos;
+                } else
+                {
+                    MessageBox.Show("Ocurrio un error, intentar nuevamente por favor");
+                }
+            }
+        }
         //private async void ActualizarUsuario_Click(object sender, RoutedEventArgs e)
         //{
         //    ActualizarUsuario usuarioPorActualizar = new(

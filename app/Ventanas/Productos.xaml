@@ -44,7 +44,7 @@
             AutoGenerateColumns="False"
             CanUserAddRows="False"
             ColumnWidth="*"
-            FontSize="11"
+            FontSize="12"
             IsReadOnly="True"
             IsSynchronizedWithCurrentItem="True">
             <DataGrid.Columns>
@@ -58,18 +58,10 @@
                 <!--         </DataTemplate> -->
                 <!--     </DataGridTemplateColumn.CellTemplate> -->
                 <!-- </DataGridTemplateColumn> -->
-                <DataGridTemplateColumn Width="80" Header="Editar">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <!--<Button Click="EditarProducto_Click" Content="{materialDesign:PackIcon edit}" />-->
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-
                 <DataGridTemplateColumn Width="80" Header="Borrar">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <!--<Button Click="BorrarProducto_Click" Content="{materialDesign:PackIcon trash}" />-->
+                            <Button Click="BorrarProducto_Click" Content="{materialDesign:PackIcon trash}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

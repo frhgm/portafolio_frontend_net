@@ -51,4 +51,11 @@ namespace classLibrary.DTOs
         }
     }
 
+    public class BorrarProducto
+    {
+        public string out_glosa { get; set; }
+        public string out_mensaje_salida { get; set; }
+        public string out_estado { get; set; }
+    }
+
 }
