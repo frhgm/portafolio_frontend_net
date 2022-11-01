@@ -12,6 +12,7 @@ using System.Windows.Controls;
 using classLibrary.DTO;
 using System.Data;
 using classLibrary.DTOs;
+using classLibrary.DataServices;
 
 namespace app.Ventanas
 {

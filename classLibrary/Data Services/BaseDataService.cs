@@ -9,7 +9,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace app.Data.Implementations
+namespace classLibrary.DataServices
 {
     internal class BaseDataService
     {

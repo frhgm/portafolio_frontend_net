@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace classLibrary.DTO
+namespace classLibrary.DTOs
 {
     public class ListaUsuarios
     {

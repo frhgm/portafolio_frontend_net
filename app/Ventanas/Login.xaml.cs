@@ -1,5 +1,5 @@
-﻿using app.Data.Implementations;
-using classLibrary.DTO;
+﻿using classLibrary.DataServices;
+using classLibrary.DTOs;
 using System.Threading.Tasks;
 using System.Windows;
 

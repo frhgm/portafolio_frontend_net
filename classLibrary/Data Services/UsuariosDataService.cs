@@ -1,4 +1,4 @@
-﻿using classLibrary.DTO;
+﻿using classLibrary.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,7 +14,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace app.Data.Implementations
+namespace classLibrary.DataServices
 {
     public class UsuariosDataService
     {
