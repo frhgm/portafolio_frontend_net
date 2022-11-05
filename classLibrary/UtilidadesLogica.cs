@@ -56,7 +56,7 @@ namespace classLibrary
                 "Pedido",
                 "Productos",
                 "Producto Cliente",
-                "Producto Productor",
+                "ProductosProductor",
                 "Rol",
                 "Solicitudes",
                 "Subasta",
