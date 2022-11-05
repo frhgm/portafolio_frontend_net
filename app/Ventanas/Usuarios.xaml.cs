@@ -85,6 +85,12 @@ namespace app.Ventanas
         private async void AgregarUsuario_Click(object sender, RoutedEventArgs e)
         {
 
+            if (!Rut.RutValido(Add_Rut.Text))
+            {
+                MessageBox.Show("Debe ingresar un rut valido");
+                return;
+            }
+ 
             RegistrarUsuario usuarioPorRegistrar = new(
                 Add_Rut.Text,
                 Add_Nombre.Text,
