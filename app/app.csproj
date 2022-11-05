@@ -8,6 +8,13 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Compile Remove="Ventanas\Modales\**" />
+      <EmbeddedResource Remove="Ventanas\Modales\**" />
+      <None Remove="Ventanas\Modales\**" />
+      <Page Remove="Ventanas\Modales\**" />
+    </ItemGroup>
+
+    <ItemGroup>
       <None Include="..\.editorconfig" Link=".editorconfig" />
     </ItemGroup>
 
@@ -22,11 +29,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Ventanas\Modales\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <Page Update="Ventanas\Contratos.xaml">
+        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="Ventanas\ProductosProductor.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
