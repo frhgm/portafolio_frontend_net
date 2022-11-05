@@ -1,5 +1,7 @@
-﻿using classLibrary.DataServices;
+﻿using classLibrary;
+using classLibrary.DataServices;
 using classLibrary.DTOs;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -16,9 +18,15 @@ namespace app.Ventanas
             TxtRut.Text = "18392764-7";
             TxtPass.Password = "framirez";
         }
+        
 
         private async void BtnLogin_OnClickAsync(object sender, RoutedEventArgs e)
         {
+            if (!Rut.RutValido(TxtRut.Text))
+            {
+                MessageBox.Show("Debe ingresar un rut valido");
+                return;
+            }
             if (TxtRut.Text == string.Empty || TxtPass.Password == string.Empty)
             {
                 MessageBox.Show("Debe ingresar sus credenciales");
