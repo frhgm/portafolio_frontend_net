@@ -39,7 +39,7 @@ namespace app.Data.Implementations
         /// </summary>
         /// <returns>Devuelve una lista de usuarios registrados en el sistema</returns>
 
-        public async Task<Solicitudes_Pedidos> TraerSolicitudes()
+        public async Task<SolicitudesPedidos> TraerSolicitudes()
         {
             try
             {
@@ -50,7 +50,7 @@ namespace app.Data.Implementations
                     string content = await response.Content.ReadAsStringAsync(); //tambien
                     if (content != string.Empty)
                     {
-                        var solicitudes = JsonSerializer.Deserialize<Solicitudes_Pedidos>(content, _jsonSerializerOptions);
+                        var solicitudes = JsonSerializer.Deserialize<SolicitudesPedidos>(content, _jsonSerializerOptions);
                         return solicitudes;
                     }
                 }

@@ -48,8 +48,8 @@
             IsReadOnly="True"
             IsSynchronizedWithCurrentItem="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Id}" Header="Id" />
-                <DataGridTextColumn Binding="{Binding Usuario_id}" Header="RUT" />
+                <!-- <DataGridTextColumn Binding="{Binding Id}" Header="Id" /> -->
+                <DataGridTextColumn Binding="{Binding Rut}" Header="RUT" />
                 <DataGridTextColumn Binding="{Binding Fecha}" Header="Fecha de solicitud" />
                 <DataGridTextColumn Binding="{Binding Direccion}" Header="Direccion" />
                 <DataGridTextColumn Binding="{Binding Estado_solicitud}" Header="Estado" />
@@ -77,5 +77,6 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <Button Grid.Row="2" Click="AgregarSolicitud_OnClick" Name="AgregarSolicitud">Agregar solicitud</Button>
     </Grid>
 </Window>

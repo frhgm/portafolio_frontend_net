@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace classLibrary.DTOs
 {
     //TODO Falta terminar
-    public class SolicitudPedido_Detalle
+    public class DetalleSolicitudPedido
     {
         public int Id { get; set; }
         public int ProductosCliente_Id { get; set; }

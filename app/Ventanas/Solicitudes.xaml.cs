@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using classLibrary.DTO;
 using System.Data;
+using app.Ventanas.Modales;
 using classLibrary.DTOs;
 
 namespace app.Ventanas
@@ -191,5 +192,10 @@ namespace app.Ventanas
         //}
 
 
+        private void AgregarSolicitud_OnClick(object sender, RoutedEventArgs e)
+        {
+            Agregar_Solicitud aso = new Agregar_Solicitud();
+            aso.ShowDialog();
+        }
     }
 }
