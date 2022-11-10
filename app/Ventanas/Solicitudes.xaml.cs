@@ -36,6 +36,7 @@ namespace app.Ventanas
                 MessageBox.Show("Sin conexion a internet, cerrando");
                 return;
             }
+
             AgregarMenus();
             CargarSolicitudes();
         }
@@ -89,26 +90,26 @@ namespace app.Ventanas
         }
 
 
-
         /// <summary>
         /// Se llama al metodo TraerUsuarios, que va a buscar al servidor sp_get_all_users, y pobla el DataGrid con esta lista
         /// </summary>
         private async void CargarSolicitudes()
         {
             var solicitudes = await dataService.TraerSolicitudes();
-            SolicitudesDG.ItemsSource = solicitudes.solicitudes_pedidos; 
+            SolicitudesDG.ItemsSource = solicitudes.solicitudes_pedidos;
         }
 
         private async void BorrarUsuario_Click(object sender, RoutedEventArgs e)
         {
             SolicitudPedido data = (sender as FrameworkElement).DataContext as SolicitudPedido;
 
-            var eleccion = MessageBox.Show("Seguro que desea eliminar un usuario?", "Seleccione una opcion", MessageBoxButton.YesNo);
+            var eleccion = MessageBox.Show("Seguro que desea eliminar un usuario?", "Seleccione una opcion",
+                MessageBoxButton.YesNo);
 
             if (eleccion == MessageBoxResult.Yes)
             {
                 //await dataService.BorrarUsuario(data);
-            } 
+            }
         }
 
         //private async void AgregarUsuario_Click(object sender, RoutedEventArgs e)
@@ -195,7 +196,14 @@ namespace app.Ventanas
         private void AgregarSolicitud_OnClick(object sender, RoutedEventArgs e)
         {
             Agregar_Solicitud aso = new Agregar_Solicitud();
-            aso.ShowDialog();
+            try
+            {
+                aso.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                throw ex.InnerException;
+            }
         }
     }
 }
