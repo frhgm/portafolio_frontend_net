@@ -22,6 +22,10 @@ namespace classLibrary.DTOs
         [JsonPropertyName("imagen")]
         public string Imagen { get; set; }
 
+        public Producto()
+        {
+            
+        }
 
         // No tiene un constructor vacio debido a que son todos los campos obligatorios
         public Producto(int id, string nombreProducto, string descripcion, string imagen)

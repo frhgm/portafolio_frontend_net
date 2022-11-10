@@ -14,6 +14,8 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows;
+using Newtonsoft.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace app.Data.Implementations
 {
@@ -29,28 +31,31 @@ namespace app.Data.Implementations
         public SolicitudesDataService()
         {
             _httpClient = new HttpClient();
-            _baseAddress = "https://g15f555dd431949-maipograndebdd.adb.sa-santiago-1.oraclecloudapps.com/ords/Portafolio/";
+            _baseAddress =
+                "https://g15f555dd431949-maipograndebdd.adb.sa-santiago-1.oraclecloudapps.com/ords/Portafolio/";
             _jsonSerializerOptions = new JsonSerializerOptions();
         }
 
-        
+
         /// <summary>
         /// Ejecuta sp_get_all_users para recuperar los usuarios
         /// </summary>
         /// <returns>Devuelve una lista de usuarios registrados en el sistema</returns>
-
         public async Task<SolicitudesPedidos> TraerSolicitudes()
         {
             try
             {
-                HttpResponseMessage response = await _httpClient.PostAsJsonAsync($"{_baseAddress}sp_get_all_solicitud_pedido/", new { }); //puedo recibir
+                HttpResponseMessage response =
+                    await _httpClient.PostAsJsonAsync($"{_baseAddress}sp_get_all_solicitud_pedido/",
+                        new { }); //puedo recibir
 
                 if (response.IsSuccessStatusCode)
                 {
                     string content = await response.Content.ReadAsStringAsync(); //tambien
                     if (content != string.Empty)
                     {
-                        var solicitudes = JsonSerializer.Deserialize<SolicitudesPedidos>(content, _jsonSerializerOptions);
+                        var solicitudes =
+                            JsonSerializer.Deserialize<SolicitudesPedidos>(content, _jsonSerializerOptions);
                         return solicitudes;
                     }
                 }
@@ -63,8 +68,10 @@ namespace app.Data.Implementations
             {
                 Debug.WriteLine($"Exception: {ex.Message}");
             }
+
             return null;
         }
+
         /// <summary>
         /// Apartando el RUT, permitira actualizar un usuario
         /// </summary>
@@ -78,7 +85,8 @@ namespace app.Data.Implementations
                 string jsonUsuario = JsonSerializer.Serialize(usuario, _jsonSerializerOptions);
                 StringContent content = new StringContent(jsonUsuario, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await _httpClient.PostAsync($"{_baseAddress}sp_update_usuario/", content);
+                HttpResponseMessage response =
+                    await _httpClient.PostAsync($"{_baseAddress}sp_update_usuario/", content);
                 if (response.IsSuccessStatusCode)
                 {
                     Debug.WriteLine("Usuario creado!");
@@ -90,7 +98,6 @@ namespace app.Data.Implementations
             }
             catch (Exception ex)
             {
-
                 Debug.WriteLine($"Hubo un error {ex.Message}");
             }
         }
@@ -129,40 +136,47 @@ namespace app.Data.Implementations
             catch (Exception ex)
             {
                 Debug.WriteLine($"Hubo un error {ex.Message}");
-
             }
         }
 
         /// <summary>
-        /// Crea un usuario con los datos recibidos de formulario
+        /// Crea una solicitud con los datos recibidos de formulario
         /// </summary>
-        /// <param name="usuario">Un usuario completo, donde se procesaran todos sus datos</param>
-        /// <returns>El nuevo usuario creado, o null si fallo</returns>
-        public async Task<RegistrarUsuario> CrearUsuario(RegistrarUsuario usuario)
+        /// <param name="solicitudPedido">Una solicitud completa, donde se procesaran toda su informacion</param>
+        /// <returns>La nueva solicitud realizada, o null si fallo</returns>
+        public async Task<bool> CrearSolicitud(SolicitudPedido solicitudPedido)
         {
             try
             {
-                string jsonUsuario = JsonSerializer.Serialize<RegistrarUsuario>(usuario, _jsonSerializerOptions);
-                StringContent content = new StringContent(jsonUsuario, Encoding.UTF8, "application/json");
+                object json = new { solicitud = solicitudPedido };
+                // string jsonSolicitud =
+                    // JsonSerializer.Serialize<object>(new {in_objeto_json = json}, _jsonSerializerOptions);
+                
+                string jsonSolicitud = JsonConvert.SerializeObject(json);
+                jsonSolicitud = jsonSolicitud.Replace("\"", "\\\"");
 
-                HttpResponseMessage response = await _httpClient.PostAsync($"{_baseAddress}sp_insert_usuario/", content);
+                StringContent content = new StringContent(jsonSolicitud, Encoding.UTF8, "application/json");
+                Debug.Write(content.ReadAsStringAsync());
+                HttpResponseMessage response =
+                    await _httpClient.PostAsync($"{_baseAddress}sp_insert_solicitud_y_detalle/", content);
                 if (response.IsSuccessStatusCode)
                 {
-                    Debug.WriteLine("Usuario creado!");
-                    return usuario;
+                    Debug.WriteLine("Solicitud ingresada!");
+                    return true;
                 }
                 else
                 {
+                    var result = response.Content.ReadAsStringAsync().Result;
                     Debug.WriteLine($"No fue un status 2XX: {response.StatusCode}");
-                    return null;
+                    return false;
                 }
             }
             catch (Exception ex)
             {
-
                 Debug.WriteLine($"Hubo un error {ex.Message}");
             }
-            return null;
+
+            return false;
         }
     }
 }

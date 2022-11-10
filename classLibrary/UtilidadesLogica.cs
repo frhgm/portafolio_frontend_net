@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using classLibrary.DataServices;
 
 namespace classLibrary
 {
@@ -45,6 +46,14 @@ namespace classLibrary
             roles.Add(new Rol(6, "Cliente externo"));
             combo.ItemsSource = roles;
             combo.DisplayMemberPath = "Nombre_Rol";
+        }
+        
+        public static async void PoblarComboProducto(ComboBox combo)
+        {
+            var productoDataService = new ProductosDataService();
+            var productos = await productoDataService.TraerProductos();
+            combo.ItemsSource = productos.productos;
+            combo.DisplayMemberPath = "NombreProducto";
         }
         public static List<EntradaMenu> PoblarListaEntradaMenus()
         {
