@@ -4,12 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Mime;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using app.Data.Implementations;
 
 namespace classLibrary
 {
@@ -45,6 +47,23 @@ namespace classLibrary
             roles.Add(new Rol(6, "Cliente externo"));
             combo.ItemsSource = roles;
             combo.DisplayMemberPath = "Nombre_Rol";
+        }
+
+        public static async void PoblarComboSolicitudes(ComboBox combo)
+        {
+            var solicitudDataService = new SolicitudesDataService();
+            var solicitudesClientes = await solicitudDataService.TraerSolicitudes();
+            combo.ItemsSource = solicitudesClientes.solicitudes_pedidos;
+            combo.DisplayMemberPath = "Usuario_id";
+
+            //TODO Terminar para que muestre id-rutcliente
+            // foreach (var solicitud in solicitudesClientes.solicitudes_pedidos)
+            // {
+            //     combo.Items.Add(solicitud);
+            //     combo.DisplayMemberPath = $"{solicitud.Id}-{solicitud.Usuario_id}";
+            // }
+
+
         }
         public static List<EntradaMenu> PoblarListaEntradaMenus()
         {
