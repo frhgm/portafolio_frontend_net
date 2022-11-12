@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Mime;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
@@ -54,6 +55,23 @@ namespace classLibrary
             var productos = await productoDataService.TraerProductos();
             combo.ItemsSource = productos.productos;
             combo.DisplayMemberPath = "NombreProducto";
+        }
+
+        public static async void PoblarComboSolicitudes(ComboBox combo)
+        {
+            var solicitudDataService = new SolicitudesDataService();
+            var solicitudesClientes = await solicitudDataService.TraerSolicitudes();
+            combo.ItemsSource = solicitudesClientes.solicitudes_pedidos;
+            combo.DisplayMemberPath = "Usuario_id";
+
+            //TODO Terminar para que muestre id-rutcliente
+            // foreach (var solicitud in solicitudesClientes.solicitudes_pedidos)
+            // {
+            //     combo.Items.Add(solicitud);
+            //     combo.DisplayMemberPath = $"{solicitud.Id}-{solicitud.Usuario_id}";
+            // }
+
+
         }
         public static List<EntradaMenu> PoblarListaEntradaMenus()
         {
