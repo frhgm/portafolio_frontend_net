@@ -34,6 +34,9 @@
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
+      <Page Update="Ventanas\Pedidos.xaml">
+        <SubType>Designer</SubType>
+      </Page>
     </ItemGroup>
 
 </Project>
