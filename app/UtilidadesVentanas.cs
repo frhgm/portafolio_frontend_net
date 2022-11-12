@@ -91,8 +91,16 @@ namespace app
             }
         }
 
-
-
-
+        public void ToggleVisibilidad(Control control)
+        {
+            if (control.IsEnabled)
+            {
+                control.IsEnabled = false;
+            }
+            else
+            {
+                control.IsEnabled = true;
+            }
+        }
     }
 }
