@@ -13,5 +13,6 @@ namespace classLibrary.DTOs
         public int Id { get; set; }
         public int ProductosCliente_Id { get; set; }
         public int SolicitudPedido_Id { get; set; }
+        
     }
 }

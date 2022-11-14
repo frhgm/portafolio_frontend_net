@@ -11,7 +11,6 @@ namespace classLibrary.DTOs
     {
         public List<SolicitudPedido>? solicitudes_pedidos{ get; set; }
     }
-
     public class SolicitudPedido
     {
         [JsonPropertyName("usuario_id")]
@@ -19,19 +18,17 @@ namespace classLibrary.DTOs
         
         [JsonPropertyName("direccion")]
         public string Direccion { get; set; } = "";
-        
-        [JsonPropertyName("detalle_productos")]
-        public List<DetalleProducto> DetalleProductos { get; set; }
+        [JsonPropertyName("estado")]
+        public string Estado_solicitud { get; set; }
 
-        public SolicitudPedido()
-        {
-        }
+        public string Mostrar_Solicitud { get; set; }
 
-        public SolicitudPedido(string usuario_id,  string direccion,  List<DetalleProducto> detalleProductos)
+        public SolicitudPedido(int id, string usuario_id, DateTime fecha, string direccion, string estado_solicitud)
         {
             Rut = usuario_id;
             Direccion = direccion;
-            DetalleProductos = detalleProductos;
+            Estado_solicitud = estado_solicitud;
+            Mostrar_Solicitud = $"Solicitud N°: {Id}\nCliente:{Usuario_id}";
         }
     }
 }
