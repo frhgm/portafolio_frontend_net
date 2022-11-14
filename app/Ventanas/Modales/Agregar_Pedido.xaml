@@ -32,27 +32,31 @@
         <Label HorizontalAlignment="Right" Grid.Row="1" Grid.Column="0">Oferta subasta</Label>
         <Label HorizontalAlignment="Right" Grid.Row="2" Grid.Column="0">Estado</Label>
         <Label HorizontalAlignment="Right" Grid.Row="3" Grid.Column="0">Seleccionar solicitud</Label>
-        <TextBox Text="{Binding Oferta}" Grid.Row="1" Grid.Column="1" Name="Add_Oferta" HorizontalAlignment="Center"></TextBox>
-        <TextBox Text="En preparacion" Grid.Row="2" Grid.Column="1" Name="Add_Estado" HorizontalAlignment="Center"></TextBox>
+        <TextBox Grid.Row="1" Grid.Column="1" Name="Add_Oferta" HorizontalAlignment="Center" IsEnabled="False"
+                 Text="Sin ofertas aun">
+        </TextBox>
+        <TextBox Grid.Row="2" Grid.Column="1" Name="Add_Estado" HorizontalAlignment="Center" IsEnabled="False"
+                 Text="En preparacion">
+        </TextBox>
         <ComboBox Grid.Row="3" Grid.Column="1" Name="Add_Solicitud" HorizontalAlignment="Center"
                   SelectionChanged="Add_Solicitud_OnSelectionChanged" IsEditable="True" IsReadOnly="True"
                   Text="Seleccione solicitud">
         </ComboBox>
-        <!-- <DataGrid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="*" Margin="0,10,0,0" -->
-        <!--           AutoGenerateColumns="False" -->
-        <!--           ColumnWidth="*" -->
-        <!--           Name="DetallesPedidoDG" -->
-        <!--           FontSize="11"> -->
-        <!--     <DataGrid.Columns> -->
-        <!--         <DataGridTextColumn Binding="{Binding NombreProducto}" Header="Nombre" /> -->
-        <!--         <DataGridTextColumn Binding="{Binding Calidad}" Header="Calidad" /> -->
-        <!--         <DataGridTextColumn Binding="{Binding Cantidad}" Header="Rut productor" /> -->
-        <!--         <DataGridTextColumn Binding="{Binding Calidad}" Header="Precio" /> -->
-        <!--         <DataGridTextColumn Binding="{Binding Calidad}" Header="Cantidad" /> -->
-        <!--         <DataGridTextColumn Binding="{Binding Calidad}" Header="Ganancia" /> -->
-        <!--         <DataGridTextColumn Binding="{Binding Calidad}" Header="Total" /> -->
-        <!--     </DataGrid.Columns> -->
-        <!-- </DataGrid> -->
+        <DataGrid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,10,0,0"
+                  AutoGenerateColumns="False"
+                  ColumnWidth="3"
+                  Name="DetallesPedidoDG"
+                  FontSize="11">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Nombre" />
+                <DataGridTextColumn Header="Calidad" />
+                <DataGridTextColumn Header="Rut productor" />
+                <DataGridTextColumn Header="Precio" />
+                <DataGridTextColumn Header="Cantidad" />
+                <DataGridTextColumn Header="Ganancia" />
+                <DataGridTextColumn Header="Total" />
+            </DataGrid.Columns>
+        </DataGrid>
 
         <Label Grid.Row="5" Grid.Column="1" HorizontalAlignment="Center" FontWeight="Bold">Total</Label>
     </Grid>

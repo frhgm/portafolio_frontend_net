@@ -16,6 +16,7 @@ namespace app.Ventanas.Modales
         public Agregar_Pedido()
         {
             InitializeComponent();
+            DetallesPedidoDG.ItemsSource = null;
             UtilidadesLogica.PoblarComboSolicitudes(Add_Solicitud);
 
         }
