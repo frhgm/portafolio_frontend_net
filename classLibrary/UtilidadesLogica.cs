@@ -53,15 +53,16 @@ namespace classLibrary
         {
             var solicitudDataService = new SolicitudesDataService();
             var solicitudesClientes = await solicitudDataService.TraerSolicitudes();
-            combo.ItemsSource = solicitudesClientes.solicitudes_pedidos;
-            combo.DisplayMemberPath = "Usuario_id";
+            // combo.ItemsSource = solicitudesClientes.solicitudes_pedidos;
+            // combo.DisplayMemberPath = "Usuario_id";
 
             //TODO Terminar para que muestre id-rutcliente
-            // foreach (var solicitud in solicitudesClientes.solicitudes_pedidos)
-            // {
-            //     combo.Items.Add(solicitud);
-            //     combo.DisplayMemberPath = $"{solicitud.Id}-{solicitud.Usuario_id}";
-            // }
+            foreach (var solicitud in solicitudesClientes.solicitudes_pedidos)
+            {
+                combo.Items.Add(solicitud);
+                combo.DisplayMemberPath = "Mostrar_Solicitud";
+                // combo.DisplayMemberPath = $"{solicitud.Id}-{solicitud.Usuario_id}";
+            }
 
 
         }

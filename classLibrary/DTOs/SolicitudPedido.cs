@@ -24,6 +24,8 @@ namespace classLibrary.DTOs
         [JsonPropertyName("estado")]
         public string Estado_solicitud { get; set; }
 
+        public string Mostrar_Solicitud { get; set; }
+
         public SolicitudPedido(int id, string usuario_id, DateTime fecha, string direccion, string estado_solicitud)
         {
             Id = id;
@@ -31,6 +33,7 @@ namespace classLibrary.DTOs
             Fecha = fecha;
             Direccion = direccion;
             Estado_solicitud = estado_solicitud;
+            Mostrar_Solicitud = $"Solicitud N°: {Id}\nCliente:{Usuario_id}";
         }
     }
 }
