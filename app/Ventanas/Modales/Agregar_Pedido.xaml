@@ -42,7 +42,7 @@
         </TextBox>
         <ComboBox Grid.Row="3" Grid.Column="1" Name="Add_Solicitud" HorizontalAlignment="Center"
                   SelectionChanged="Add_Solicitud_OnSelectionChanged" IsEditable="True" IsReadOnly="True"
-                  Text="Seleccione solicitud">
+                  Text="Seleccione solicitud" Height="40">
         </ComboBox>
         <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Name="BuscarProductos_Productor"
                 Click="BuscarProductos_Productor_OnClick">
@@ -54,13 +54,13 @@
                   Name="DetallesPedidoDG"
                   FontSize="11">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Nombre" />
-                <DataGridTextColumn Header="Calidad" />
-                <DataGridTextColumn Header="Rut productor" />
-                <DataGridTextColumn Header="Precio" />
-                <DataGridTextColumn Header="Cantidad" />
-                <DataGridTextColumn Header="Ganancia" />
-                <DataGridTextColumn Header="Total" />
+                <DataGridTextColumn Binding="{Binding ProductorRut}" Header="Rut productor" />
+                <DataGridTextColumn Binding="{Binding NombreProducto}" Header="Nombre" />
+                <DataGridTextColumn Binding="{Binding Calidad}" Header="Calidad" />
+                <DataGridTextColumn Binding="{Binding CantidadProductoCliente}" Header="Cantidad" />
+                <DataGridTextColumn Binding="{Binding Precio}" Header="Precio" />
+                <DataGridTextColumn Binding="{Binding Ganancia}" Header="Ganancia" />
+                <DataGridTextColumn Binding="{Binding Total}"  Header="Total" />
             </DataGrid.Columns>
         </DataGrid>
 
