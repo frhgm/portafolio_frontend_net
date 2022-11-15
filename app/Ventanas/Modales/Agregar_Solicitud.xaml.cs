@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using app.Data.Implementations;
 using classLibrary;
 using classLibrary.DataServices;
 using classLibrary.DTOs;
@@ -33,26 +32,21 @@ namespace app.Ventanas.Modales
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Crear_Solicitud_OnClick(object sender, RoutedEventArgs e)
-        {
-            _solicitudPedido = new SolicitudPedido()
-            {
-                Rut = Add_Rut.Text,
-                // Fecha = DateTime.Today.ToString("yyyy-MM-dd"),
-                Direccion = Add_Direccion.Text,
-                // Estado_solicitud = 1 // TODO: Reemplazar por enumerador de estados 
-            };
-
-            Add_Rut.IsEnabled = false;
-            Add_Direccion.IsEnabled = false;
-            Crear_Solicitud.IsEnabled = false;
-            // Add_Rut.Text = _solicitudPedido.Rut;
-            // Add_Direccion.Text = _solicitudPedido.Direccion;
-
-            Add_Producto.IsEnabled = true;
-            Add_Calidad.IsEnabled = true;
-            Add_Cantidad.IsEnabled = true;
-        }
+        // private void Crear_Solicitud_OnClick(object sender, RoutedEventArgs e)
+        // {
+        //     _solicitudPedido = new SolicitudPedido(Add_Rut.Text, Add_Direccion.Text, null);
+        //    
+        //
+        //     Add_Rut.IsEnabled = false;
+        //     Add_Direccion.IsEnabled = false;
+        //     Crear_Solicitud.IsEnabled = false;
+        //     // Add_Rut.Text = _solicitudPedido.Rut;
+        //     // Add_Direccion.Text = _solicitudPedido.Direccion;
+        //
+        //     Add_Producto.IsEnabled = true;
+        //     Add_Calidad.IsEnabled = true;
+        //     Add_Cantidad.IsEnabled = true;
+        // }
 
         /// <summary>
         /// Este metodo puede ser llamado tantas veces como detalles hayan por solicitud
@@ -65,7 +59,7 @@ namespace app.Ventanas.Modales
             // 1. Recuperar producto (completo)
             // 2. Recuperar calidad y cantidad
             // 3. Al estar listo agregar a DT
-            DetalleProducto detProd = new DetalleProducto(
+            ProductoCliente detProd = new ProductoCliente(
                 _productoSeleccionado.Id,
                 _productoSeleccionado.NombreProducto,
                 int.Parse(Add_Calidad.Text),
@@ -93,23 +87,23 @@ namespace app.Ventanas.Modales
             }
         }
 
-        private void EnviarSolicitud_OnClick(object sender, RoutedEventArgs e)
-        {
-            List<DetalleProducto> lista = DetallesDG.Items.OfType<DetalleProducto>().ToList();
-
-
-            SolicitudPedido solicitud = new(Add_Rut.Text, Add_Direccion.Text, lista);
-            
-            var resultado = dataService.CrearSolicitud(solicitud);
-            if (resultado != null)
-            {
-                MessageBox.Show("Solicitud enviada exitosamente!");
-            }
-            else
-            {
-                MessageBox.Show("No se ingreso solicitud, intente nuevamente");
-            }
-
-        }
+        // private void EnviarSolicitud_OnClick(object sender, RoutedEventArgs e)
+        // {
+        //     List<DetalleSolicitudPedido> lista = DetallesDG.Items.OfType<DetalleSolicitudPedido>().ToList();
+        //
+        //
+        //     SolicitudPedido solicitud = new(Add_Rut.Text, Add_Direccion.Text, lista);
+        //     
+        //     var resultado = dataService.CrearSolicitud(solicitud);
+        //     if (resultado != null)
+        //     {
+        //         MessageBox.Show("Solicitud enviada exitosamente!");
+        //     }
+        //     else
+        //     {
+        //         MessageBox.Show("No se ingreso solicitud, intente nuevamente");
+        //     }
+        //
+        // }
     }
 }

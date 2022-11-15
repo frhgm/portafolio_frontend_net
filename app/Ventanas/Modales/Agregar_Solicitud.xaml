@@ -76,7 +76,6 @@
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
                         Name="Crear_Solicitud"
-                        Click="Crear_Solicitud_OnClick"
                         Width="150"
                         Margin="0,7,0,0"
                         HorizontalAlignment="Center"
@@ -182,6 +181,6 @@
                 <DataGridTextColumn Binding="{Binding Cantidad}" Header="Cantidad" />
             </DataGrid.Columns>
         </DataGrid>
-        <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5" Click="EnviarSolicitud_OnClick" Name="EnviarSolicitud">Enviar solicitud</Button>
+        <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5" Name="EnviarSolicitud">Enviar solicitud</Button>
     </Grid>
 </Window>

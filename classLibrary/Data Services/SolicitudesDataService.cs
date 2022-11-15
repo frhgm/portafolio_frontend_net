@@ -17,7 +17,7 @@ using System.Windows;
 using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
-namespace app.Data.Implementations
+namespace classLibrary.DataServices
 {
     public class SolicitudesDataService
     {
@@ -41,7 +41,7 @@ namespace app.Data.Implementations
         /// Ejecuta sp_get_all_users para recuperar los usuarios
         /// </summary>
         /// <returns>Devuelve una lista de usuarios registrados en el sistema</returns>
-        public async Task<SolicitudesPedidos> TraerSolicitudes()
+        public async Task<Solicitudes_Pedidos> TraerSolicitudes()
         {
             try
             {
@@ -55,7 +55,7 @@ namespace app.Data.Implementations
                     if (content != string.Empty)
                     {
                         var solicitudes =
-                            JsonSerializer.Deserialize<SolicitudesPedidos>(content, _jsonSerializerOptions);
+                            JsonSerializer.Deserialize<Solicitudes_Pedidos>(content, _jsonSerializerOptions);
                         return solicitudes;
                     }
                 }
@@ -71,73 +71,43 @@ namespace app.Data.Implementations
 
             return null;
         }
-
+        
         /// <summary>
-        /// Apartando el RUT, permitira actualizar un usuario
+        /// Trae los detalles de una solicitud en particular
         /// </summary>
-        /// <param name="usuario">Un usuario completo, para identificar y capturar campos a modificar</param>
-        /// <returns>El nuevo usuario</returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public async Task ActualizarUsuario(ActualizarUsuario usuario)
+        /// <param name="idSolicitudPedido">Id de solicitud seleccionada</param>
+        /// <returns>Devuelve todos los detalles de una solicitud</returns>
+        public async Task<ListaDetallesSolicitudPedido> TraerDetallesSolcitudPedido(int  idSolicitudPedido)
         {
             try
             {
-                string jsonUsuario = JsonSerializer.Serialize(usuario, _jsonSerializerOptions);
-                StringContent content = new StringContent(jsonUsuario, Encoding.UTF8, "application/json");
-
                 HttpResponseMessage response =
-                    await _httpClient.PostAsync($"{_baseAddress}sp_update_usuario/", content);
+                    await _httpClient.PostAsJsonAsync($"{_baseAddress}sp_get_detalle_solicitud_pedido/",
+                        new { in_id_solicitud_pedido = idSolicitudPedido.ToString() }); //puedo recibir
+
                 if (response.IsSuccessStatusCode)
                 {
-                    Debug.WriteLine("Usuario creado!");
+                    string content = await response.Content.ReadAsStringAsync(); //tambien
+                    if (content != string.Empty)
+                    {
+                        var detalles =
+                            JsonSerializer.Deserialize<ListaDetallesSolicitudPedido>(content, _jsonSerializerOptions);
+                        return detalles;
+                    }
                 }
                 else
                 {
-                    Debug.WriteLine($"No fue un status 2XX: {response.StatusCode}");
+                    Debug.WriteLine("---> No es una respuesta del rango 200");
                 }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Hubo un error {ex.Message}");
+                Debug.WriteLine($"Exception: {ex.Message}");
             }
+
+            return null;
         }
 
-        /// <summary>
-        /// Borra un usuario por el RUT
-        /// </summary>
-        /// <param name="rut">RUT recibido desde formulario</param>
-        /// <returns>Nada</returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public async Task BorrarUsuario(Usuario usuario)
-        {
-            BorrarUsuario aBorrar = new BorrarUsuario();
-            aBorrar.Rut = usuario.Rut;
-            try
-            {
-                string jsonRut = JsonSerializer.Serialize<BorrarUsuario>(aBorrar, _jsonSerializerOptions);
-                StringContent content = new StringContent(jsonRut, Encoding.UTF8, "application/json");
-
-                var request = new HttpRequestMessage
-                {
-                    Method = HttpMethod.Post,
-                    RequestUri = new Uri($"{_baseAddress}sp_delete_usuario/"),
-                    Content = content
-                };
-                var response = await _httpClient.SendAsync(request);
-                if (response.IsSuccessStatusCode)
-                {
-                    Debug.WriteLine("Usuario creado!");
-                }
-                else
-                {
-                    Debug.WriteLine($"No fue un status 2XX: {response.StatusCode}");
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Hubo un error {ex.Message}");
-            }
-        }
 
         /// <summary>
         /// Crea una solicitud con los datos recibidos de formulario

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using app.Data.Implementations;
 using classLibrary;
+using classLibrary.DataServices;
 using classLibrary.DTOs;
 
 namespace app.Ventanas.Modales
@@ -25,14 +25,21 @@ namespace app.Ventanas.Modales
         {
             ComboBox cb = (ComboBox)sender;
             solicitudSeleccionada = (SolicitudPedido)cb.SelectedItem;
-            Debug.Write(solicitudSeleccionada.Id);
         }
 
-        private void BuscarProductos_Productor_OnClick(object sender, RoutedEventArgs e)
+        private async void BuscarProductos_Productor_OnClick(object sender, RoutedEventArgs e)
         {
             //TODO Lograr poblar (o no) DataGrid con Productos_Productores coincidentes con Productos_Clientes
-            Producto_Cliente pc
             // 1. Traer los producto_cliente de la solcitud seleccionada
+            var detalles = await _solicitudDataService.TraerDetallesSolcitudPedido(solicitudSeleccionada.Id);
+            List<ProductoCliente> productoClientes = new List<ProductoCliente>();
+            foreach (var detalle in detalles.DetallesSolicitudPedido)
+            {
+                productoClientes.Add(new ProductoCliente(detalle.ProductoId, detalle.NombreProducto, detalle.Calidad, detalle.Cantidad));
+            }
+            
+            Debug.Write(productoClientes);
+            
             // 2. Llamar a SP_PRODUCTO_PRODUCTOR_PEDIDO con cada producto_cliente.id para saber si sirve
             // 2.1 Si no, (SP_GET_PRODUCTO_PRODUCTOR_LOOKUP), detener creacion de pedido  
             // 2.2 Si existen, proceder

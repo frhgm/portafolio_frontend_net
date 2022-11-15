@@ -1,5 +1,4 @@
-﻿using app.Data.Implementations;
-using classLibrary;
+﻿using classLibrary;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -12,6 +11,7 @@ using System.Windows.Controls;
 using classLibrary.DTO;
 using System.Data;
 using app.Ventanas.Modales;
+using classLibrary.DataServices;
 using classLibrary.DTOs;
 
 namespace app.Ventanas

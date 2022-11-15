@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace classLibrary.DTOs
 {
-    public class DetalleProducto
+    public class ProductoCliente
     {
         [JsonPropertyName("producto_id")]
         public int ProductoId { get; set; }
@@ -15,7 +15,7 @@ namespace classLibrary.DTOs
 
         
         
-        public DetalleProducto(int productoId, string nombreProducto, int calidad, int cantidad)
+        public ProductoCliente(int productoId, string nombreProducto, int calidad, int cantidad)
         {
             ProductoId = productoId;
             NombreProducto = nombreProducto;
