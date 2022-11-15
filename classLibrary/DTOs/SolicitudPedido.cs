@@ -25,7 +25,6 @@ namespace classLibrary.DTOs
         public string Estado_solicitud { get; set; }
         public string Mostrar_Solicitud { get; set; }
 
-        public string Mostrar_Solicitud { get; set; }
 
         public SolicitudPedido(int id, string usuario_id, DateTime fecha, string direccion, string estado_solicitud)
         {
