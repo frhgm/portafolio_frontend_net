@@ -49,7 +49,7 @@ namespace classLibrary.DataServices
                 if (response.IsSuccessStatusCode)
                 {
                     string content = await response.Content.ReadAsStringAsync(); //tambien
-                    
+
                     if (content != string.Empty)
                     {
                         var productos =
@@ -78,7 +78,7 @@ namespace classLibrary.DataServices
                     await _httpClient.PostAsJsonAsync($"{_baseAddress}sp_detalle_pedido_populate/",
                         new
                         {
-                            in_pp_id = productoProductorId.ToString(), 
+                            in_pp_id = productoProductorId.ToString(),
                             in_pc_id = productoClienteId.ToString()
                         }); //puedo recibir
 
@@ -104,19 +104,22 @@ namespace classLibrary.DataServices
 
             return null;
         }
+
         public async Task<bool> CrearPedido(Pedido pedido)
         {
+            System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            System.Net.ServicePointManager.Expect100Continue = false;
             try
             {
                 CrearPedido creacion = new CrearPedido();
                 creacion.pedido = pedido;
-                
+
                 object json = new { in_objeto_json = creacion };
                 string jsonSolicitud =
                     JsonSerializer.Serialize<object>(json, _jsonSerializerOptions);
-                
+
                 // string jsonSolicitud = JsonConvert.SerializeObject(json);
-                
+
                 jsonSolicitud = jsonSolicitud.Replace("\"", "\\\"");
 
                 StringContent content = new StringContent(jsonSolicitud, Encoding.UTF8, "application/json");
