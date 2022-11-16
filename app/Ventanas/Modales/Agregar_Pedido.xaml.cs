@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using classLibrary;
@@ -19,11 +20,6 @@ namespace app.Ventanas.Modales
         {
             InitializeComponent();
             UtilidadesLogica.PoblarComboSolicitudes(Add_Solicitud);
-            DetallesPedidoDG.Items.Add(new
-            {
-                Nombre = "Felipe", Calidad = "1000", Rut = "18392764-7", Precio = 1000, Cantidad = 500, Ganancia = 500,
-                Total = 1500000
-            });
         }
 
         private void Add_Solicitud_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -68,8 +64,39 @@ namespace app.Ventanas.Modales
             // SI ES QUE TODOS LOS PRODUCTOS_CLIENTES PUEDEN SER VENDIDOS, SE AGREGAN LOS PRODUCTOS PRODUCTORES A LA TABLA PARA VISUALAZAR
             if (puedeCrearPedido)
             {
-                DetallesPedidoDG.Items.Add(filasPorAgregar);
+                int totalAPagar = 0;
+                List<CrearDetallePedido> detallesPedido = new List<CrearDetallePedido>();
+                foreach (var fila in filasPorAgregar)
+                {
+                    totalAPagar += fila.Total;
+                    DetallesPedidoDG.Items.Add(fila);
+                    CrearDetallePedido crearDetalle = new CrearDetallePedido();
+                    crearDetalle.Calidad = fila.Calidad.ToString();
+                    crearDetalle.Cantidad = fila.CantidadProductoCliente.ToString();
+                    crearDetalle.Precio = fila.Precio.ToString();
+                    crearDetalle.Productor_Id = fila.ProductorRut;
+                    crearDetalle.ProductoId = fila.ProductoProductorId;
+                    detallesPedido.Add(crearDetalle);
+                }
+
+                LblTotal.Content = $"Total: {totalAPagar.ToString("C", CultureInfo.CurrentCulture)}";
+                Pedido pedido = new Pedido();
+                pedido.Total = totalAPagar.ToString();
+                pedido.SolicitudId = solicitudSeleccionada.Id.ToString();
+                pedido.DetallePedido = detallesPedido;
+
+                bool pedidoCreado = await _dataService.CrearPedido(pedido);
+
+                if (pedidoCreado)
+                {
+                    MessageBox.Show("Pedido creado exitosamente!");
+                }
+                else
+                {
+                    MessageBox.Show("No se creo pedido, revise datos");
+                }
             }
+
             // 2.1 Si no, (SP_GET_PRODUCTO_PRODUCTOR_PEDIDO), detener creacion de pedido  
             // MessageBox.Show("No puede generar pedido, ya que no hay productos suficientes");
             // return;

@@ -3,9 +3,18 @@ using System.Text.Json.Serialization;
 
 namespace classLibrary.DTOs
 {
-    public class DetallePedido
+    public class CrearDetallePedido
     {
-        
+        [JsonPropertyName("producto_id")]
+        public int ProductoId { get; set; }
+        [JsonPropertyName("productor_id")]
+        public string Productor_Id { get; set; }
+        [JsonPropertyName("calidad")]
+        public string Calidad { get; set; }
+        [JsonPropertyName("cantidad")]
+        public string Cantidad { get; set; }
+        [JsonPropertyName("precio")]
+        public string Precio { get; set; }
     }
 
     public class ListaFilasProductoProductor

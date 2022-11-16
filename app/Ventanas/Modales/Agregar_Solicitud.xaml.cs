@@ -59,7 +59,7 @@ namespace app.Ventanas.Modales
             // 1. Recuperar producto (completo)
             // 2. Recuperar calidad y cantidad
             // 3. Al estar listo agregar a DT
-            ProductoCliente detProd = new ProductoCliente(
+            Crear_ProductoCliente detProd = new Crear_ProductoCliente(
                 _productoSeleccionado.Id,
                 _productoSeleccionado.NombreProducto,
                 int.Parse(Add_Calidad.Text),
