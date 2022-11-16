@@ -62,6 +62,7 @@ namespace app
                     Header = "Acciones",
                     VerticalAlignment = VerticalAlignment.Top
                 };
+                acciones.IsEnabled = false;
                 foreach (EntradaMenu menu in menus)
                 {
                     MenuItem iterador = new()

@@ -78,28 +78,29 @@ namespace classLibrary
         {
             string[] ventanas =
             {
-                "Contrato",
-                "Detalle Pedidos",
-                "Detalle Solicitud Pedido",
+                // "Contrato",
+                // "Detalle Pedidos",
+                // "Detalle Solicitud Pedido",
                 "Pedidos",
                 "Productos",
-                "Producto Cliente",
-                "Producto Productor",
-                "Rol",
-                "Solicitudes",
-                "Subasta",
-                "Transporte",
+                // "Producto Cliente",
+                // "Producto Productor",
+                // "Rol",
+                // "Solicitudes",
+                // "Subasta",
+                // "Transporte",
                 "Usuarios",
-                "Activar Seguros",
-                "Ofertar Subasta",
-                "Pagar Pedidos",
-                "Reportes",
+                // "Activar Seguros",
+                // "Ofertar Subasta",
+                // "Pagar Pedidos",
+                // "Reportes",
             };
             List<EntradaMenu> menus = new();
-            for (int i = 1; i < ventanas.Length; i++)
+            for (int i = 0; i < ventanas.Length; i++)
             {
                 menus.Add(new EntradaMenu(i, ventanas[i]));
             }
+            
             return menus;
         }
         
