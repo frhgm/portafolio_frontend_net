@@ -75,7 +75,7 @@ namespace app.Ventanas.Modales
                     crearDetalle.Cantidad = fila.CantidadProductoCliente.ToString();
                     crearDetalle.Precio = fila.Precio.ToString();
                     crearDetalle.Productor_Id = fila.ProductorRut;
-                    crearDetalle.ProductoId = fila.ProductoProductorId;
+                    crearDetalle.ProductoId = fila.ProductoId;
                     detallesPedido.Add(crearDetalle);
                 }
 
