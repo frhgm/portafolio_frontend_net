@@ -22,7 +22,7 @@ namespace components
     {
         public Agregar_ProductoSolicitud()
         {
-            InitializeComponent();
+            //InitializeComponent();
         }
     }
 }
