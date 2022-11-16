@@ -51,8 +51,8 @@ namespace classLibrary.DataServices
                     string content = await response.Content.ReadAsStringAsync(); //tambien
                     if (content != string.Empty)
                     {
-                        var solicitudes = JsonSerializer.Deserialize<Productos>(content, _jsonSerializerOptions);
-                        return solicitudes;
+                        var productos = JsonSerializer.Deserialize<Productos>(content, _jsonSerializerOptions);
+                        return productos;
                     }
                 }
                 else
