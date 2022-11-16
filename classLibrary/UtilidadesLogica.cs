@@ -81,7 +81,7 @@ namespace classLibrary
                 "Contrato",
                 "Detalle Pedidos",
                 "Detalle Solicitud Pedido",
-                "Pedido",
+                "Pedidos",
                 "Productos",
                 "Producto Cliente",
                 "Producto Productor",

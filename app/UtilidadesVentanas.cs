@@ -38,9 +38,9 @@ namespace app
         {
             var ventanaDestino = ObtenerInstanciaVentana(menuDestino);
             var ventanaOriginal = ObtenerInstanciaVentana(menuOriginal);
-            ventanaOriginal.Close();
-            // TODO Por alguna razon, no quiere cerrar la ventana original. Agradezco ideas!
             ventanaDestino.Show();
+            // TODO Por alguna razon, no quiere cerrar la ventana original. Agradezco ideas!
+            ventanaOriginal.Close();
         }
 
         /// <summary>
