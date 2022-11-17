@@ -108,7 +108,7 @@ namespace classLibrary.DataServices
         public async Task<bool> CrearPedido(Pedido pedido)
         {
             System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            System.Net.ServicePointManager.Expect100Continue = false;
+            // System.Net.ServicePointManager.Expect100Continue = false;
             try
             {
                 CrearPedido creacion = new CrearPedido();
@@ -123,7 +123,8 @@ namespace classLibrary.DataServices
                 jsonSolicitud = jsonSolicitud.Replace("\"", "\\\"");
 
                 StringContent content = new StringContent(jsonSolicitud, Encoding.UTF8, "application/json");
-                Debug.Write(content.ReadAsStringAsync());
+                var x = content.ReadAsStringAsync();
+                
                 HttpResponseMessage response =
                     await _httpClient.PostAsync($"{_baseAddress}sp_insert_pedido_y_detalle/", content);
                 if (response.IsSuccessStatusCode)

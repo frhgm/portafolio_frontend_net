@@ -76,7 +76,7 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="1" Grid.ColumnSpan="2" Name="CrearPedido">Crear pedido</Button>
+            <Button Grid.Column="1" Grid.ColumnSpan="2" Name="CrearPedido" Click="CrearPedido_OnClick">Crear pedido</Button>
             <Button Grid.Column="4" Grid.ColumnSpan="2" Name="CancelarCreacionPedido">Cancelar</Button>
         </Grid>
     </Grid>

@@ -15,11 +15,13 @@ namespace app.Ventanas.Modales
         private readonly SolicitudesDataService _solicitudDataService = new();
         private readonly PedidosDataService _dataService = new();
         private SolicitudPedido solicitudSeleccionada = null;
+        private CrearPedido _pedidoPorCrear = new CrearPedido();
 
         public Agregar_Pedido()
         {
             InitializeComponent();
             UtilidadesLogica.PoblarComboSolicitudes(Add_Solicitud);
+            CrearPedido.IsEnabled = false;
         }
 
         private void Add_Solicitud_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -85,27 +87,27 @@ namespace app.Ventanas.Modales
                 pedido.SolicitudId = solicitudSeleccionada.Id.ToString();
                 pedido.DetallePedido = detallesPedido;
 
-                bool pedidoCreado = await _dataService.CrearPedido(pedido);
-
-                if (pedidoCreado)
-                {
-                    MessageBox.Show("Pedido creado exitosamente!");
-                }
-                else
-                {
-                    MessageBox.Show("No se creo pedido, revise datos");
-                }
+                _pedidoPorCrear.pedido = pedido;
+                CrearPedido.IsEnabled = true;
             }
+            else
+            {
+                MessageBox.Show("No puede generar pedido, ya que no hay productos suficientes");
+            }
+        }
 
-            // 2.1 Si no, (SP_GET_PRODUCTO_PRODUCTOR_PEDIDO), detener creacion de pedido  
-            // MessageBox.Show("No puede generar pedido, ya que no hay productos suficientes");
-            // return;
+        private async void CrearPedido_OnClick(object sender, RoutedEventArgs e)
+        {
+            bool pedidoCreado = await _dataService.CrearPedido(_pedidoPorCrear.pedido);
 
-            // if (puedeCrearPedido)
-            // {
-            //     // RECUPERAR EL ID DE TODOS LOS PRODUCTOS_PRODUCTORES 
-            //     // 3. Realizar llamada a SP_INSERT_PEDIDO_Y_DETALLE
-            // }
+            if (pedidoCreado)
+            {
+                MessageBox.Show("Pedido creado exitosamente!");
+            }
+            else
+            {
+                MessageBox.Show("No se creo pedido, revise datos");
+            }
         }
     }
 }
