@@ -37,6 +37,37 @@ namespace classLibrary.DataServices
             _jsonSerializerOptions = new JsonSerializerOptions();
         }
 
+        public async Task<ListaPedidos> TraerPedidos()
+        {
+            try
+            {
+                HttpResponseMessage response =
+                    await _httpClient.PostAsJsonAsync($"{_baseAddress}sp_get_all_pedidos/",
+                        new { }); //puedo recibir
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync(); //tambien
+
+                    if (content != string.Empty)
+                    {
+                        var pedidos =
+                            JsonSerializer.Deserialize<ListaPedidos>(content, _jsonSerializerOptions);
+                        return pedidos;
+                    }
+                }
+                else
+                {
+                    Debug.WriteLine("---> No es una respuesta del rango 200");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+            }
+
+            return null;
+        }
 
         public async Task<ProductoProductor> TraerProductosProductorPedido(int idProductoCliente)
         {
@@ -105,31 +136,40 @@ namespace classLibrary.DataServices
             return null;
         }
 
-        public async Task<bool> CrearPedido(Pedido pedido)
+        public async Task<bool> CrearPedido(CrearPedido crearPedido)
         {
             System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             // System.Net.ServicePointManager.Expect100Continue = false;
             try
             {
                 CrearPedido creacion = new CrearPedido();
-                creacion.pedido = pedido;
+                creacion = crearPedido;
 
-                object json = new { in_objeto_json = creacion };
+                object json = new { in_objeto_json = JsonSerializer.Serialize(creacion) };
                 string jsonSolicitud =
                     JsonSerializer.Serialize<object>(json, _jsonSerializerOptions);
 
                 // string jsonSolicitud = JsonConvert.SerializeObject(json);
 
-                jsonSolicitud = jsonSolicitud.Replace("\"", "\\\"");
+                // jsonSolicitud = jsonSolicitud.Replace("\"", "\\\"");
 
-                StringContent content = new StringContent(jsonSolicitud, Encoding.UTF8, "application/json");
+                StringContent content = new StringContent(jsonSolicitud, Encoding.UTF8, "text/plain");
                 var x = content.ReadAsStringAsync();
-                
+
                 HttpResponseMessage response =
                     await _httpClient.PostAsync($"{_baseAddress}sp_insert_pedido_y_detalle/", content);
                 if (response.IsSuccessStatusCode)
                 {
                     Debug.WriteLine("Pedido ingresado!");
+                    // var responseContent = response.Content.ReadAsStringAsync().Result;
+                    ResponseGeneral APIResponse =
+                        JsonSerializer.Deserialize<ResponseGeneral>(response.Content.ReadAsStringAsync().Result,
+                            _jsonSerializerOptions);
+                    if (APIResponse.Glosa != null || APIResponse is null)
+                    {
+                        return false;
+                    }
+
                     return true;
                 }
                 else

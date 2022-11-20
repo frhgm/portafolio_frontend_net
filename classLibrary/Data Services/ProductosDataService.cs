@@ -85,7 +85,7 @@ namespace classLibrary.DataServices
                 var responseAPI = JsonSerializer.Deserialize<ResponseGeneral>(result, _jsonSerializerOptions);
                 if (responseAPI.MensajeSalida.Contains("MODIFICADO CORRECTAMENTE"))
                 {
-                    Debug.WriteLine("Producto eliminado!");
+                    Debug.WriteLine("Producto actualizado!");
                     return true;
                 }
                 else

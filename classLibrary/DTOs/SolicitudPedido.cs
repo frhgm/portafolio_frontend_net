@@ -33,7 +33,7 @@ namespace classLibrary.DTOs
             Fecha = fecha;
             Direccion = direccion;
             Estado_solicitud = estado_solicitud;
-            Mostrar_Solicitud = $"N° pedido: {Id} \n Cliente: {Usuario_id}";
+            Mostrar_Solicitud = $"Solicitud N°: {Id} \nCliente: {Usuario_id}";
         }
     }
 }

@@ -10,10 +10,10 @@ namespace classLibrary.DTOs
     public class ResponseGeneral
     {
         [JsonPropertyName("out_glosa")]
-        public string Glosa { get; set; }
+        public string? Glosa { get; set; }
         [JsonPropertyName("out_mensaje_salida")]
-        public string MensajeSalida { get; set; }
+        public string? MensajeSalida { get; set; }
         [JsonPropertyName("out_estado")]
-        public string Estado { get; set; }
+        public int? Estado { get; set; }
     }
 }

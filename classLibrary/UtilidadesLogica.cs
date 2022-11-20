@@ -48,7 +48,7 @@ namespace classLibrary
             combo.ItemsSource = roles;
             combo.DisplayMemberPath = "Nombre_Rol";
         }
-        
+
         public static async void PoblarComboProducto(ComboBox combo)
         {
             var productoDataService = new ProductosDataService();
@@ -64,16 +64,24 @@ namespace classLibrary
             // combo.ItemsSource = solicitudesClientes.solicitudes_pedidos;
             // combo.DisplayMemberPath = "Usuario_id";
 
-            //TODO Terminar para que muestre id-rutcliente
             foreach (var solicitud in solicitudesClientes.solicitudes_pedidos)
             {
                 combo.Items.Add(solicitud);
                 combo.DisplayMemberPath = "Mostrar_Solicitud";
                 // combo.DisplayMemberPath = $"{solicitud.Id}-{solicitud.Usuario_id}";
             }
-
-
         }
+
+        public static async void PoblarComboPedidos(ComboBox combo, PedidosDataService dataService)
+        {
+            var pedidosCliente = await dataService.TraerPedidos();
+            foreach (var pedido in pedidosCliente.pedidos)
+            {
+                combo.Items.Add(pedido);
+                combo.DisplayMemberPath = "Mostrar_Pedido";
+            }
+        }
+
         public static List<EntradaMenu> PoblarListaEntradaMenus()
         {
             string[] ventanas =
@@ -100,11 +108,11 @@ namespace classLibrary
             {
                 menus.Add(new EntradaMenu(i, ventanas[i]));
             }
-            
+
             return menus;
         }
-        
-        
+
+
         //public static string Encriptar(string dato)
         //{
         //    try
@@ -131,6 +139,5 @@ namespace classLibrary
         //    string result = new String(decoded_char);
         //    return result;
         //}
-
     }
 }

@@ -82,12 +82,12 @@ namespace app.Ventanas.Modales
                 }
 
                 LblTotal.Content = $"Total: {totalAPagar.ToString("C", CultureInfo.CurrentCulture)}";
-                Pedido pedido = new Pedido();
-                pedido.Total = totalAPagar.ToString();
-                pedido.SolicitudId = solicitudSeleccionada.Id.ToString();
-                pedido.DetallePedido = detallesPedido;
+                CrearPedido crearPedido = new CrearPedido();
+                crearPedido.Total = totalAPagar.ToString();
+                crearPedido.SolicitudId = solicitudSeleccionada.Id.ToString();
+                crearPedido.DetallePedido = detallesPedido;
 
-                _pedidoPorCrear.pedido = pedido;
+                _pedidoPorCrear = crearPedido;
                 CrearPedido.IsEnabled = true;
             }
             else
@@ -98,7 +98,7 @@ namespace app.Ventanas.Modales
 
         private async void CrearPedido_OnClick(object sender, RoutedEventArgs e)
         {
-            bool pedidoCreado = await _dataService.CrearPedido(_pedidoPorCrear.pedido);
+            bool pedidoCreado = await _dataService.CrearPedido(_pedidoPorCrear);
 
             if (pedidoCreado)
             {
