@@ -9,28 +9,24 @@ namespace app.Ventanas.Modales
 {
     public partial class Agregar_Subasta : Window
     {
-        private readonly SubastaDataService _dataService = new();
-        private readonly PedidosDataService _pedidoDataService = new();
+        App _app = ((App)Application.Current);
         private Pedido pedidoSeleccionado;
 
         public Agregar_Subasta()
         {
             InitializeComponent();
-            UtilidadesLogica.PoblarComboPedidos(AddPedido, _pedidoDataService);
+            UtilidadesLogica.PoblarComboPedidos(AddPedido, _app.pedidoDataService);
         }
 
 
         private async void AgregarSubasta_OnClick(object sender, RoutedEventArgs e)
         {
             CrearSubasta subasta = new(pedidoSeleccionado.PedidoId, Convert.ToInt32(AddMontoMinimo.Text));
-            var subastaCreada = await _dataService.CrearSubasta(subasta);
+            var subastaCreada = await _app.subastaDataService.CrearSubasta(subasta);
+            // var subastaCreada = await _dataService.CrearSubasta(subasta);
             if (subastaCreada)
             {
                 MessageBox.Show("Subasta ingresada!");
-            }
-            else
-            {
-                MessageBox.Show("No se ingreso subasta, vuelva a intentar");
             }
         }
 

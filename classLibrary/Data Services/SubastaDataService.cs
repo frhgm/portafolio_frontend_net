@@ -1,10 +1,13 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows;
 using classLibrary.DTOs;
 
 namespace classLibrary.DataServices
@@ -26,29 +29,41 @@ namespace classLibrary.DataServices
             _jsonSerializerOptions = new JsonSerializerOptions();
         }
 
-
-        public async Task<bool> CrearSubasta(CrearSubasta crearSubasta)
+        public async Task<bool> PuedeInsertarSubasta(int pedidoId)
         {
             try
             {
-                string jsonSubasta = JsonSerializer.Serialize<CrearSubasta>(crearSubasta, _jsonSerializerOptions);
-                StringContent content = new StringContent(jsonSubasta, Encoding.UTF8, "application/json");
-
                 HttpResponseMessage response =
-                    await _httpClient.PostAsync($"{_baseAddress}sp_insert_subasta/", content);
-                
-                var result = response.Content.ReadAsStringAsync().Result;
-                var responseAPI = JsonSerializer.Deserialize<ResponseGeneral>(result, _jsonSerializerOptions);
-                if (responseAPI.MensajeSalida.Contains("CORRECTAMENTE"))
+                    await _httpClient.PostAsJsonAsync($"{_baseAddress}sp_insert_subasta_checker/",
+                        new { in_pedido_id = pedidoId.ToString() }); //puedo recibir
+
+                if (response.IsSuccessStatusCode)
                 {
-                    Debug.WriteLine("Subasta creada!");
-                    return true;
+                    string content = await response.Content.ReadAsStringAsync(); //tambien
+                    if (content != string.Empty)
+                    {
+                        var result =
+                            JsonSerializer.Deserialize<PedidoAsociado>(content, _jsonSerializerOptions);
+                        if (result.LPedidos.Count == 0)
+                        {
+                            return true;
+                        }
+
+                        return false;
+                    }
                 }
-                else
-                {
-                    Debug.WriteLine($"No fue un status 2XX: {response.StatusCode}");
-                    return false;
-                }
+
+                return true;
+                // if (responseAPI.MensajeSalida.Contains("CORRECTAMENTE"))
+                // {
+                // Debug.WriteLine("Subasta creada!");
+                // return true;
+                // }
+                // else
+                // {
+                // Debug.WriteLine($"No fue un status 2XX: {response.StatusCode}");
+                // return false;
+                // }
             }
             catch (Exception ex)
             {
@@ -56,6 +71,41 @@ namespace classLibrary.DataServices
             }
 
             return false;
+        }
+
+        public async Task<bool> CrearSubasta(CrearSubasta crearSubasta)
+        {
+            try
+            {
+                if (!await PuedeInsertarSubasta(crearSubasta.PedidoId))
+                {
+                    MessageBox.Show("Ya existe una subasta asociada a este pedido");
+                    return false;
+                }
+
+                string jsonSubasta = JsonSerializer.Serialize<CrearSubasta>(crearSubasta, _jsonSerializerOptions);
+                StringContent content = new StringContent(jsonSubasta, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response =
+                    await _httpClient.PostAsync($"{_baseAddress}sp_insert_subasta/", content);
+
+                var result = response.Content.ReadAsStringAsync().Result;
+                var responseAPI = JsonSerializer.Deserialize<ResponseGeneral>(result, _jsonSerializerOptions);
+                if (responseAPI.MensajeSalida.Contains("CORRECTAMENTE"))
+                {
+                    return true;
+                }
+
+                Debug.WriteLine($"No fue un status 2XX: {response.StatusCode}");
+                MessageBox.Show("No se ingreso subasta, vuelva a intentar");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Hubo un error {ex.Message}");
+                MessageBox.Show("No se ingreso subasta, vuelva a intentar");
+                return false;
+            }
         }
     }
 }
