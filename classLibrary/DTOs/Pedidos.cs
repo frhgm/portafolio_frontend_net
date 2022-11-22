@@ -10,15 +10,18 @@ namespace classLibrary.DTOs
     //     [JsonPropertyName("pedido")]
     //     public Pedido pedido { get; set; }
     // }
-    [JsonObject("pedido")]
+    public class Pedido
+    {
+        public CrearPedido pedido { get; set; }
+    }
     public class CrearPedido
     {
-        [JsonPropertyName("solicitud_id")] public string SolicitudId { get; set; }
-        [JsonPropertyName("total")] public string Total { get; set; }
+        [JsonPropertyName("solicitud_id")] public int SolicitudId { get; set; }
+        // [JsonPropertyName("total")] public int Total { get; set; }
         [JsonPropertyName(("detalle_pedido"))] public List<CrearDetallePedido> DetallePedido { get; set; }
     }
 
-    public class Pedido
+    public class Pedidos
     {
         [JsonPropertyName("pedido_id")] public int PedidoId { get; set; }
 
@@ -44,7 +47,7 @@ namespace classLibrary.DTOs
         [JsonPropertyName("usuario_id")] public string UsuarioId { get; set; }
         public string Mostrar_Pedido { get; set; }
 
-        public Pedido(int pedidoId, object ofertaSubastaId, DateTime fechaPedido, int estadoPedidoId,
+        public Pedidos(int pedidoId, object ofertaSubastaId, DateTime fechaPedido, int estadoPedidoId,
             string estadoPedido, int total, int solicitudId, DateTime fechaSolicitud, string direccion, object nota,
             string usuarioId)
         {
@@ -65,6 +68,6 @@ namespace classLibrary.DTOs
 
     public class ListaPedidos
     {
-        public List<Pedido> pedidos { get; set; }
+        public List<Pedidos> pedidos { get; set; }
     }
 }

@@ -12,9 +12,8 @@ namespace app.Ventanas.Modales
 {
     public partial class Agregar_Pedido : Window
     {
-        private readonly SolicitudesDataService _solicitudDataService = new();
-        private readonly PedidosDataService _dataService = new();
         private SolicitudPedido solicitudSeleccionada = null;
+        App _app = ((App)Application.Current);
         private CrearPedido _pedidoPorCrear = new CrearPedido();
 
         public Agregar_Pedido()
@@ -36,7 +35,7 @@ namespace app.Ventanas.Modales
             // TODO Lograr poblar (o no) DataGrid con Productos_Productores coincidentes con Productos_Clientes
             // 1. Traer los producto_cliente de la solcitud seleccionada
             // TRAIGO LOS DETALLES DE UNA SOLICITUD EN PARTICULAR
-            var detalles = await _solicitudDataService.TraerDetallesSolcitudPedido(solicitudSeleccionada.Id);
+            var detalles = await _app.solicitudDataService.TraerDetallesSolcitudPedido(solicitudSeleccionada.Id);
             List<ProductoCliente> productosClientes = new List<ProductoCliente>();
             foreach (var detalle in detalles.DetallesSolicitudPedido)
             {
@@ -50,14 +49,14 @@ namespace app.Ventanas.Modales
             // LLAMO LOS PRODUCTOS PRODUCTORES COINCIDENTES CON PRODUCTOS CLIENTES
             foreach (var pc in productosClientes)
             {
-                var pp = await _dataService.TraerProductosProductorPedido(pc.Id);
+                var pp = await _app.pedidoDataService.TraerProductosProductorPedido(pc.Id);
                 if (pp == null)
                 {
                     puedeCrearPedido = false;
                 }
                 else
                 {
-                    var detalle = await _dataService.PoblarDetallePedido(pp.Id, pc.Id);
+                    var detalle = await _app.pedidoDataService.PoblarDetallePedido(pp.Id, pc.Id);
                     // TODO Controlar que no intente agregar si es null, o vacio
                     filasPorAgregar.Add(detalle);
                 }
@@ -73,9 +72,9 @@ namespace app.Ventanas.Modales
                     totalAPagar += fila.Total;
                     DetallesPedidoDG.Items.Add(fila);
                     CrearDetallePedido crearDetalle = new CrearDetallePedido();
-                    crearDetalle.Calidad = fila.Calidad.ToString();
-                    crearDetalle.Cantidad = fila.CantidadProductoCliente.ToString();
-                    crearDetalle.Precio = fila.Precio.ToString();
+                    crearDetalle.Calidad = fila.Calidad;
+                    crearDetalle.Cantidad = fila.CantidadProductoCliente;
+                    crearDetalle.Precio = fila.Precio;
                     crearDetalle.Productor_Id = fila.ProductorRut;
                     crearDetalle.ProductoId = fila.ProductoId;
                     detallesPedido.Add(crearDetalle);
@@ -83,8 +82,8 @@ namespace app.Ventanas.Modales
 
                 LblTotal.Content = $"Total: {totalAPagar.ToString("C", CultureInfo.CurrentCulture)}";
                 CrearPedido crearPedido = new CrearPedido();
-                crearPedido.Total = totalAPagar.ToString();
-                crearPedido.SolicitudId = solicitudSeleccionada.Id.ToString();
+                // crearPedido.Total = totalAPagar;
+                crearPedido.SolicitudId = solicitudSeleccionada.Id;
                 crearPedido.DetallePedido = detallesPedido;
 
                 _pedidoPorCrear = crearPedido;
@@ -98,7 +97,7 @@ namespace app.Ventanas.Modales
 
         private async void CrearPedido_OnClick(object sender, RoutedEventArgs e)
         {
-            bool pedidoCreado = await _dataService.CrearPedido(_pedidoPorCrear);
+            bool pedidoCreado = await _app.pedidoDataService.CrearPedido(_pedidoPorCrear);
 
             if (pedidoCreado)
             {

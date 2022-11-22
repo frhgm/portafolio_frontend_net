@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using classLibrary.DTO;
 using System.Data;
+using System.Globalization;
 using app.Ventanas.Modales;
 using classLibrary.DataServices;
 using classLibrary.DTOs;
@@ -21,8 +22,8 @@ namespace app.Ventanas
     /// </summary>
     public partial class Pedidos
     {
+        App _app = ((App)Application.Current);
         List<EntradaMenu> menus = new();
-        private readonly SolicitudesDataService dataService = new();
         private int rolId;
 
 
@@ -37,6 +38,7 @@ namespace app.Ventanas
                 return;
             }
             AgregarMenus();
+            CargarPedidos();
         }
 
         public void MenuSeleccionadoSet(object sender, EventArgs e, string menu)
@@ -92,10 +94,10 @@ namespace app.Ventanas
         /// <summary>
         /// Se llama al metodo TraerUsuarios, que va a buscar al servidor sp_get_all_users, y pobla el DataGrid con esta lista
         /// </summary>
-        private async void CargarSolicitudes()
+        private async void CargarPedidos()
         {
-            var solicitudes = await dataService.TraerSolicitudes();
-            SolicitudesDG.ItemsSource = solicitudes.solicitudes_pedidos; 
+            var pedidos = await _app.pedidoDataService.TraerPedidos();
+            PedidosDG.ItemsSource = pedidos.pedidos;
         }
 
         private async void BorrarUsuario_Click(object sender, RoutedEventArgs e)

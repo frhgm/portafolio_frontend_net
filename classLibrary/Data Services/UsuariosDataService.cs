@@ -52,6 +52,7 @@ namespace classLibrary.DataServices
             try
             {
                 HttpResponseMessage response = await _httpClient.PostAsJsonAsync($"{_baseAddress}sp_login/", userParams);
+                var x = response.Content.ReadAsStringAsync().Result;
 
                 if (response.IsSuccessStatusCode)
                 {

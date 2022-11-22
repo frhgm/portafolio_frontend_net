@@ -38,7 +38,7 @@
             FontSize="18" />
         <!--  Tamanio de fuente para presentacion FontSize="17"  -->
         <DataGrid
-            x:Name="SolicitudesDG"
+            x:Name="PedidosDG"
             Grid.Row="1"
             Margin="5"
             AutoGenerateColumns="False"
@@ -48,11 +48,15 @@
             IsReadOnly="True"
             IsSynchronizedWithCurrentItem="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Id}" Header="Id" />
-                <DataGridTextColumn Binding="{Binding Oferta}" Header="Oferta" />
-                <DataGridTextColumn Binding="{Binding Fecha}" Header="Fecha" />
-                <DataGridTextColumn Binding="{Binding Estado}" Header="Estado" />
+                <DataGridTextColumn Binding="{Binding PedidoId}" Header="Id" />
+                <DataGridTextColumn Binding="{Binding OfertaSubastaId}" Header="Oferta" />
+                <DataGridTextColumn Binding="{Binding FechaPedido}" Header="Fecha" />
+                <DataGridTextColumn Binding="{Binding EstadoPedido}" Header="Estado" />
                 <DataGridTextColumn Binding="{Binding Total}" Header="Total" />
+                <DataGridTextColumn Binding="{Binding SolicitudId}" Header="Solicitud" />
+                <DataGridTextColumn Binding="{Binding FechaSolicitud}" Header="Fecha" />
+                <DataGridTextColumn Binding="{Binding Direccion}" Header="Direccion" />
+                <DataGridTextColumn Binding="{Binding UsuarioId}" Header="Usuario" />
                 <!-- <DataGridTemplateColumn Width="80" Header="Editar"> -->
                 <!--     <DataGridTemplateColumn.CellTemplate> -->
                 <!--         <DataTemplate> -->

@@ -138,33 +138,29 @@ namespace classLibrary.DataServices
 
         public async Task<bool> CrearPedido(CrearPedido crearPedido)
         {
-            System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            // System.Net.ServicePointManager.Expect100Continue = false;
+            Pedido pedido = new();
+            pedido.pedido = crearPedido;
             try
             {
-                CrearPedido creacion = new CrearPedido();
-                creacion = crearPedido;
-
-                object json = new { in_objeto_json = JsonSerializer.Serialize(creacion) };
-                string jsonSolicitud =
-                    JsonSerializer.Serialize<object>(json, _jsonSerializerOptions);
-
-                // string jsonSolicitud = JsonConvert.SerializeObject(json);
-
-                // jsonSolicitud = jsonSolicitud.Replace("\"", "\\\"");
-
-                StringContent content = new StringContent(jsonSolicitud, Encoding.UTF8, "text/plain");
-                var x = content.ReadAsStringAsync();
-
+                string in_objeto_json = "{'in_objeto_json': '".Replace("'", "\"");
+                string jsonSerializado = JsonSerializer.Serialize(pedido).Replace("\"", "\\\"");
+                // string jsonSerializado =
+                //     "{\"pedido\":{\"solicitud_id\":172,\"detalle_pedido\":[{\"producto_id\":4,\"calidad\":5,\"productor_id\":\"1-1\",\"cantidad\":111,\"precio\":5000}]}}"
+                //         .Replace("\"", "\\\"");
+                string final = in_objeto_json + jsonSerializado;
+                string ultimaLlave = "'}".Replace("'", "\"");
+                final += ultimaLlave;
+                StringContent content = new StringContent(final, Encoding.Default, "application/json");
+                var x = await content.ReadAsStringAsync();
                 HttpResponseMessage response =
                     await _httpClient.PostAsync($"{_baseAddress}sp_insert_pedido_y_detalle/", content);
+                var y = response.Content.ReadAsStringAsync().Result;
                 if (response.IsSuccessStatusCode)
                 {
                     Debug.WriteLine("Pedido ingresado!");
-                    // var responseContent = response.Content.ReadAsStringAsync().Result;
+                    var responseContent = response.Content.ReadAsStringAsync().Result;
                     ResponseGeneral APIResponse =
-                        JsonSerializer.Deserialize<ResponseGeneral>(response.Content.ReadAsStringAsync().Result,
-                            _jsonSerializerOptions);
+                        JsonSerializer.Deserialize<ResponseGeneral>(responseContent, _jsonSerializerOptions);
                     if (APIResponse.Glosa != null || APIResponse is null)
                     {
                         return false;
@@ -188,3 +184,62 @@ namespace classLibrary.DataServices
         }
     }
 }
+// public async Task<bool> CrearPedido(CrearPedido crearPedido)
+// {
+//     // System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+//     // System.Net.ServicePointManager.Expect100Continue = false;
+//     Pedido pedido = new();
+//     pedido.pedido = crearPedido;
+//     try
+//     {
+//         object pedidoParams = new { in_objeto_json = JsonConvert.SerializeObject(pedido) };
+//         HttpResponseMessage response = await _httpClient.PostAsJsonAsync($"{_baseAddress}sp_insert_pedido_y_detalle/", pedidoParams);
+//         // string jsonSerializado = JsonSerializer.Serialize(pedido).Replace("\"", "\\\"");
+//         //
+//         // string in_objeto_json = "{'in_objeto_json': '".Replace("'", "\"");
+//         // // string jsonSerializado =
+//         //     // "{\"pedido\":{\"solicitud_id\":172,\"detalle_pedido\":[{\"producto_id\":4,\"calidad\":5,\"productor_id\":\"1-1\",\"cantidad\":111,\"precio\":5000}]}}"
+//         //         // .Replace("\"", "\\\"");
+//         // string final = in_objeto_json + jsonSerializado;
+//         // string ultimaLlave = "'}".Replace("'", "\"");
+//         //
+//         // final+=ultimaLlave;
+//         // // string jsonSolicitud = JsonConvert.SerializeObject(json);
+//         //
+//         //
+//         // StringContent content = new StringContent(final, Encoding.Default, "text/plain");
+//         // Debug.WriteLine(content);
+//         //
+//         // var x = await content.ReadAsStringAsync();
+//         // Console.WriteLine(x);
+//         // HttpResponseMessage response =
+//         //     await _httpClient.PostAsync($"{_baseAddress}sp_insert_pedido_y_detalle/", content);
+//         var y = response.Content.ReadAsStringAsync().Result;
+//         if (response.IsSuccessStatusCode)
+//         {
+//             Debug.WriteLine("Pedido ingresado!");
+//             // var responseContent = response.Content.ReadAsStringAsync().Result;
+//             ResponseGeneral APIResponse =
+//                 JsonSerializer.Deserialize<ResponseGeneral>(response.Content.ReadAsStringAsync().Result,
+//                     _jsonSerializerOptions);
+//             if (APIResponse.Glosa != null || APIResponse is null)
+//             {
+//                 return false;
+//             }
+//
+//             return true;
+//         }
+//         else
+//         {
+//             var result = response.Content.ReadAsStringAsync().Result;
+//             Debug.WriteLine($"No fue un status 2XX: {response.StatusCode}");
+//             return false;
+//         }
+//     }
+//     catch (Exception ex)
+//     {
+//         Debug.WriteLine($"Hubo un error {ex.Message}");
+//     }
+//
+//     return false;
+// }

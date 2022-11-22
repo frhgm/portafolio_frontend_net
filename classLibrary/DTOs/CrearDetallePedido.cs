@@ -7,9 +7,9 @@ namespace classLibrary.DTOs
     {
         [JsonPropertyName("producto_id")] public int ProductoId { get; set; }
         [JsonPropertyName("productor_id")] public string Productor_Id { get; set; }
-        [JsonPropertyName("calidad")] public string Calidad { get; set; }
-        [JsonPropertyName("cantidad")] public string Cantidad { get; set; }
-        [JsonPropertyName("precio")] public string Precio { get; set; }
+        [JsonPropertyName("calidad")] public int Calidad { get; set; }
+        [JsonPropertyName("cantidad")] public int Cantidad { get; set; }
+        [JsonPropertyName("precio")] public int Precio { get; set; }
     }
 
     public class ListaFilasProductoProductor

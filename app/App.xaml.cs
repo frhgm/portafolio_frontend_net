@@ -17,13 +17,14 @@ namespace app
     {
         public SubastaDataService subastaDataService;
         public PedidosDataService pedidoDataService;
-
+        public SolicitudesDataService solicitudDataService;
         protected override void OnStartup(StartupEventArgs e)
         {
             XamlDisplay.Init();
             base.OnStartup(e);
             subastaDataService = new();
             pedidoDataService = new();
+            solicitudDataService = new();
         }
     }
 }
