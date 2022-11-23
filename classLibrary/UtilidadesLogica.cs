@@ -60,11 +60,11 @@ namespace classLibrary
         public static async void PoblarComboSolicitudes(ComboBox combo)
         {
             var solicitudDataService = new SolicitudesDataService();
-            var solicitudesClientes = await solicitudDataService.TraerSolicitudes();
+            var solicitudesClientes = await solicitudDataService.TraerSolicitudesRecibidas();
             // combo.ItemsSource = solicitudesClientes.solicitudes_pedidos;
             // combo.DisplayMemberPath = "Usuario_id";
 
-            foreach (var solicitud in solicitudesClientes.solicitudes_pedidos)
+            foreach (var solicitud in solicitudesClientes.solicitudes_pedido_recibidas)
             {
                 combo.Items.Add(solicitud);
                 combo.DisplayMemberPath = "Mostrar_Solicitud";

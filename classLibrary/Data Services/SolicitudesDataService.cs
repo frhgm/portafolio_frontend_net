@@ -41,7 +41,7 @@ namespace classLibrary.DataServices
         /// Ejecuta sp_get_all_users para recuperar los usuarios
         /// </summary>
         /// <returns>Devuelve una lista de usuarios registrados en el sistema</returns>
-        public async Task<Solicitudes_Pedidos> TraerSolicitudes()
+        public async Task<Solicitudes_Pedido> TraerSolicitudes()
         {
             try
             {
@@ -55,7 +55,7 @@ namespace classLibrary.DataServices
                     if (content != string.Empty)
                     {
                         var solicitudes =
-                            JsonSerializer.Deserialize<Solicitudes_Pedidos>(content, _jsonSerializerOptions);
+                            JsonSerializer.Deserialize<Solicitudes_Pedido>(content, _jsonSerializerOptions);
                         return solicitudes;
                     }
                 }
@@ -72,6 +72,36 @@ namespace classLibrary.DataServices
             return null;
         }
         
+        public async Task<SolicitudesPedidos_Recibidas> TraerSolicitudesRecibidas()
+        {
+            try
+            {
+                HttpResponseMessage response =
+                    await _httpClient.PostAsJsonAsync($"{_baseAddress}sp_get_all_solicitudes_pedido_recibidas/",
+                        new { }); //puedo recibir
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync(); //tambien
+                    if (content != string.Empty)
+                    {
+                        var solicitudes =
+                            JsonSerializer.Deserialize<SolicitudesPedidos_Recibidas>(content, _jsonSerializerOptions);
+                        return solicitudes;
+                    }
+                }
+                else
+                {
+                    Debug.WriteLine("---> No es una respuesta del rango 200");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+            }
+
+            return null;
+        }
         /// <summary>
         /// Trae los detalles de una solicitud en particular
         /// </summary>
