@@ -44,7 +44,7 @@ namespace classLibrary.DataServices
                     {
                         var result =
                             JsonSerializer.Deserialize<PedidoAsociado>(content, _jsonSerializerOptions);
-                        if (result.LPedidos.Count == 0)
+                        if (result.pedidosAsociados.Count == 0)
                         {
                             return true;
                         }

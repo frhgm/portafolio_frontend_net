@@ -16,7 +16,7 @@ namespace classLibrary.DTOs
     }
 
     
-    public class LPedido
+    public class PedidosAsociados
     {
         [JsonPropertyName("pedido_id")]
         public int PedidoId { get; set; }
@@ -25,7 +25,7 @@ namespace classLibrary.DTOs
     public class PedidoAsociado
     {
         [JsonPropertyName("l_pedidos")]
-        public List<LPedido> LPedidos { get; set; }
+        public List<PedidosAsociados> pedidosAsociados { get; set; }
     }
 
 
