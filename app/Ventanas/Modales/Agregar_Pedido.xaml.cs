@@ -12,7 +12,7 @@ namespace app.Ventanas.Modales
 {
     public partial class Agregar_Pedido : Window
     {
-        private SolicitudPedido solicitudSeleccionada = null;
+        private SolicitudPedido_Recibida solicitudSeleccionada = null;
         App _app = ((App)Application.Current);
         private CrearPedido _pedidoPorCrear = new CrearPedido();
 
@@ -26,7 +26,7 @@ namespace app.Ventanas.Modales
         private void Add_Solicitud_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBox cb = (ComboBox)sender;
-            solicitudSeleccionada = (SolicitudPedido)cb.SelectedItem;
+            solicitudSeleccionada = (SolicitudPedido_Recibida)cb.SelectedItem;
         }
 
         private async void BuscarProductos_Productor_OnClick(object sender, RoutedEventArgs e)
