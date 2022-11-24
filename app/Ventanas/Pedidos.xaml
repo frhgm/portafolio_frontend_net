@@ -52,7 +52,7 @@
                 <DataGridTextColumn Binding="{Binding OfertaSubastaId}" Header="Oferta" />
                 <DataGridTextColumn Binding="{Binding FechaPedido}" Header="Fecha" />
                 <DataGridTextColumn Binding="{Binding EstadoPedido}" Header="Estado" />
-                <DataGridTextColumn Binding="{Binding Total}" Header="Total" />
+                <DataGridTextColumn Binding="{Binding Total, ConverterCulture='es-CL', StringFormat={}{0:C}}" Header="Total" />
                 <DataGridTextColumn Binding="{Binding SolicitudId}" Header="Solicitud" />
                 <DataGridTextColumn Binding="{Binding FechaSolicitud}" Header="Fecha" />
                 <DataGridTextColumn Binding="{Binding Direccion}" Header="Direccion" />
