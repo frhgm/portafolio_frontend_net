@@ -29,6 +29,38 @@ namespace classLibrary.DataServices
             _jsonSerializerOptions = new JsonSerializerOptions();
         }
 
+        public async Task<ListaSubastas> TraerSubastas()
+        {
+            try
+            {
+                HttpResponseMessage response =
+                    await _httpClient.PostAsJsonAsync($"{_baseAddress}sp_get_all_subastas/",
+                        new { }); //puedo recibir
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync(); //tambien
+
+                    if (content != string.Empty)
+                    {
+                        var subastas =
+                            JsonSerializer.Deserialize<ListaSubastas>(content, _jsonSerializerOptions);
+                        return subastas;
+                    }
+                }
+                else
+                {
+                    Debug.WriteLine("---> No es una respuesta del rango 200");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+            }
+
+            return null;
+        }
+
         public async Task<bool> PuedeInsertarSubasta(int pedidoId)
         {
             try
