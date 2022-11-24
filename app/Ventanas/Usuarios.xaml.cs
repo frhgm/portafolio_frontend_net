@@ -23,9 +23,10 @@ namespace app.Ventanas
         Rol rolSeleccionadoCrear = new Rol();
         Rol rolSeleccionadoModificar = new Rol();
         UtilidadesVentanas utilidadesVentanas = new UtilidadesVentanas();
+        //TODO Eliminar para presentacion
         public Usuario usuario { get; set; } = new("18392764-7", "Felipe", "Ramirez", "Hites", "framirezhites@maipogrande.cl", 9974303094, 1, "Admin", DateTime.Today, "663401993");
         List<EntradaMenu> menus = new();
-        private readonly UsuariosDataService usuarioDataService = new();
+        private readonly UsuariosDataService usuarioDataService = new(); // TODO Reemplazar en App.xaml.cs
         private int rolId;
 
         public void SetUsuario(Usuario usuario)
