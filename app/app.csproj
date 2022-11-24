@@ -37,6 +37,12 @@
       <Page Update="Ventanas\Pedidos.xaml">
         <SubType>Designer</SubType>
       </Page>
+      <Page Update="Ventanas\Subastas.xaml">
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="Ventanas\Ofertas.xaml">
+        <SubType>Designer</SubType>
+      </Page>
     </ItemGroup>
 
 </Project>
