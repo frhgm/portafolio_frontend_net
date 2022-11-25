@@ -24,6 +24,7 @@ namespace app.Ventanas
     {
         App _app = ((App)Application.Current);
         private Subasta subastaSeleccionada { get; set; } = null;
+        private int ofertaGanadora = 0;
         List<EntradaMenu> menus = new();
         private int rolId;
 
@@ -125,5 +126,17 @@ namespace app.Ventanas
             }
         }
 
+        private async void SubastarOfertas_Click(object sender, RoutedEventArgs e)
+        {
+            ofertaGanadora = await _app.ofertaDataService.Subastar(subastaSeleccionada.PedidoId);
+            if (ofertaGanadora != 0)
+            {
+                MessageBox.Show($"Gano la oferta N°{ofertaGanadora}!");
+            }
+            else
+            {
+                MessageBox.Show("Ocurrio un error, por favor intentar nuevamente");
+            }
+        }
     }
 }

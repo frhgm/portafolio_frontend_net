@@ -37,6 +37,11 @@
             Content="Ofertas de subasta"
             FontSize="18" />
         <!--  Tamanio de fuente para presentacion FontSize="17"  -->
+        <Button
+            x:Name="RefrescarTabla"
+            Margin="1207,10,5,3"
+            Click="SubastarOfertas_Click"
+            Content="{materialDesign:PackIcon Dollar}" />
         <DataGrid
             x:Name="OfertasDG"
             Grid.Row="1"
