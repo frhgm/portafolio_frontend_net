@@ -15,16 +15,18 @@ namespace app
     /// </summary>
     public partial class App : Application
     {
-        public SubastaDataService subastaDataService;
+        public OfertasSubastaDataService ofertaDataService;
         public PedidosDataService pedidoDataService;
         public SolicitudesDataService solicitudDataService;
+        public SubastaDataService subastaDataService;
         protected override void OnStartup(StartupEventArgs e)
         {
             XamlDisplay.Init();
             base.OnStartup(e);
-            subastaDataService = new();
+            ofertaDataService = new();
             pedidoDataService = new();
             solicitudDataService = new();
+            subastaDataService = new();
         }
     }
 }
