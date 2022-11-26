@@ -54,7 +54,7 @@
             IsSynchronizedWithCurrentItem="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding SubastaId}" Header="Subasta" />
-                <DataGridTextColumn Binding="{Binding MontoOfertado}" Header="Monto ofertado" />
+                <DataGridTextColumn Binding="{Binding MontoOfertado, ConverterCulture='es-CL', StringFormat={}{0:C}}" Header="Monto ofertado" />
                 <DataGridTextColumn Binding="{Binding PrecioPiso, ConverterCulture='es-CL', StringFormat={}{0:C}}" Header="Precio piso" />
                 <DataGridTextColumn Binding="{Binding FechaInicioSubasta}" Header="Fecha subasta" />
                 <DataGridTextColumn Binding="{Binding FechaOferta}" Header="Fecha oferta" />
