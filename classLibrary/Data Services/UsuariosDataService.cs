@@ -28,7 +28,8 @@ namespace classLibrary.DataServices
         public UsuariosDataService()
         {
             _httpClient = new HttpClient();
-            _baseAddress = "https://g15f555dd431949-maipograndebdd.adb.sa-santiago-1.oraclecloudapps.com/ords/Portafolio/";
+            _baseAddress =
+                "https://g15f555dd431949-maipograndebdd.adb.sa-santiago-1.oraclecloudapps.com/ords/Portafolio/";
             _jsonSerializerOptions = new JsonSerializerOptions();
         }
 
@@ -44,14 +45,14 @@ namespace classLibrary.DataServices
         /// <param name="rut">Es el rut ingresado al formulario por el usuario</param>
         /// <param name="pass">Es la contrasena ingresada al formulario por el usuario</param>
         /// <returns>Un usuario, o null</returns>
-
         public async Task<Usuario> Login(string rut, string pass)
         {
             string message = "";
             object userParams = new { p_rut = rut, p_pass = pass };
             try
             {
-                HttpResponseMessage response = await _httpClient.PostAsJsonAsync($"{_baseAddress}sp_login/", userParams);
+                HttpResponseMessage response =
+                    await _httpClient.PostAsJsonAsync($"{_baseAddress}sp_login/", userParams);
                 var x = response.Content.ReadAsStringAsync().Result;
 
                 if (response.IsSuccessStatusCode)
@@ -73,8 +74,10 @@ namespace classLibrary.DataServices
                             //db.Show();
                         }
                     }
+
                     return null;
                 }
+
                 return null;
             }
             catch (Exception ex)
@@ -83,16 +86,17 @@ namespace classLibrary.DataServices
                 return null;
             }
         }
+
         /// <summary>
         /// Ejecuta sp_get_all_users para recuperar los usuarios
         /// </summary>
         /// <returns>Devuelve una lista de usuarios registrados en el sistema</returns>
-
         public async Task<ListaUsuarios> TraerUsuarios()
         {
             try
             {
-                HttpResponseMessage response = await _httpClient.PostAsJsonAsync($"{_baseAddress}sp_get_all_users/", new { }); //puedo recibir
+                HttpResponseMessage response =
+                    await _httpClient.PostAsJsonAsync($"{_baseAddress}sp_get_all_users/", new { }); //puedo recibir
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -112,8 +116,10 @@ namespace classLibrary.DataServices
             {
                 Debug.WriteLine($"Exception: {ex.Message}");
             }
+
             return null;
         }
+
         /// <summary>
         /// Apartando el RUT, permitira actualizar un usuario
         /// </summary>
@@ -127,7 +133,8 @@ namespace classLibrary.DataServices
                 string jsonUsuario = JsonSerializer.Serialize(usuario, _jsonSerializerOptions);
                 StringContent content = new StringContent(jsonUsuario, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await _httpClient.PostAsync($"{_baseAddress}sp_update_usuario/", content);
+                HttpResponseMessage response =
+                    await _httpClient.PostAsync($"{_baseAddress}sp_update_usuario/", content);
                 if (response.IsSuccessStatusCode)
                 {
                     Debug.WriteLine("Usuario creado!");
@@ -180,7 +187,6 @@ namespace classLibrary.DataServices
             catch (Exception ex)
             {
                 Debug.WriteLine($"Hubo un error {ex.Message}");
-
             }
         }
 
@@ -196,23 +202,35 @@ namespace classLibrary.DataServices
                 string jsonUsuario = JsonSerializer.Serialize<RegistrarUsuario>(usuario, _jsonSerializerOptions);
                 StringContent content = new StringContent(jsonUsuario, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await _httpClient.PostAsync($"{_baseAddress}sp_insert_usuario/", content);
-                if (response.IsSuccessStatusCode)
+                HttpResponseMessage response =
+                    await _httpClient.PostAsync($"{_baseAddress}sp_insert_usuario/", content);
+                var result = response.Content.ReadAsStringAsync().Result;
+                var responseAPI = JsonSerializer.Deserialize<ResponseGeneral>(result, _jsonSerializerOptions);
+                if (responseAPI.MensajeSalida.Contains("CORRECTAMENTE"))
                 {
-                    Debug.WriteLine("Usuario creado!");
-                    return usuario;
+                    jsonUsuario =
+                        JsonSerializer.Serialize<object>(new { in_rut = usuario.Rut }, _jsonSerializerOptions);
+                    content = new StringContent(jsonUsuario, Encoding.UTF8, "application/json");
+                    response = await _httpClient.PostAsync($"{_baseAddress}sp_insert_contrato/", content);
+
+                    result = response.Content.ReadAsStringAsync().Result;
+                    responseAPI = JsonSerializer.Deserialize<ResponseGeneral>(result, _jsonSerializerOptions);
+                    if (responseAPI.MensajeSalida.Contains("CORRECTAMENTE"))
+                    {
+                        return usuario;
+                    }
+                    else
+                    {
+                        // TODO Se debera borrar usuario si no se registro un contrato
+                    }
                 }
-                else
-                {
-                    Debug.WriteLine($"No fue un status 2XX: {response.StatusCode}");
-                    return null;
-                }
+
             }
             catch (Exception ex)
             {
-
                 Debug.WriteLine($"Hubo un error {ex.Message}");
             }
+
             return null;
         }
     }

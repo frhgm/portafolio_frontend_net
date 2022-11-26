@@ -23,10 +23,10 @@ namespace app.Ventanas
         Rol rolSeleccionadoCrear = new Rol();
         Rol rolSeleccionadoModificar = new Rol();
         UtilidadesVentanas utilidadesVentanas = new UtilidadesVentanas();
+        App _app = ((App)Application.Current);
         //TODO Eliminar para presentacion
         public Usuario usuario { get; set; } = new("18392764-7", "Felipe", "Ramirez", "Hites", "framirezhites@maipogrande.cl", 9974303094, 1, "Admin", DateTime.Today, "663401993");
         List<EntradaMenu> menus = new();
-        private readonly UsuariosDataService usuarioDataService = new(); // TODO Reemplazar en App.xaml.cs
         private int rolId;
 
         public void SetUsuario(Usuario usuario)
@@ -62,7 +62,7 @@ namespace app.Ventanas
         private async void CargarUsuarios()
         {
             //TODO Se debe anclar al final de la pagina
-            var usuarios = await usuarioDataService.TraerUsuarios();
+            var usuarios = await _app.usuarioDataService.TraerUsuarios();
             UsuariosDG.ItemsSource = usuarios.usuarios;
         }
 
@@ -78,7 +78,7 @@ namespace app.Ventanas
 
             if (eleccion == MessageBoxResult.Yes)
             {
-                await usuarioDataService.BorrarUsuario(data);
+                await _app.usuarioDataService.BorrarUsuario(data);
             }
         }
 
@@ -102,12 +102,12 @@ namespace app.Ventanas
                 rolSeleccionadoCrear.Nombre_Rol,
                 DateTime.Today,
                 Add_Clave.Password);
-            RegistrarUsuario resultado = await usuarioDataService.CrearUsuario(usuarioPorRegistrar);
+            RegistrarUsuario resultado = await _app.usuarioDataService.CrearUsuario(usuarioPorRegistrar);
             if (resultado != null)
             {
                 //TODO Idealmente, simplemente agregar nueva fila https://stackoverflow.com/questions/24095172/how-i-can-add-new-row-into-datagrid-in-wpf
                 UsuariosDG.ItemsSource = null;
-                var usuarios = await usuarioDataService.TraerUsuarios();
+                var usuarios = await _app.usuarioDataService.TraerUsuarios();
                 UsuariosDG.ItemsSource = usuarios.usuarios;
                 MessageBox.Show("Usuario registrado exitosamente!");
             }
@@ -121,11 +121,11 @@ namespace app.Ventanas
                 Convert.ToInt64(Mod_Telefono.Text),
                 Mod_Clave.Password,
                 "");
-            var usuario = await usuarioDataService.ActualizarUsuario(usuarioPorActualizar);
+            var usuario = await _app.usuarioDataService.ActualizarUsuario(usuarioPorActualizar);
             if (usuario != null)
             {
                 UsuariosDG.ItemsSource = null;
-                var usuarios = await usuarioDataService.TraerUsuarios();
+                var usuarios = await _app.usuarioDataService.TraerUsuarios();
                 UsuariosDG.ItemsSource = usuarios.usuarios;
                 MessageBox.Show("Usuario actualizado exitosamente!");
             }
