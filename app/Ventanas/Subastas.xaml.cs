@@ -1,43 +1,29 @@
 using classLibrary;
-using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using classLibrary.DTO;
-using System.Data;
-using System.Globalization;
 using app.Ventanas.Modales;
-using classLibrary.DataServices;
 using classLibrary.DTOs;
 
 namespace app.Ventanas
 {
     /// <summary>
-    /// Interaction logic for ListarUsuario.xaml
+    /// Interaction logic for Subastas.xaml
     /// </summary>
     public partial class Subastas
     {
         App _app = ((App)Application.Current);
         List<EntradaMenu> menus = new();
         private int rolId;
+        private Subasta subastaSeleccionada { get; set; } = null;
+        private int ofertaGanadora = 0;
 
 
-        //TODO Esto deberia ser reemplazado por el patron MVVM
         public Subastas()
         {
             InitializeComponent();
-
-            if (UtilidadesLogica.ComprobarConexionInternet() == false)
-            {
-                MessageBox.Show("Sin conexion a internet, cerrando");
-                return;
-            }
-
             AgregarMenus();
             CargarSubastas();
         }
@@ -91,9 +77,6 @@ namespace app.Ventanas
         }
 
 
-        /// <summary>
-        /// Se llama al metodo TraerUsuarios, que va a buscar al servidor sp_get_all_users, y pobla el DataGrid con esta lista
-        /// </summary>
         private async void CargarSubastas()
         {
             var subastas = await _app.subastaDataService.TraerSubastas();
@@ -108,13 +91,25 @@ namespace app.Ventanas
             SubastasDG.ItemsSource = subastas.subastas;
         }
 
-
-        private void AgregarPedido_OnClick(object sender, RoutedEventArgs e)
+        private async void CargarOfertasDeSubasta()
         {
-            Agregar_Pedido ap = new Agregar_Pedido();
+            var ofertas = await _app.ofertaDataService.TraerOfertasDeSubasta(subastaSeleccionada.Id);
+            if (ofertas is null)
+            {
+                // TODO Mostrar de mejor manera?
+                MessageBox.Show("No se encontraron ofertas para esta subasta. \nAbajo puede crear");
+            }
+
+            OfertasDG.ItemsSource = null;
+            OfertasDG.ItemsSource = ofertas.OfertasSubasta;
+        }
+
+        private void AgregarSubasta_OnClick(object sender, RoutedEventArgs e)
+        {
+            Agregar_Subasta agregarSubasta = new Agregar_Subasta();
             try
             {
-                ap.ShowDialog();
+                agregarSubasta.ShowDialog();
             }
             catch (Exception ex)
             {
@@ -125,9 +120,22 @@ namespace app.Ventanas
         private void VerOfertas_Click(object sender, RoutedEventArgs e)
         {
             Subasta data = (sender as FrameworkElement).DataContext as Subasta;
-            Ofertas o = new Ofertas();
-            o.SetSubasta(data);
-            o.ShowDialog();
+            subastaSeleccionada = data;
+            CargarOfertasDeSubasta();
+            SubastarOfertas.IsEnabled = true;
+        }
+
+        private async void SubastarOfertas_Click(object sender, RoutedEventArgs e)
+        {
+            ofertaGanadora = await _app.ofertaDataService.Subastar(subastaSeleccionada.PedidoId);
+            if (ofertaGanadora != 0)
+            {
+                MessageBox.Show($"Gano la oferta N°{ofertaGanadora}!");
+            }
+            else
+            {
+                MessageBox.Show("Ocurrio un error, por favor intentar nuevamente");
+            }
         }
     }
 }
