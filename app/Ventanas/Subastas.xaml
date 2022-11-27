@@ -70,7 +70,7 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Grid.Row="2" Grid.Column="0" Name="AgregarPedido" Click="AgregarSubasta_OnClick">Agregar subasta</Button>
+        <Button Grid.Row="2" Grid.Column="0" Name="AgregarSubasta" Click="AgregarSubasta_OnClick">Agregar subasta</Button>
         <DataGrid
             x:Name="OfertasDG"
             Grid.Row="3"
