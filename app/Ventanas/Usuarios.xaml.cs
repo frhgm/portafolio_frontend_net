@@ -38,12 +38,6 @@ namespace app.Ventanas
         {
             InitializeComponent();
 
-            if (UtilidadesLogica.ComprobarConexionInternet() == false)
-            {
-                MessageBox.Show("Sin conexion a internet, cerrando");
-                return;
-            }
-
             this.rolId = usuario.RolId;
             var menus = utilidadesVentanas.AgregarMenus("Usuarios");
             menuPrincipal.Items.Add(menus.Item1);
