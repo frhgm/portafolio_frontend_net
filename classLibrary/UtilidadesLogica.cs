@@ -74,8 +74,8 @@ namespace classLibrary
 
         public static async void PoblarComboPedidos(ComboBox combo, PedidosDataService dataService)
         {
-            var pedidosCliente = await dataService.TraerPedidos();
-            foreach (var pedido in pedidosCliente.pedidos)
+            var pedidosCliente = await dataService.TraerPedidosSinSubasta();
+            foreach (var pedido in pedidosCliente.pedidos_sin_subastar)
             {
                 combo.Items.Add(pedido);
                 combo.DisplayMemberPath = "Mostrar_Pedido";

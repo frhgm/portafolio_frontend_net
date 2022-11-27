@@ -43,11 +43,11 @@ namespace classLibrary.DataServices
             {
                 HttpResponseMessage response =
                     await _httpClient.PostAsJsonAsync($"{_baseAddress}sp_get_all_pedidos/",
-                        new { }); //puedo recibir
+                        new { });
 
                 if (response.IsSuccessStatusCode)
                 {
-                    string content = await response.Content.ReadAsStringAsync(); //tambien
+                    string content = await response.Content.ReadAsStringAsync();
 
                     if (content != string.Empty)
                     {
@@ -69,17 +69,47 @@ namespace classLibrary.DataServices
             return null;
         }
 
+        public async Task<PedidosSinSubastar> TraerPedidosSinSubasta()
+        {
+            try
+            {
+                HttpResponseMessage response =
+                    await _httpClient.PostAsJsonAsync($"{_baseAddress}sp_get_all_pedidos_sin_subastar/",
+                        new { });
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+                    if (content != string.Empty)
+                    {
+                        var pedidosSinSubastar =
+                            JsonSerializer.Deserialize<PedidosSinSubastar>(content, _jsonSerializerOptions);
+                        return pedidosSinSubastar;
+                    }
+                }
+                else
+                {
+                    Debug.WriteLine("---> No es una respuesta del rango 200");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+            }
+
+            return null;
+        }
         public async Task<ProductoProductor> TraerProductosProductorPedido(int idProductoCliente)
         {
             try
             {
                 HttpResponseMessage response =
                     await _httpClient.PostAsJsonAsync($"{_baseAddress}sp_producto_productor_pedido/",
-                        new { in_id_pc = idProductoCliente.ToString() }); //puedo recibir
+                        new { in_id_pc = idProductoCliente.ToString() }); 
 
                 if (response.IsSuccessStatusCode)
                 {
-                    string content = await response.Content.ReadAsStringAsync(); //tambien
+                    string content = await response.Content.ReadAsStringAsync(); 
 
                     if (content != string.Empty)
                     {
@@ -111,11 +141,11 @@ namespace classLibrary.DataServices
                         {
                             in_pp_id = productoProductorId.ToString(),
                             in_pc_id = productoClienteId.ToString()
-                        }); //puedo recibir
+                        });
 
                 if (response.IsSuccessStatusCode)
                 {
-                    string content = await response.Content.ReadAsStringAsync(); //tambien
+                    string content = await response.Content.ReadAsStringAsync();
                     if (content != string.Empty)
                     {
                         var filas =
@@ -182,62 +212,3 @@ namespace classLibrary.DataServices
         }
     }
 }
-// public async Task<bool> CrearPedido(CrearPedido crearPedido)
-// {
-//     // System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-//     // System.Net.ServicePointManager.Expect100Continue = false;
-//     Pedido pedido = new();
-//     pedido.pedido = crearPedido;
-//     try
-//     {
-//         object pedidoParams = new { in_objeto_json = JsonConvert.SerializeObject(pedido) };
-//         HttpResponseMessage response = await _httpClient.PostAsJsonAsync($"{_baseAddress}sp_insert_pedido_y_detalle/", pedidoParams);
-//         // string jsonSerializado = JsonSerializer.Serialize(pedido).Replace("\"", "\\\"");
-//         //
-//         // string in_objeto_json = "{'in_objeto_json': '".Replace("'", "\"");
-//         // // string jsonSerializado =
-//         //     // "{\"pedido\":{\"solicitud_id\":172,\"detalle_pedido\":[{\"producto_id\":4,\"calidad\":5,\"productor_id\":\"1-1\",\"cantidad\":111,\"precio\":5000}]}}"
-//         //         // .Replace("\"", "\\\"");
-//         // string final = in_objeto_json + jsonSerializado;
-//         // string ultimaLlave = "'}".Replace("'", "\"");
-//         //
-//         // final+=ultimaLlave;
-//         // // string jsonSolicitud = JsonConvert.SerializeObject(json);
-//         //
-//         //
-//         // StringContent content = new StringContent(final, Encoding.Default, "text/plain");
-//         // Debug.WriteLine(content);
-//         //
-//         // var x = await content.ReadAsStringAsync();
-//         // Console.WriteLine(x);
-//         // HttpResponseMessage response =
-//         //     await _httpClient.PostAsync($"{_baseAddress}sp_insert_pedido_y_detalle/", content);
-//         var y = response.Content.ReadAsStringAsync().Result;
-//         if (response.IsSuccessStatusCode)
-//         {
-//             Debug.WriteLine("Pedido ingresado!");
-//             // var responseContent = response.Content.ReadAsStringAsync().Result;
-//             ResponseGeneral APIResponse =
-//                 JsonSerializer.Deserialize<ResponseGeneral>(response.Content.ReadAsStringAsync().Result,
-//                     _jsonSerializerOptions);
-//             if (APIResponse.Glosa != null || APIResponse is null)
-//             {
-//                 return false;
-//             }
-//
-//             return true;
-//         }
-//         else
-//         {
-//             var result = response.Content.ReadAsStringAsync().Result;
-//             Debug.WriteLine($"No fue un status 2XX: {response.StatusCode}");
-//             return false;
-//         }
-//     }
-//     catch (Exception ex)
-//     {
-//         Debug.WriteLine($"Hubo un error {ex.Message}");
-//     }
-//
-//     return false;
-// }

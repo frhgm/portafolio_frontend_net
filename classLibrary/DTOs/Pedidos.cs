@@ -1,15 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
-using Newtonsoft.Json;
 
 namespace classLibrary.DTOs
 {
-    // public class CrearPedido
-    // {
-    //     [JsonPropertyName("pedido")]
-    //     public Pedido pedido { get; set; }
-    // }
     public class Pedido
     {
         public CrearPedido pedido { get; set; }
@@ -65,9 +59,26 @@ namespace classLibrary.DTOs
             Mostrar_Pedido = $"Pedido N°: {PedidoId} \nCliente: {UsuarioId}";
         }
     }
+    public class PedidoSinSubasta
+    {
+        [JsonPropertyName("id")] public int Id { get; set; }
+        [JsonPropertyName("rut_cliente")] public string Usuario_id { get; set; }
+        public string Mostrar_Pedido { get; set; }
+
+        public PedidoSinSubasta(int id, string usuario_id)
+        {
+            Id = id;
+            Usuario_id = usuario_id;
+            Mostrar_Pedido = $"Pedido N°: {Id} \nCliente: {Usuario_id}";
+        }
+    }
 
     public class ListaPedidos
     {
         public List<Pedidos> pedidos { get; set; }
+    }
+    public class PedidosSinSubastar
+    {
+        public List<PedidoSinSubasta> pedidos_sin_subastar { get; set; }
     }
 }
