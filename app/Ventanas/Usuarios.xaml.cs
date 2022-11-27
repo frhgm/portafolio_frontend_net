@@ -22,10 +22,9 @@ namespace app.Ventanas
     {
         Rol rolSeleccionadoCrear = new Rol();
         Rol rolSeleccionadoModificar = new Rol();
-        UtilidadesVentanas utilidadesVentanas = new UtilidadesVentanas();
+        UtilidadesVentanas _utilidadesVentanas = new();
         App _app = ((App)Application.Current);
-        //TODO Eliminar para presentacion
-        public Usuario usuario { get; set; } = new("18392764-7", "Felipe", "Ramirez", "Hites", "framirezhites@maipogrande.cl", 9974303094, 1, "Admin", DateTime.Today, "663401993");
+        public Usuario usuario { get; set; }
         List<EntradaMenu> menus = new();
         private int rolId;
 
@@ -33,19 +32,15 @@ namespace app.Ventanas
         {
             this.usuario = usuario;
         }
-        //TODO Esto deberia ser reemplazado por el patron MVVM
+
         public Usuarios()
         {
             InitializeComponent();
-
-            this.rolId = usuario.RolId;
-            utilidadesVentanas.AgregarMenus("Usuarios", menuPrincipal);
-
+            _utilidadesVentanas.AgregarMenus("Usuarios", menuPrincipal);
             CargarUsuarios();
             UtilidadesLogica.PoblarCombosRoles(Add_Rol);
             UtilidadesLogica.PoblarCombosRoles(Mod_Rol);
         }
-
 
 
         /// <summary>
@@ -58,15 +53,12 @@ namespace app.Ventanas
             UsuariosDG.ItemsSource = usuarios.usuarios;
         }
 
-        private void SeleccionarUsuarioParaEditar_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
         private async void BorrarUsuario_Click(object sender, RoutedEventArgs e)
         {
             Usuario data = (sender as FrameworkElement).DataContext as Usuario;
 
-            var eleccion = MessageBox.Show("Seguro que desea eliminar un usuario?", "Seleccione una opcion", MessageBoxButton.YesNo);
+            var eleccion = MessageBox.Show("Seguro que desea eliminar un usuario?", "Seleccione una opcion",
+                MessageBoxButton.YesNo);
 
             if (eleccion == MessageBoxResult.Yes)
             {
@@ -76,13 +68,12 @@ namespace app.Ventanas
 
         private async void AgregarUsuario_Click(object sender, RoutedEventArgs e)
         {
-
             if (!Rut.RutValido(Add_Rut.Text))
             {
                 MessageBox.Show("Debe ingresar un rut valido");
                 return;
             }
- 
+
             RegistrarUsuario usuarioPorRegistrar = new(
                 Add_Rut.Text,
                 Add_Nombre.Text,
@@ -136,15 +127,16 @@ namespace app.Ventanas
                 Mod_Email.Text = fila.Email;
                 Mod_Telefono.Text = fila.Telefono.ToString();
 
-                Mod_Rol.SelectedIndex = fila.RolId - 1; //TODO Esto esta asi porque la lista empieza en 1, y el arreglo en 0
+                Mod_Rol.SelectedIndex =
+                    fila.RolId - 1; //TODO Esto esta asi porque la lista empieza en 1, y el arreglo en 0
                 rolSeleccionadoCrear.Id = fila.RolId;
                 rolSeleccionadoCrear.Nombre_Rol = fila.NombreRol;
                 //TODO Se debe arreglar para que muestre Rol correcto
                 //Quizas iniciar desde 0 los ID?
                 //Mod_Rol.SelectedIndex -= 1;
-
             }
         }
+
         /// <summary>
         /// Actualiza el rol seleccionado para crear un usuario
         /// </summary>
@@ -158,6 +150,7 @@ namespace app.Ventanas
             rolSeleccionadoCrear.Id = fila.Id;
             rolSeleccionadoCrear.Nombre_Rol = fila.Nombre_Rol;
         }
+
         private void Mod_Rol_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBox cb = (ComboBox)sender;
@@ -166,7 +159,5 @@ namespace app.Ventanas
             rolSeleccionadoModificar.Id = fila.Id;
             rolSeleccionadoModificar.Nombre_Rol = fila.Nombre_Rol;
         }
-
-
     }
 }

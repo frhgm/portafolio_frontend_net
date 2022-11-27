@@ -7,9 +7,7 @@ namespace app.Ventanas
 {
     public partial class Login : Window
     {
-        UsuariosDataService usuarioDataService = new();
-        public Usuario usuarioInput = null;
-
+        App _app = ((App)Application.Current);
         public Login()
         {
             InitializeComponent();
@@ -35,10 +33,9 @@ namespace app.Ventanas
             }
             else
             {
-                var usuario = await usuarioDataService.Login(TxtRut.Text, TxtPass.Password);
-                usuarioInput = usuario;
+                var usuario = await _app.usuarioDataService.Login(TxtRut.Text, TxtPass.Password);
 
-                if (usuario == null)
+                if (usuario.Rut == "")
                 {
                     MessageBox.Show("Credenciales incorrectas");
                 }
@@ -49,17 +46,11 @@ namespace app.Ventanas
                         MessageBox.Show("Debe ingresar por el sitio web, cerrando...");
                         this.Close();
                     }
-                    //MessageBox.Show("Exito!");
                     //TODO Enviar usuario recuperado a Lista
                     Usuarios u = new Usuarios();
                     u.SetUsuario(usuario);
-                    //{
-                    //    Content = new MenuDinamico(usuario.RolId)
-                    //};
 
                     u.Show();
-                    Login l = new Login();
-                    l.Close();
                 }
             }
 
