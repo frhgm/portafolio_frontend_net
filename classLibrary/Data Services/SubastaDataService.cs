@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
@@ -35,7 +33,7 @@ namespace classLibrary.DataServices
             {
                 HttpResponseMessage response =
                     await _httpClient.PostAsJsonAsync($"{_baseAddress}sp_get_all_subastas/",
-                        new { }); //puedo recibir
+                        new { });
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -67,11 +65,11 @@ namespace classLibrary.DataServices
             {
                 HttpResponseMessage response =
                     await _httpClient.PostAsJsonAsync($"{_baseAddress}sp_insert_subasta_checker/",
-                        new { in_pedido_id = pedidoId.ToString() }); //puedo recibir
+                        new { in_pedido_id = pedidoId.ToString() });
 
                 if (response.IsSuccessStatusCode)
                 {
-                    string content = await response.Content.ReadAsStringAsync(); //tambien
+                    string content = await response.Content.ReadAsStringAsync();
                     if (content != string.Empty)
                     {
                         var result =
@@ -86,16 +84,7 @@ namespace classLibrary.DataServices
                 }
 
                 return true;
-                // if (responseAPI.MensajeSalida.Contains("CORRECTAMENTE"))
-                // {
-                // Debug.WriteLine("Subasta creada!");
-                // return true;
-                // }
-                // else
-                // {
-                // Debug.WriteLine($"No fue un status 2XX: {response.StatusCode}");
-                // return false;
-                // }
+                
             }
             catch (Exception ex)
             {

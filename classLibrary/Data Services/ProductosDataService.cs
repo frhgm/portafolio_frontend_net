@@ -44,11 +44,11 @@ namespace classLibrary.DataServices
         {
             try
             {
-                HttpResponseMessage response = await _httpClient.PostAsJsonAsync($"{_baseAddress}sp_get_all_productos/", new { }); //puedo recibir
+                HttpResponseMessage response = await _httpClient.PostAsJsonAsync($"{_baseAddress}sp_get_all_productos/", new { });
 
                 if (response.IsSuccessStatusCode)
                 {
-                    string content = await response.Content.ReadAsStringAsync(); //tambien
+                    string content = await response.Content.ReadAsStringAsync();
                     if (content != string.Empty)
                     {
                         var productos = JsonSerializer.Deserialize<Productos>(content, _jsonSerializerOptions);
@@ -66,12 +66,6 @@ namespace classLibrary.DataServices
             }
             return null;
         }
-        /// <summary>
-        /// Apartando el RUT, permitira actualizar un usuario
-        /// </summary>
-        /// <param name="usuario">Un usuario completo, para identificar y capturar campos a modificar</param>
-        /// <returns>El nuevo usuario</returns>
-        /// <exception cref="NotImplementedException"></exception>
         public async Task<bool> ActualizarProducto(ActualizarProducto producto)
         {
             try
@@ -102,12 +96,6 @@ namespace classLibrary.DataServices
             }
         }
 
-        /// <summary>
-        /// Borra un usuario por el RUT
-        /// </summary>
-        /// <param name="in_id">Id de producto seleccionado a borrar/param>
-        /// <returns>Nada</returns>
-        /// <exception cref="NotImplementedException"></exception>
         public async Task<bool> BorrarProducto(int in_id)
         {
             try
@@ -143,11 +131,6 @@ namespace classLibrary.DataServices
             }
         }
 
-        /// <summary>
-        /// Crea un usuario con los datos recibidos de formulario
-        /// </summary>
-        /// <param name="producto">Un producto completo, donde se procesara e intentara insertar todos sus datos</param>
-        /// <returns>El mismo usuario enviado en caso de exito, o null si no</returns>
         public async Task<bool> CrearProducto(RegistrarProducto producto)
         {
             try

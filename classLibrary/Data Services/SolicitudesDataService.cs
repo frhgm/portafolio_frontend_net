@@ -1,19 +1,11 @@
-﻿using classLibrary.DTO;
-using classLibrary.DTOs;
+﻿using classLibrary.DTOs;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
-using System.Security.Policy;
 using System.Text;
-using System.Text.Encodings.Web;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using System.Windows;
 using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
@@ -37,21 +29,18 @@ namespace classLibrary.DataServices
         }
 
 
-        /// <summary>
-        /// Ejecuta sp_get_all_users para recuperar los usuarios
-        /// </summary>
-        /// <returns>Devuelve una lista de usuarios registrados en el sistema</returns>
+        
         public async Task<Solicitudes_Pedido> TraerSolicitudes()
         {
             try
             {
                 HttpResponseMessage response =
                     await _httpClient.PostAsJsonAsync($"{_baseAddress}sp_get_all_solicitud_pedido/",
-                        new { }); //puedo recibir
+                        new { });
 
                 if (response.IsSuccessStatusCode)
                 {
-                    string content = await response.Content.ReadAsStringAsync(); //tambien
+                    string content = await response.Content.ReadAsStringAsync();
                     if (content != string.Empty)
                     {
                         var solicitudes =
@@ -78,11 +67,11 @@ namespace classLibrary.DataServices
             {
                 HttpResponseMessage response =
                     await _httpClient.PostAsJsonAsync($"{_baseAddress}sp_get_all_solicitudes_pedido_recibidas/",
-                        new { }); //puedo recibir
+                        new { });
 
                 if (response.IsSuccessStatusCode)
                 {
-                    string content = await response.Content.ReadAsStringAsync(); //tambien
+                    string content = await response.Content.ReadAsStringAsync();
                     if (content != string.Empty)
                     {
                         var solicitudes =
@@ -113,11 +102,11 @@ namespace classLibrary.DataServices
             {
                 HttpResponseMessage response =
                     await _httpClient.PostAsJsonAsync($"{_baseAddress}sp_get_detalle_solicitud_pedido/",
-                        new { in_id_solicitud_pedido = idSolicitudPedido.ToString() }); //puedo recibir
+                        new { in_id_solicitud_pedido = idSolicitudPedido.ToString() });
 
                 if (response.IsSuccessStatusCode)
                 {
-                    string content = await response.Content.ReadAsStringAsync(); //tambien
+                    string content = await response.Content.ReadAsStringAsync(); 
                     if (content != string.Empty)
                     {
                         var detalles =

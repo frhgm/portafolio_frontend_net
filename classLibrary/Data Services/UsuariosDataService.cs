@@ -1,16 +1,10 @@
 ﻿using classLibrary.DTOs;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
-using System.Security.Policy;
 using System.Text;
-using System.Text.Encodings.Web;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -96,11 +90,11 @@ namespace classLibrary.DataServices
             try
             {
                 HttpResponseMessage response =
-                    await _httpClient.PostAsJsonAsync($"{_baseAddress}sp_get_all_users/", new { }); //puedo recibir
+                    await _httpClient.PostAsJsonAsync($"{_baseAddress}sp_get_all_users/", new { });
 
                 if (response.IsSuccessStatusCode)
                 {
-                    string content = await response.Content.ReadAsStringAsync(); //tambien
+                    string content = await response.Content.ReadAsStringAsync();
                     if (content != string.Empty)
                     {
                         var usuarios = JsonSerializer.Deserialize<ListaUsuarios>(content, _jsonSerializerOptions);
@@ -211,7 +205,7 @@ namespace classLibrary.DataServices
                     /*
                      TODO Esto facilmente podria extraerse en otro metodo, y si no se creo el contrato se puede
                       controlar si se borra el usaurio recien creado, o como minimo limpiar el codigo.
-                    */ 
+                    */
                     jsonUsuario =
                         JsonSerializer.Serialize<object>(new { in_rut = usuario.Rut }, _jsonSerializerOptions);
                     content = new StringContent(jsonUsuario, Encoding.UTF8, "application/json");
@@ -228,7 +222,6 @@ namespace classLibrary.DataServices
                         // TODO Se debera borrar usuario si no se registro un contrato
                     }
                 }
-
             }
             catch (Exception ex)
             {
