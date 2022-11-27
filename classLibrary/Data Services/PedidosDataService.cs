@@ -144,9 +144,7 @@ namespace classLibrary.DataServices
             {
                 string in_objeto_json = "{'in_objeto_json': '".Replace("'", "\"");
                 string jsonSerializado = JsonSerializer.Serialize(pedido).Replace("\"", "\\\"");
-                // string jsonSerializado =
-                //     "{\"pedido\":{\"solicitud_id\":172,\"detalle_pedido\":[{\"producto_id\":4,\"calidad\":5,\"productor_id\":\"1-1\",\"cantidad\":111,\"precio\":5000}]}}"
-                //         .Replace("\"", "\\\"");
+                
                 string final = in_objeto_json + jsonSerializado;
                 string ultimaLlave = "'}".Replace("'", "\"");
                 final += ultimaLlave;

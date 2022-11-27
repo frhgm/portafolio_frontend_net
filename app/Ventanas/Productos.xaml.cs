@@ -1,25 +1,18 @@
-﻿using classLibrary;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using classLibrary.DTO;
-using System.Data;
 using classLibrary.DTOs;
 using System.Diagnostics;
 using System.IO;
 using classLibrary.DataServices;
-using app;
 
 namespace app.Ventanas
 {
     /// <summary>
-    /// Interaction logic for ListarUsuario.xaml
+    /// Interaction logic for Productos.xaml
     /// </summary>
     public partial class Productos
     {
@@ -36,11 +29,6 @@ namespace app.Ventanas
         {
             InitializeComponent();
 
-            if (UtilidadesLogica.ComprobarConexionInternet() == false)
-            {
-                MessageBox.Show("Sin conexion a internet, cerrando");
-                return;
-            }
             // TODO Recuperar nombre de ventana actual, asi si cambia el nombre no se caera al invocarla
             var menus = utilidadesVentanas.AgregarMenus("Productos");
             menuPrincipal.Items.Add(menus.Item1);
@@ -185,28 +173,5 @@ namespace app.Ventanas
                 urlFilaImagenSeleccionada = fila.Imagen;
             }
         }
-        ///// <summary>
-        ///// Actualiza el rol seleccionado para crear un usuario
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e">Evento de cambio de seleccion, se parsea como un Rol para asi capturar su id y nombre</param>
-        //private void Add_Rol_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    ComboBox cb = (ComboBox)sender;
-        //    Rol fila = (Rol)cb.SelectedItem;
-
-        //    rolSeleccionadoCrear.Id = fila.Id;
-        //    rolSeleccionadoCrear.Nombre_Rol = fila.Nombre_Rol;
-        //}
-        //private void Mod_Rol_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    ComboBox cb = (ComboBox)sender;
-        //    Rol fila = (Rol)cb.SelectedItem;
-
-        //    rolSeleccionadoModificar.Id = fila.Id;
-        //    rolSeleccionadoModificar.Nombre_Rol = fila.Nombre_Rol;
-        //}
-
-
     }
 }

@@ -208,6 +208,10 @@ namespace classLibrary.DataServices
                 var responseAPI = JsonSerializer.Deserialize<ResponseGeneral>(result, _jsonSerializerOptions);
                 if (responseAPI.MensajeSalida.Contains("CORRECTAMENTE"))
                 {
+                    /*
+                     TODO Esto facilmente podria extraerse en otro metodo, y si no se creo el contrato se puede
+                      controlar si se borra el usaurio recien creado, o como minimo limpiar el codigo.
+                    */ 
                     jsonUsuario =
                         JsonSerializer.Serialize<object>(new { in_rut = usuario.Rut }, _jsonSerializerOptions);
                     content = new StringContent(jsonUsuario, Encoding.UTF8, "application/json");

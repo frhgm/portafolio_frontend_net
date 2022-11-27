@@ -1,24 +1,16 @@
 using classLibrary;
-using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using classLibrary.DTO;
-using System.Data;
-using System.Globalization;
 using app.Ventanas.Modales;
-using classLibrary.DataServices;
 using classLibrary.DTOs;
 
 namespace app.Ventanas
 {
     /// <summary>
-    /// Interaction logic for ListarUsuario.xaml
+    /// Interaction logic for Pedidos.xaml
     /// </summary>
     public partial class Pedidos
     {
@@ -31,13 +23,6 @@ namespace app.Ventanas
         public Pedidos()
         {
             InitializeComponent();
-
-            if (UtilidadesLogica.ComprobarConexionInternet() == false)
-            {
-                MessageBox.Show("Sin conexion a internet, cerrando");
-                return;
-            }
-            AgregarMenus();
             CargarPedidos();
         }
 
@@ -89,11 +74,6 @@ namespace app.Ventanas
             }
         }
 
-
-
-        /// <summary>
-        /// Se llama al metodo TraerUsuarios, que va a buscar al servidor sp_get_all_users, y pobla el DataGrid con esta lista
-        /// </summary>
         private async void CargarPedidos()
         {
             var pedidos = await _app.pedidoDataService.TraerPedidos();
@@ -104,18 +84,19 @@ namespace app.Ventanas
         {
             SolicitudPedido data = (sender as FrameworkElement).DataContext as SolicitudPedido;
 
-            var eleccion = MessageBox.Show("Seguro que desea eliminar un usuario?", "Seleccione una opcion", MessageBoxButton.YesNo);
+            var eleccion = MessageBox.Show("Seguro que desea eliminar un usuario?", "Seleccione una opcion",
+                MessageBoxButton.YesNo);
 
             if (eleccion == MessageBoxResult.Yes)
             {
                 //await dataService.BorrarUsuario(data);
-            } 
+            }
         }
 
-      
+
         private void AgregarPedido_OnClick(object sender, RoutedEventArgs e)
         {
-             Agregar_Pedido ap = new Agregar_Pedido();
+            Agregar_Pedido ap = new Agregar_Pedido();
             try
             {
                 ap.ShowDialog();

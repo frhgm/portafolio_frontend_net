@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using classLibrary;
 using classLibrary.DataServices;
 
 namespace app
@@ -19,6 +20,7 @@ namespace app
         public PedidosDataService pedidoDataService;
         public SolicitudesDataService solicitudDataService;
         public SubastaDataService subastaDataService;
+        public UsuariosDataService usuarioDataService;
         protected override void OnStartup(StartupEventArgs e)
         {
             XamlDisplay.Init();
@@ -27,6 +29,13 @@ namespace app
             pedidoDataService = new();
             solicitudDataService = new();
             subastaDataService = new();
+            usuarioDataService = new();
+            if (UtilidadesLogica.ComprobarConexionInternet() == false)
+            {
+                MessageBox.Show("Sin conexion a internet, cerrando");
+                Shutdown(1);
+                return;
+            }
         }
     }
 }
