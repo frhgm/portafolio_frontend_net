@@ -61,6 +61,13 @@
                 <DataGridTextColumn Binding="{Binding Fecha}" Header="Fecha subasta" />
                 <DataGridTextColumn Binding="{Binding PrecioPiso, ConverterCulture='es-CL', StringFormat={}{0:C}}" Header="Precio piso" />
                 <DataGridTextColumn Binding="{Binding Total, ConverterCulture='es-CL', StringFormat={}{0:C}}" Header="Total" />
+                <DataGridTemplateColumn Width="80" Header="Editar">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="VerOfertas_Click" Content="{materialDesign:PackIcon details}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
         <Button Grid.Row="2" Grid.Column="0" Name="AgregarPedido" Click="AgregarSubasta_OnClick">Agregar subasta</Button>

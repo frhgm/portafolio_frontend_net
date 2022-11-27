@@ -47,7 +47,7 @@ namespace app
         /// Este metodo pobla MenuItems con las repectivas acciones y mantenedores
         /// </summary>
         /// <returns>Devuelve una tupla, donde la primera posicion son los menus de acciones,<br>y la segunda los menus de mantenedores</br></returns>
-        public Tuple<MenuItem, MenuItem> AgregarMenus(string menuOriginal)
+        public void AgregarMenus(string menuOriginal, Menu menuPrincipal)
         {
             var menus = UtilidadesLogica.PoblarListaEntradaMenus();
             if (menus.Count != 0)
@@ -62,7 +62,6 @@ namespace app
                     Header = "Acciones",
                     VerticalAlignment = VerticalAlignment.Top
                 };
-                acciones.IsEnabled = false;
                 foreach (EntradaMenu menu in menus)
                 {
                     MenuItem iterador = new()
@@ -71,7 +70,7 @@ namespace app
                     };
                     iterador.Click += (sender, e) => MenuSeleccionadoSet(sender, e, menuOriginal, menu.Nombre);
 
-                    if (menu.Id > 11)
+                    if (menu.Id > 2)
                     {
                         acciones.Items.Add(iterador);
                     }
@@ -82,13 +81,12 @@ namespace app
                 }
 
                 Tuple<MenuItem, MenuItem> tuplaMenus = new Tuple<MenuItem, MenuItem>(acciones, mantenedores);
-
-                return tuplaMenus;
+                menuPrincipal.Items.Add(tuplaMenus.Item1);
+                menuPrincipal.Items.Add(tuplaMenus.Item2);
             }
             else
             {
                 MessageBox.Show("Usted no tiene un rol asignado para acceder al sistema");
-                return null;
             }
         }
 

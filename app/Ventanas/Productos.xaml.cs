@@ -30,9 +30,7 @@ namespace app.Ventanas
             InitializeComponent();
 
             // TODO Recuperar nombre de ventana actual, asi si cambia el nombre no se caera al invocarla
-            var menus = utilidadesVentanas.AgregarMenus("Productos");
-            menuPrincipal.Items.Add(menus.Item1);
-            menuPrincipal.Items.Add(menus.Item2);
+            utilidadesVentanas.AgregarMenus("Productos", menuPrincipal);
 
             CargarProductos();
         }

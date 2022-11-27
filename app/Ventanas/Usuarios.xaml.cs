@@ -39,9 +39,7 @@ namespace app.Ventanas
             InitializeComponent();
 
             this.rolId = usuario.RolId;
-            var menus = utilidadesVentanas.AgregarMenus("Usuarios");
-            menuPrincipal.Items.Add(menus.Item1);
-            menuPrincipal.Items.Add(menus.Item2);
+            utilidadesVentanas.AgregarMenus("Usuarios", menuPrincipal);
 
             CargarUsuarios();
             UtilidadesLogica.PoblarCombosRoles(Add_Rol);

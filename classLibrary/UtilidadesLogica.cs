@@ -97,8 +97,8 @@ namespace classLibrary
                 // "Solicitudes",
                 // "Subasta",
                 // "Transporte",
-                "Subastas",
-                "Usuarios"
+                "Usuarios",
+                "Subastas"
                 // "Activar Seguros",
                 // "Ofertar Subasta",
                 // "Pagar Pedidos",
