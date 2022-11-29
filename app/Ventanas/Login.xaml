@@ -5,30 +5,32 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Login"
-    Width="800"
+    Width="500"
     Height="450"
     mc:Ignorable="d">
-    <Grid
-        Width="800"
-        Height="450"
-        Visibility="Visible">
-        <TextBox
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="70"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="1" Grid.Column="1" Content="Ingrese su RUT" />
+        <TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Bottom"
             Name="TxtRut"
-            Height="30"
-            Margin="343,143,337,265"
             TextWrapping="Wrap" />
-        <PasswordBox
-            x:Name="TxtPass"
-            Width="120"
-            Height="30"
-            Margin="343,205,337,140" />
-        <Label Margin="343,109,357,296" Content="Ingrese su RUT" />
-        <Label Margin="343,200,307,185" Content="Ingrese su contraseña" />
-        <Button
-            Name="Btn_Login"
-            Margin="0,316,0,0"
-            Click="BtnLogin_OnClickAsync"
-            Content="Iniciar sesion" />
+        <Label Grid.Row="2" Grid.Column="1"  Content="Ingrese su contraseña" />
+        <PasswordBox Grid.Row="2" Grid.Column="1"
+            x:Name="TxtPass" VerticalAlignment="Bottom" />
+        <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3"
+                Name="Btn_Login"
+                Click="BtnLogin_OnClickAsync"
+                Content="Iniciar sesion" />
 
 
     </Grid>
