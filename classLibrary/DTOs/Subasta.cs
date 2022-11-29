@@ -43,7 +43,7 @@ namespace classLibrary.DTOs
         [JsonPropertyName("precio_piso")] public int PrecioPiso { get; set; }
 
         [JsonPropertyName("oferta_subasta_id")]
-        public object OfertaSubastaId { get; set; }
+        public int? OfertaSubastaId { get; set; }
 
         [JsonPropertyName("fecha_pedido")] public DateTime FechaPedido { get; set; }
 

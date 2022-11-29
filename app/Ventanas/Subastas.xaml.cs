@@ -80,7 +80,14 @@ namespace app.Ventanas
             Subasta data = (sender as FrameworkElement).DataContext as Subasta;
             subastaSeleccionada = data;
             CargarOfertasDeSubasta();
-            SubastarOfertas.IsEnabled = true;
+            if (data.OfertaSubastaId == 0)
+            {
+                SubastarOfertas.IsEnabled = true;
+            }
+            else
+            {
+                SubastarOfertas.IsEnabled = false;
+            }
         }
 
         private async void SubastarOfertas_Click(object sender, RoutedEventArgs e)
