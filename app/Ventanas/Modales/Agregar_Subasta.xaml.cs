@@ -9,7 +9,7 @@ namespace app.Ventanas.Modales
     public partial class Agregar_Subasta : Window
     {
         App _app = ((App)Application.Current);
-        private classLibrary.DTOs.Pedidos _pedidosSeleccionado;
+        private PedidoSinSubasta _pedidosSeleccionado;
 
         public Agregar_Subasta()
         {
@@ -20,7 +20,7 @@ namespace app.Ventanas.Modales
 
         private async void AgregarSubasta_OnClick(object sender, RoutedEventArgs e)
         {
-            CrearSubasta subasta = new(_pedidosSeleccionado.PedidoId, Convert.ToInt32(AddMontoMinimo.Text));
+            CrearSubasta subasta = new(_pedidosSeleccionado.Id, Convert.ToInt32(AddMontoMinimo.Text));
             var subastaCreada = await _app.subastaDataService.CrearSubasta(subasta);
             // var subastaCreada = await _dataService.CrearSubasta(subasta);
             if (subastaCreada)
@@ -32,7 +32,7 @@ namespace app.Ventanas.Modales
         private void AddPedido_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBox cb = (ComboBox)sender;
-            _pedidosSeleccionado = (classLibrary.DTOs.Pedidos)cb.SelectedItem;
+            _pedidosSeleccionado = (PedidoSinSubasta)cb.SelectedItem;
         }
     }
 }
